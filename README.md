@@ -1,16 +1,3 @@
-# moviezapp
+https://moviezapp-spverse.web.app/
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![screenshot](https://user-images.githubusercontent.com/75713903/226555566-6fbf60ba-fd5c-4476-84a9-551df4732b12.jpeg)
