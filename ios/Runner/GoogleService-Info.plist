@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>625310114702-9o6utaofs03l2pgmsvbjd6977316t8p4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.625310114702-9o6utaofs03l2pgmsvbjd6977316t8p4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBuRWTjLKJk_KKmXFriai8LF-u6C_xerGY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>625310114702</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.spverse.moviezapp</string>
+	<key>PROJECT_ID</key>
+	<string>moviezapp-spverse</string>
+	<key>STORAGE_BUCKET</key>
+	<string>moviezapp-spverse.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:625310114702:ios:9e2a0e2f6216ff4d51badf</string>
+</dict>
+</plist>
