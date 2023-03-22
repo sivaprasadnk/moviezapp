@@ -4,6 +4,7 @@ import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
+import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
 extension ContextExtensions on BuildContext {
@@ -57,6 +58,11 @@ extension ContextExtensions on BuildContext {
   void goHome() {
     Navigator.pushNamedAndRemoveUntil(
         this, HomeScreenMobile.routeName, (route) => false);
+  }
+
+  void goWebHome() {
+    Navigator.pushNamedAndRemoveUntil(
+        this, HomeScreenWeb.routeName, (route) => false);
   }
 
   void unfocus() {

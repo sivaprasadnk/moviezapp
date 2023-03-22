@@ -164,11 +164,13 @@ class _MovieCardState extends State<MovieCard> {
             const SizedBox(height: 5),
             if (showRating)
               if (widget.releaseDate.isNotEmpty)
-                Text(
-                  "  ${widget.releaseDate.formatedDateString}",
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontSize: 13,
+                Flexible(
+                  child: Text(
+                    "  ${widget.releaseDate.formatedDateString}",
+                    style: const TextStyle(
+                      color: Colors.black54,
+                      fontSize: 13,
+                    ),
                   ),
                 )
           ],

@@ -10,16 +10,19 @@ class TvShowGridWeb extends StatelessWidget {
     Key? key,
     this.limit = 0,
     required this.showList,
+    this.isSearch = false,
   }) : super(key: key);
   final int limit;
   final List<TvShows> showList;
+  final bool isSearch;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return provider.tvShowListLoading
-            ? const SizedBox(
+        return !isSearch
+            ? provider.tvShowListLoading
+                ? const SizedBox(
                 height: 75,
                 width: double.infinity,
                 child: Center(
@@ -36,6 +39,37 @@ class TvShowGridWeb extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: context.gridCrossAxisCount,
+                itemBuilder: (context, index) {
+                  var movie = showList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      right: 10,
+                    ),
+                    child: MovieCard(
+                      name: movie.name,
+                      poster: movie.posterPath,
+                      vote: movie.voteAverage,
+                      id: movie.id,
+                      isMovie: false,
+                      isWeb: true,
+                      imageHeight: 200,
+                      imageWidth: 150,
+                      withSize: false,
+                      releaseDate: '',
+                    ),
+                  );
+                },
+                  )
+            : GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: context.gridCrossAxisCount,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: 0.6,
+                ),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: showList.length,
                 itemBuilder: (context, index) {
                   var movie = showList[index];
                   return Padding(

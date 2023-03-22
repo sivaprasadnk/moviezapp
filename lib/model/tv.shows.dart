@@ -1,6 +1,6 @@
 import 'package:moviezapp/repo/movie/end.points.dart';
 
-enum TvShowType { trending, popular, airingToday, similar, topRated }
+enum TvShowType { trending, popular, airingToday, similar, topRated, search }
 
 class TvShows {
   String name;

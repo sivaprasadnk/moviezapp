@@ -7,7 +7,10 @@ import 'package:provider/provider.dart';
 class ContentSelectionWeb extends StatelessWidget {
   const ContentSelectionWeb({
     Key? key,
+    this.clearSearch = false,
   }) : super(key: key);
+
+  final bool clearSearch;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,9 @@ class ContentSelectionWeb extends StatelessWidget {
           GestureDetector(
             onTap: () {
               provider.updateContentType(Content.movie);
+              if (clearSearch) {
+                provider.clearSearchList();
+              }
             },
             child: Container(
               width: 90,

@@ -372,4 +372,16 @@ class MovieRepo {
 
     return finalList;
   }
+
+  static Future searchMovie(String query) async {
+    var url = "${kBaseUrl}search/movie?api_key=$apiKey&query=$query";
+
+    return await getMovieResultsList(url, MovieType.search);
+  }
+
+  static Future searchTvShow(String query) async {
+    var url = "${kBaseUrl}search/tv?api_key=$apiKey&query=$query";
+
+    return await getTvShowsResultsList(url, TvShowType.search);
+  }
 }

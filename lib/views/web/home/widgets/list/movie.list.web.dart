@@ -8,21 +8,24 @@ import 'package:provider/provider.dart';
 class MovieListWeb extends StatelessWidget {
   const MovieListWeb({
     Key? key,
+    this.isSearch = false,
     this.type = MovieType.nowPlaying,
   }) : super(key: key);
   final MovieType type;
+  final bool isSearch;
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        // var limit =
         return MovieGrid(
-          isLoading: provider.moviesListLoading,
+          isLoading: !isSearch ? provider.moviesListLoading : false,
           movieGrid: type == MovieType.topRated
               ? provider.moviesList.popularMovies(10)
               : type == MovieType.nowPlaying
                   ? provider.moviesList.nowPlayingMovies(10)
-                  : provider.moviesList.upcomingMovies(10),
+                  : type == MovieType.upcoming
+                      ? provider.moviesList.upcomingMovies(10)
+                      : provider.searchMoviesList,
           isWeb: true,
           limit: type == MovieType.topRated
               ? provider.moviesList
@@ -32,9 +35,11 @@ class MovieListWeb extends StatelessWidget {
                   ? provider.moviesList
                       .nowPlayingMovies(context.gridCrossAxisCount)
                       .length
-                  : provider.moviesList
-                      .upcomingMovies(context.gridCrossAxisCount)
-                      .length,
+                  : type == MovieType.upcoming
+                      ? provider.moviesList
+                          .upcomingMovies(context.gridCrossAxisCount)
+                          .length
+                      : provider.searchMoviesList.length,
         );
       },
     );

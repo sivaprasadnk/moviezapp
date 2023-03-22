@@ -41,6 +41,14 @@ extension SortExt on SortBy {
 }
 
 class MoviesProvider extends ChangeNotifier {
+  String _searchQuery = "";
+  String get searchQuery => _searchQuery;
+
+  void updateQuery(String value) {
+    _searchQuery = value;
+    notifyListeners();
+  }
+
   String _selectedSort = SortBy.titleAscending.displayTitle;
   String get selectedSort => _selectedSort;
 
@@ -91,6 +99,31 @@ class MoviesProvider extends ChangeNotifier {
           selectedRegion.regionCode, selectedPage);
       _moviesListLoading = false;
     }
+    notifyListeners();
+  }
+
+  bool _isSearchEnabled = false;
+  bool get isSearchEnabled => _isSearchEnabled;
+
+  void updateSearchEnabled(bool value) {
+    _isSearchEnabled = value;
+    notifyListeners();
+  }
+
+  List<Movie> _searchMoviesList = [];
+  List<Movie> get searchMoviesList => _searchMoviesList;
+
+  List<TvShows> _searchTvShowList = [];
+  List<TvShows> get searchTvShowList => _searchTvShowList;
+
+  void clearSearchList() {
+    _searchMoviesList = [];
+    _searchTvShowList = [];
+    notifyListeners();
+  }
+
+  Future searchMovie(String query) async {
+    _searchMoviesList = await MovieRepo.searchMovie(query);
     notifyListeners();
   }
 
@@ -187,6 +220,11 @@ class MoviesProvider extends ChangeNotifier {
   Future getTVGenres() async {
     _tvGenreList = await MovieRepo.getGenreList('tv');
     _selectedTvGenre = _tvGenreList[0];
+    notifyListeners();
+  }
+
+  Future searchTvShow(String query) async {
+    _searchTvShowList = await MovieRepo.searchTvShow(query);
     notifyListeners();
   }
 
