@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 //  flutter build web --web-renderer html --release
 
-//  https://movie-app-invenics.web.app
+//  https://moviezapp-spverse.web.app/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
