@@ -20,7 +20,9 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
       if (!widget.isGuest) {
         count = (await context.userProvider.getBookmarksCount());
       }
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     super.initState();
   }
