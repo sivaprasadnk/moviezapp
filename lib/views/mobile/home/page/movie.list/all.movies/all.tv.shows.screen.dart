@@ -73,13 +73,23 @@ class AllTvShowsScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Consumer<MoviesProvider>(
                   builder: (_, provider, __) {
-                    return MovieGrid(
-                      isLoading: false,
-                      isMovie: false,
-                      tvShowsList: provider.filteredTvShowsList,
-                      isWeb: false,
-                      limit: provider.filteredTvShowsList.length,
-                    );
+                    if (type != TvShowType.search) {
+                      return MovieGrid(
+                        isLoading: false,
+                        isMovie: false,
+                        tvShowsList: provider.filteredTvShowsList,
+                        isWeb: false,
+                        limit: provider.filteredTvShowsList.length,
+                      );
+                    } else {
+                      return MovieGrid(
+                        isLoading: false,
+                        isMovie: false,
+                        tvShowsList: provider.filteredSearchTvShowList,
+                        isWeb: false,
+                        limit: provider.filteredSearchTvShowList.length,
+                      );
+                    }
                   },
                 ),
                 const SizedBox(height: 20),

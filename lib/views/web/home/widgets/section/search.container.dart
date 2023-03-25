@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/web/search/search.screen.dart';
+import 'package:moviezapp/views/web/search/search.screen.web.dart';
 
 class SearchContainer extends StatelessWidget {
   const SearchContainer({super.key});

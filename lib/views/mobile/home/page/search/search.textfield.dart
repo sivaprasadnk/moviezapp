@@ -13,12 +13,6 @@ class SearchTextField extends StatefulWidget {
 class _SearchTextFieldState extends State<SearchTextField> {
   FocusNode focusNode = FocusNode();
 
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
-    super.initState();
-  }
-
   String query = "";
   final _formKey = GlobalKey<FormState>();
 
@@ -62,9 +56,11 @@ class _SearchTextFieldState extends State<SearchTextField> {
 
   sendQuery() {
     _formKey.currentState!.save();
+    context.unfocus();
     if (query.isNotEmpty) {
       context.moviesProvider.updateQuery(query);
       context.moviesProvider.searchMovie(query);
+      context.moviesProvider.searchTvShow(query);
     }
   }
 }

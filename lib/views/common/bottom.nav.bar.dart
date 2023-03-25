@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
+import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/bottom.nav.bar.item.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +30,7 @@ class BottomNavBar extends StatelessWidget {
               name: 'Search',
               isSelected: provider.selectedIndex == 1,
               onTap: () {
+                context.moviesProvider.updateQuery('');
                 provider.updatedSelectedIndex(1);
               },
             ),

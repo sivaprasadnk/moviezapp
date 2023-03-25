@@ -113,17 +113,20 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _searchMoviesList = [];
   List<Movie> get searchMoviesList => _searchMoviesList;
 
-  List<TvShows> _searchTvShowList = [];
-  List<TvShows> get searchTvShowList => _searchTvShowList;
+  List<Movie> _filteredSearchMoviesList = [];
+  List<Movie> get filteredSearchMoviesList => _filteredSearchMoviesList;
 
   void clearSearchList() {
     _searchMoviesList = [];
+    _filteredSearchMoviesList = [];
     _searchTvShowList = [];
+    _filteredSearchTvShowList = [];
     notifyListeners();
   }
 
   Future searchMovie(String query) async {
     _searchMoviesList = await MovieRepo.searchMovie(query);
+    _filteredSearchMoviesList = _searchMoviesList;
     notifyListeners();
   }
 
@@ -189,8 +192,10 @@ class MoviesProvider extends ChangeNotifier {
         _filteredMoviesList = _moviesList.nowPlayingMovies(20);
       } else if (type == MovieType.topRated) {
         _filteredMoviesList = _moviesList.popularMovies(20);
-      } else {
+      } else if (type == MovieType.upcoming) {
         _filteredMoviesList = _moviesList.upcomingMovies(20);
+      } else {
+        _filteredSearchMoviesList = _searchMoviesList;
       }
     } else {
       if (type == MovieType.nowPlaying) {
@@ -199,9 +204,11 @@ class MoviesProvider extends ChangeNotifier {
       } else if (type == MovieType.topRated) {
         _filteredMoviesList =
             genre.getFilteredList(_moviesList.popularMovies(20));
-      } else {
+      } else if (type == MovieType.upcoming) {
         _filteredMoviesList =
             genre.getFilteredList(_moviesList.upcomingMovies(20));
+      } else {
+        _filteredSearchMoviesList = genre.getFilteredList(_searchMoviesList);
       }
     }
     notifyListeners();
@@ -223,8 +230,15 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<TvShows> _searchTvShowList = [];
+  List<TvShows> get searchTvShowList => _searchTvShowList;
+
+  List<TvShows> _filteredSearchTvShowList = [];
+  List<TvShows> get filteredSearchTvShowList => _filteredSearchTvShowList;
+
   Future searchTvShow(String query) async {
     _searchTvShowList = await MovieRepo.searchTvShow(query);
+    _filteredSearchTvShowList = _searchTvShowList;
     notifyListeners();
   }
 
@@ -272,8 +286,10 @@ class MoviesProvider extends ChangeNotifier {
         _filteredTvShowsList = _tvShowsList.airingTodayShows(20);
       } else if (type == TvShowType.topRated) {
         _filteredTvShowsList = _tvShowsList.topRatedShows(20);
-      } else {
+      } else if (type == TvShowType.popular) {
         _filteredTvShowsList = _tvShowsList.popularShows(20);
+      } else {
+        _filteredSearchTvShowList = _searchTvShowList;
       }
     } else {
       if (type == TvShowType.airingToday) {
@@ -282,9 +298,12 @@ class MoviesProvider extends ChangeNotifier {
       } else if (type == TvShowType.popular) {
         _filteredTvShowsList =
             genre.getFilteredTvShowsList(_tvShowsList.popularShows(20));
-      } else {
+      } else if (type == TvShowType.popular) {
         _filteredTvShowsList =
             genre.getFilteredTvShowsList(_tvShowsList.topRatedShows(20));
+      } else {
+        _filteredSearchTvShowList =
+            genre.getFilteredTvShowsList(_searchTvShowList);
       }
     }
     notifyListeners();

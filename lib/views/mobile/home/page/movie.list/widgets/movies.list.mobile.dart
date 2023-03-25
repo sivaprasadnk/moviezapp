@@ -25,7 +25,9 @@ class MoviesListMobile extends StatelessWidget {
               ? provider.moviesList.popularMovies(limit)
               : movieType == MovieType.upcoming
                   ? provider.moviesList.upcomingMovies(limit)
-                  : provider.moviesList.nowPlayingMovies(limit),
+                  : movieType == MovieType.nowPlaying
+                      ? provider.moviesList.nowPlayingMovies(limit)
+                      : provider.searchMoviesList.limittedList(5),
         );
       },
     );

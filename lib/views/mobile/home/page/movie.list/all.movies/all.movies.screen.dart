@@ -71,12 +71,21 @@ class AllMoviesScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Consumer<MoviesProvider>(
                   builder: (_, provider, __) {
-                    return MovieGrid(
-                      isLoading: false,
-                      movieGrid: provider.filteredMoviesList,
-                      isWeb: false,
-                      limit: provider.filteredMoviesList.length,
-                    );
+                    if (type != MovieType.search) {
+                      return MovieGrid(
+                        isLoading: false,
+                        movieGrid: provider.filteredMoviesList,
+                        isWeb: false,
+                        limit: provider.filteredMoviesList.length,
+                      );
+                    } else {
+                      return MovieGrid(
+                        isLoading: false,
+                        movieGrid: provider.filteredSearchMoviesList,
+                        isWeb: false,
+                        limit: provider.filteredSearchMoviesList.length,
+                      );
+                    }
                   },
                 ),
                 const SizedBox(height: 20),

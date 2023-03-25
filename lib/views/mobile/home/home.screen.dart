@@ -5,7 +5,7 @@ import 'package:moviezapp/views/common/bottom.nav.bar.dart';
 import 'package:moviezapp/views/mobile/home/page/activity.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/movie.list.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/profile.screen.dart';
-import 'package:moviezapp/views/mobile/home/page/search.screen.dart';
+import 'package:moviezapp/views/mobile/home/page/search/search.screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreenMobile extends StatefulWidget {

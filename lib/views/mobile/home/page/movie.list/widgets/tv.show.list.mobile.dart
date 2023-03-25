@@ -25,7 +25,9 @@ class TvShowsListMobile extends StatelessWidget {
               ? provider.tvShowsList.popularShows(limit)
               : showType == TvShowType.airingToday
                   ? provider.tvShowsList.airingTodayShows(limit)
-                  : provider.tvShowsList.topRatedShows(limit),
+                  : showType == TvShowType.topRated
+                      ? provider.tvShowsList.topRatedShows(limit)
+                      : provider.searchTvShowList.homeScreenList(5),
         );
       },
     );
