@@ -14,7 +14,7 @@ class ContentSelectionWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var primaryColor = context.theme.primaryColor;
+    var primaryColor = context.primaryColor;
     var whiteColor = Colors.white;
     return Consumer<MoviesProvider>(builder: (_, provider, __) {
       var selected = provider.selectedContentType;
@@ -34,7 +34,7 @@ class ContentSelectionWeb extends StatelessWidget {
               decoration: BoxDecoration(
                 color: selected == Content.movie ? whiteColor : primaryColor,
                 border: Border.all(
-                  color: context.theme.primaryColor,
+                  color: context.primaryColor,
                 ),
               ),
               child: Center(
@@ -60,7 +60,7 @@ class ContentSelectionWeb extends StatelessWidget {
               decoration: BoxDecoration(
                 color: selected == Content.tvShow ? whiteColor : primaryColor,
                 border: Border.all(
-                  color: context.theme.primaryColor,
+                  color: context.primaryColor,
                 ),
               ),
               child: Center(

@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 
 class AppProvider extends ChangeNotifier {
+  Brightness _selectedBrightness = Brightness.light;
+  Brightness get selectedBrightness => _selectedBrightness;
+  // ThemeData _selectedTheme = ThemeData(
+  //   primaryColor: Colors.red,
+  //   brightness: Brightness.light,
+  // );
+  // ThemeData get selectedTheme => _selectedTheme;
+
+  void toggleBrightness() {
+    if (selectedBrightness == Brightness.light) {
+      _selectedBrightness = Brightness.dark;
+    } else {
+      _selectedBrightness = Brightness.light;
+    }
+    notifyListeners();
+  }
+
   bool _isMobileWeb = false;
   bool get isMobileWeb => _isMobileWeb;
 

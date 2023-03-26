@@ -25,9 +25,9 @@ class AllMoviesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: context.bgColor,
           elevation: 0,
           leadingWidth: 50,
           leading: GestureDetector(
@@ -36,7 +36,7 @@ class AllMoviesScreen extends StatelessWidget {
             },
             child: Icon(
               Icons.arrow_back_ios_rounded,
-              color: context.theme.primaryColor,
+              color: context.highlightColor,
             ),
           ),
           title: SectionTitle(title: title),
@@ -48,9 +48,9 @@ class AllMoviesScreen extends StatelessWidget {
                   context.moviesProvider.selectedSort,
                 );
               },
-              child: const Icon(
+              child: Icon(
                 Icons.settings,
-                color: Colors.black,
+                color: context.highlightColor,
                 size: 20,
               ),
             ),

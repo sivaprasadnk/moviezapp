@@ -134,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: context.theme.primaryColor,
+                          color: context.primaryColor,
                         ),
                       ),
                     ],

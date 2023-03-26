@@ -30,6 +30,7 @@ class MovieRatingDetailsMobile extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
+                color: Colors.black,
               ),
             ),
             const SizedBox(width: 8),
@@ -38,6 +39,7 @@ class MovieRatingDetailsMobile extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
+                color: Colors.black,
               ),
             ),
           ],

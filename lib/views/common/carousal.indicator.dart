@@ -40,8 +40,8 @@ class CarousalIndicator extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       color: carousalIndex == i
-                          ? context.theme.primaryColor
-                          : context.theme.primaryColor.withOpacity(0.4),
+                          ? context.primaryColor
+                          : context.primaryColor.withOpacity(0.4),
                     ),
                   );
                 }).toList(),
@@ -59,8 +59,8 @@ class CarousalIndicator extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       color: carousalIndex == i
-                          ? context.theme.primaryColor
-                          : context.theme.primaryColor.withOpacity(0.4),
+                          ? context.primaryColor
+                          : context.primaryColor.withOpacity(0.4),
                     ),
                   );
                 }).toList(),

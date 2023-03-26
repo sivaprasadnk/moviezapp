@@ -92,7 +92,7 @@ class Dialogs {
                     height: 50,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: context.theme.primaryColor,
+                      color: context.primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Center(
@@ -168,7 +168,7 @@ class Dialogs {
                     height: 75,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: context.theme.primaryColor,
+                      color: context.primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.all(10),
@@ -277,7 +277,7 @@ class Dialogs {
     String currentSettings, {
     bool isMovie = true,
   }) async {
-    var primaryColor = context.theme.primaryColor;
+    var primaryColor = context.primaryColor;
     var whiteColor = Colors.white;
 
     await showDialog(
@@ -286,12 +286,12 @@ class Dialogs {
       builder: (_) {
         var selected = currentSettings;
         return AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: context.bgColor,
           title: const SectionTitle(title: 'Sort By'),
           content: StatefulBuilder(builder: (context, setState) {
             return Container(
               width: context.width * 0.3,
-              color: Colors.white,
+              color: context.bgColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -322,7 +322,7 @@ class Dialogs {
                                   ? primaryColor
                                   : whiteColor,
                               border: Border.all(
-                                color: context.theme.primaryColor,
+                                color: context.primaryColor,
                               ),
                             ),
                             child: Center(
@@ -354,7 +354,12 @@ class Dialogs {
                 onTap: () {
                   context.pop();
                 },
-                child: const Text('Cancel'),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
               ).addMousePointer,
             ),
             const SizedBox(width: 10),
@@ -410,7 +415,12 @@ class Dialogs {
                       provider.updateFilteredTvShowsList(list);
                     }
                   },
-                  child: const Text('OK'),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
                 ).addMousePointer,
               );
             })

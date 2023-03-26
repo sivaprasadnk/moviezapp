@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/common.button.dart';
@@ -7,6 +8,7 @@ import 'package:moviezapp/views/mobile/home/page/profile/widgets/bookmark.list.m
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.details.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.section.title.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -48,11 +50,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 25),
             const ProfileSectionTitle(title: 'Theme'),
             const SizedBox(height: 15),
-            const ProfileMenuCard(
-              title: 'Switch to Dark theme',
-              icon: Icons.dark_mode,
-              showtrailing: false,
-            ),
+            Consumer<AppProvider>(builder: (_, provider, __) {
+              var isDark = provider.selectedBrightness == Brightness.dark;
+              var title = 'Switch to Dark theme';
+              var icon = Icons.dark_mode;
+              if (isDark) {
+                title = "Switch to Light theme";
+                icon = Icons.light_mode;
+              }
+              return ProfileMenuCard(
+                title: title,
+                icon: icon,
+                onTap: () {
+                  provider.toggleBrightness();
+                },
+                showtrailing: false,
+                isImplemented: true,
+              );
+            }),
             const SizedBox(height: 25),
             const ProfileSectionTitle(title: 'Account'),
             const SizedBox(height: 15),

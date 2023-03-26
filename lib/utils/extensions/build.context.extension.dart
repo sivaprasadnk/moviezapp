@@ -51,6 +51,11 @@ extension ContextExtensions on BuildContext {
 
   ThemeData get theme => Theme.of(this);
 
+  Color get primaryColor => theme.primaryColor;
+  Color get highlightColor =>
+      theme.brightness == Brightness.light ? Colors.black : Colors.white;
+  Color get bgColor => theme.scaffoldBackgroundColor;
+
   void pop() {
     Navigator.pop(this);
   }

@@ -28,7 +28,7 @@ class SectionTitle extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 15,
-            color: context.theme.primaryColor,
+            color: context.primaryColor,
           ),
         ),
         const Spacer(),

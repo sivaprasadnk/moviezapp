@@ -12,7 +12,7 @@ class BottomNavBar extends StatelessWidget {
     return Consumer<AppProvider>(builder: (_, provider, __) {
       return Container(
         width: double.infinity,
-        color: Colors.white,
+        color: context.bgColor,
         height: 75,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

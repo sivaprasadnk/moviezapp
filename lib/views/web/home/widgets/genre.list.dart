@@ -46,10 +46,10 @@ class GenreOptionsList extends StatelessWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: genre.id == selectedId
-                        ? context.theme.primaryColor
+                        ? context.primaryColor
                         : Colors.white,
                     border: Border.all(
-                      color: context.theme.primaryColor,
+                      color: context.primaryColor,
                     ),
                   ),
                   child: Center(
@@ -57,7 +57,7 @@ class GenreOptionsList extends StatelessWidget {
                       genre.name,
                       style: TextStyle(
                         color: genre.id != selectedId
-                            ? context.theme.primaryColor
+                            ? context.primaryColor
                             : Colors.white,
                       ),
                       textAlign: TextAlign.center,

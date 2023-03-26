@@ -53,7 +53,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               margin: EdgeInsets.symmetric(horizontal: context.width * 0.1),
               width: double.infinity,
               height: 50,
-              color: context.theme.primaryColor,
+              color: context.primaryColor,
               child: Row(
                 children: const [
                   SizedBox(width: 10),

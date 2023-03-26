@@ -168,7 +168,7 @@ class _MovieCardState extends State<MovieCard> {
                   child: Text(
                     "  ${widget.releaseDate.formatedDateString}",
                     style: const TextStyle(
-                      color: Colors.black54,
+                      // color: Colors.black54,
                       fontSize: 13,
                     ),
                   ),

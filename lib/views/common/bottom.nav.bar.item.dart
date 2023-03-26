@@ -26,13 +26,13 @@ class BottomNavBarItem extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: isSelected ? context.theme.primaryColor : Colors.grey,
+            color: isSelected ? context.primaryColor : Colors.grey,
           ),
           Text(
             name,
             style: TextStyle(
               fontSize: 12,
-              color: isSelected ? context.theme.primaryColor : Colors.grey,
+              color: isSelected ? context.primaryColor : Colors.grey,
             ),
           )
         ],

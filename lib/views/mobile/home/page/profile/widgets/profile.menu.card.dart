@@ -48,14 +48,14 @@ class ProfileMenuCard extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: Colors.black45,
+              color: context.highlightColor.withOpacity(0.5),
               size: 18,
             ),
             const SizedBox(width: 10),
             Text(
               title,
-              style: const TextStyle(
-                color: Colors.black45,
+              style: TextStyle(
+                color: context.highlightColor.withOpacity(0.5),
                 fontSize: 12,
               ),
             ),
@@ -64,15 +64,15 @@ class ProfileMenuCard extends StatelessWidget {
               if (isCountItem)
                 Text(
                   count.toString(),
-                  style: const TextStyle(
-                    color: Colors.grey,
+                  style: TextStyle(
+                    color: context.highlightColor.withOpacity(0.5),
                     fontSize: 12,
                   ),
                 )
               else
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: Colors.grey,
+                  color: context.highlightColor.withOpacity(0.5),
                   size: 15,
                 ),
           ],

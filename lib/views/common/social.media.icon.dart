@@ -18,7 +18,9 @@ class SocialMediaIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = isMobile ? Colors.black : Colors.white;
+    var color =
+        isMobile ? context.highlightColor.withOpacity(0.6) : Colors.white;
+    
     double size = 25;
     return GestureDetector(
       onTap: () async {

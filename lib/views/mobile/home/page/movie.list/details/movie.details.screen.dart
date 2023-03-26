@@ -67,6 +67,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 child: const Icon(
                                   Icons.info,
                                   size: 30,
+                                  color: Colors.black,
                                 ),
                               )),
                         ),
@@ -175,7 +176,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       builder: (_) {
         return AlertDialog(
           insetPadding: EdgeInsets.zero,
-          backgroundColor: Colors.white,
+          backgroundColor: context.bgColor,
           title: Column(
             children: const [
               SectionTitle(
@@ -190,7 +191,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           ),
           content: Container(
             width: context.width * 0.2,
-            color: Colors.white,
+            color: context.bgColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -198,22 +199,30 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 if (movie.releaseDate.isNotEmpty)
                   Text(
                     "Release Date : ${movie.releaseDate.formatedDateString}",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
+                      color: context.highlightColor.withOpacity(0.6),
                     ),
                   ),
                 if (movie.releaseDate.isNotEmpty) const SizedBox(height: 25),
                 if (movie.language.isNotEmpty)
                   Text(
                     "Language : ${movie.language}",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
+                      color: context.highlightColor.withOpacity(0.6),
                     ),
                   ),
                 if (movie.language.isNotEmpty) const SizedBox(height: 25),
-                if (movie.homepage.isNotEmpty) const Text('Website :'),
+                if (movie.homepage.isNotEmpty)
+                  Text(
+                    'Website :',
+                    style: TextStyle(
+                      color: context.highlightColor.withOpacity(0.6),
+                    ),
+                  ),
                 if (movie.homepage.isNotEmpty) const SizedBox(height: 5),
                 if (movie.homepage.isNotEmpty)
                   GestureDetector(
@@ -229,9 +238,11 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     },
                     child: Text(
                       movie.homepage,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
+                        color: context.highlightColor.withOpacity(0.6),
+
                         decoration: TextDecoration.underline,
                       ),
                     ),
@@ -245,7 +256,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         : Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Follow on :'),
+                              Text(
+                                'Follow on :',
+                                style: TextStyle(
+                                  color:
+                                      context.highlightColor.withOpacity(0.6),
+                                ),
+                              ),
                               const SizedBox(height: 5),
                               SocialMediaLinks(
                                 model: social,
@@ -267,7 +284,12 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 onTap: () {
                   context.pop();
                 },
-                child: const Text('Close'),
+                child: Text(
+                  'Close',
+                  style: TextStyle(
+                    color: context.highlightColor,
+                  ),
+                ),
               ),
             )
           ],

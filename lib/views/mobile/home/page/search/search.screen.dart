@@ -35,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: context.theme.primaryColor,
+                  color: context.primaryColor,
                 ),
               ),
               width: double.infinity,

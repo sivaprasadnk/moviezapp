@@ -15,7 +15,7 @@ class EmptyBookmarkListContainer extends StatelessWidget {
           ),
           Icon(
             Icons.bookmark_outlined,
-            color: context.theme.primaryColor,
+            color: context.primaryColor,
             size: 40,
           ),
           const SizedBox(height: 20),

@@ -216,7 +216,9 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getMovieGenres() async {
     _movieGenreList = await MovieRepo.getGenreList('movie');
-    _selectedMovieGenre = _movieGenreList[0];
+    if (_movieGenreList.isNotEmpty) {
+      _selectedMovieGenre = _movieGenreList[0];
+    }
     notifyListeners();
   }
 
