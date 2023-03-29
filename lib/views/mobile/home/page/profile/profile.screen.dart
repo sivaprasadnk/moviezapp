@@ -35,18 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const ProfileSectionTitle(title: 'Your Activities'),
             const SizedBox(height: 15),
             BookmarkListMenu(isGuest: isGuest),
-            const SizedBox(height: 15),
-            const ProfileMenuCard(
-              title: 'Reviews',
-              icon: Icons.message,
-              isCountItem: true,
-              count: 15,
-            ),
-            const SizedBox(height: 15),
-            const ProfileMenuCard(
-              title: 'History',
-              icon: Icons.play_arrow_rounded,
-            ),
+             
             const SizedBox(height: 25),
             const ProfileSectionTitle(title: 'Theme'),
             const SizedBox(height: 15),
@@ -72,18 +61,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const ProfileSectionTitle(title: 'Account'),
             const SizedBox(height: 15),
             const ProfileMenuCard(
-              title: 'Settings',
-              icon: Icons.settings,
-            ),
-            const SizedBox(height: 15),
-            const ProfileMenuCard(
-              title: 'My Subscription Plan',
-              icon: Icons.money,
-            ),
-            const SizedBox(height: 15),
-            const ProfileMenuCard(
               title: 'Change Password',
               icon: Icons.lock,
+            ),
+            const SizedBox(height: 30),
+            const ProfileSectionTitle(title: 'Others'),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'Privacy Policy & Terms',
+              icon: Icons.policy,
+            ),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'About',
+              icon: Icons.info,
             ),
             const SizedBox(height: 30),
             !isGuest

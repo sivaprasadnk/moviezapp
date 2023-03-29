@@ -12,6 +12,7 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
     var isMobileWeb = context.appProvider.isMobileApp;
     return AppBar(
       elevation: 0,
+      backgroundColor: context.primaryColor,
       automaticallyImplyLeading: false,
       title: !isMobileWeb
           ? GestureDetector(
