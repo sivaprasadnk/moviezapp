@@ -90,4 +90,8 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
 }
 
+configurations.all { 
+    exclude group: 'com.google.android.gms', module: 'play-services-safetynet'
+}
+
 apply plugin: 'com.google.gms.google-services'
