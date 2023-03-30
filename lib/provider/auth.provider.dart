@@ -196,4 +196,55 @@ class AuthProvider extends ChangeNotifier {
       debugPrint(err.toString());
     }
   }
+
+  Future resetPassword(
+    String emailAddress,
+    BuildContext context,
+    bool isApp,
+  ) async {
+    try {
+      context.unfocus();
+      if (emailAddress.isEmpty) {
+        throw CustomException('Email Address cannot be empty !');
+      }
+
+      await AuthRepo.resetPassword(emailAddress).then((_) {
+        // if (userCredential != null) {
+        // context.pop();
+        // updateGuestUser(false);
+        // if (isApp) {
+        //   Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+        // } else {
+        //   Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
+        // }
+        // } else {
+        //   context.pop();
+        // }
+      });
+    } on CustomException catch (exc) {
+      // context.pop();
+
+      final snackBar = SnackBar(
+        content: Text(exc.message),
+      );
+
+      context.scaffoldMessenger.showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      context.pop();
+      debugPrint(e.message);
+      var message = "";
+      if (e.code == 'weak-password') {
+        message = "The password provided is too weak.";
+      } else if (e.code == 'email-already-in-use') {
+        message = "The account already exists for that email.";
+      } else {
+        message = e.code;
+      }
+      context.scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    } catch (err) {
+      debugPrint(err.toString());
+    }
+  }
 }

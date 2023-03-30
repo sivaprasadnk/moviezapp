@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
 
 enum MovieType { trending, nowPlaying, topRated, upcoming, similar, search }
@@ -7,7 +8,7 @@ class Movie {
   int id;
   String backdropPath;
   String posterPath;
-  List<int> genreIdList;
+  List<int>? genreIdList;
   double voteAverage;
   MovieType movieType;
   String releaseDate;
@@ -40,12 +41,23 @@ class Movie {
     } else {
       posterImage = "";
     }
+    List genreIds = json['genre_ids'] ?? [];
+    List<int> genreIdIntList = [];
+    debugPrint('genreIds : $genreIds');
+    if (genreIds.isNotEmpty) {
+      genreIdIntList =
+          (json['genre_ids'] as List).map((e) => e as int).toList();
+    } else {
+      genreIdIntList = <int>[];
+    }
+    debugPrint('genreIdIntList : $genreIdIntList');
+
 
     return Movie(
       id: json['id'],
       backdropPath: backdropImage,
       posterPath: posterImage,
-      genreIdList: (json['genre_ids'] as List).map((e) => e as int).toList(),
+      genreIdList: genreIdIntList,
       title: json['title'] ?? "",
       voteAverage: vote,
       movieType: type,
@@ -92,8 +104,10 @@ extension MovieExtension on List<Movie> {
   List<int> uniqueIdList() {
     List<int> idList = [];
     for (var i in this) {
-      for (var id in i.genreIdList) {
+      if (i.genreIdList != null && i.genreIdList!.isNotEmpty) {
+        for (var id in i.genreIdList!) {
         idList.add(id);
+      }
       }
     }
     return idList.toSet().toList();

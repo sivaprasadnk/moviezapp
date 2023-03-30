@@ -67,7 +67,9 @@ class MovieRepo {
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
-            if (i['backdrop_path'] != null && i['poster_path'] != null) {
+            if (i['backdrop_path'] != null &&
+                i['poster_path'] != null &&
+                i['genre_ids'] != null) {
               list.add(Movie.fromJson(i, type));
             }
           }
@@ -75,7 +77,7 @@ class MovieRepo {
       }
     } catch (err) {
       debugPrint(err.toString());
-      return [];
+      return <Movie>[];
     }
     return list;
   }
@@ -160,7 +162,7 @@ class MovieRepo {
       }
     } catch (err) {
       debugPrint(err.toString());
-      return [];
+      return <TvShows>[];
     }
     return list;
   }

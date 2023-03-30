@@ -35,5 +35,10 @@ class AuthRepo {
     return user;
   }
 
-  
+  static Future resetPassword(String emailAddress) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(
+      email: emailAddress,
+    );
+    return;
+  }
 }

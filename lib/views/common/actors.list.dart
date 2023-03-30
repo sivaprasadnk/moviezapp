@@ -20,7 +20,7 @@ class ActorsList extends StatelessWidget {
       builder: (_, provider, __) {
         return provider.actorsList.getList.isNotEmpty
             ? SizedBox(
-                height: height,
+                height: height + 10,
                 width: double.infinity,
                 child: ListView.separated(
                   shrinkWrap: true,

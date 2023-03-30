@@ -85,7 +85,9 @@ extension GenreExts on Genre {
     var list = <Movie>[];
 
     for (var movie in movieList) {
-      if (movie.genreIdList.contains(id)) {
+      if (movie.genreIdList != null &&
+          movie.genreIdList!.isNotEmpty &&
+          movie.genreIdList!.contains(id)) {
         list.add(movie);
       }
     }
