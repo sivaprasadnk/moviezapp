@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
+import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
@@ -429,4 +431,127 @@ class Dialogs {
       },
     );
   }
+
+  static showCreditsDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: context.bgColor,
+          title: Column(
+            children: const [
+              SectionTitle(
+                title: 'Credits',
+              ),
+              Divider(
+                indent: 0,
+                endIndent: 0,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          content: Container(
+            width: context.width * 0.2,
+            color: context.bgColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(kTmdbText),
+                const SizedBox(height: 20),
+                SvgPicture.asset(
+                  'assets/tmdb.svg',
+                  height: 75,
+                  colorFilter: const ColorFilter.mode(
+                    Color.fromRGBO(1, 180, 228, 1),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+          actions: [
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: Text(
+                  'Close',
+                  style: TextStyle(
+                    color: context.highlightColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  static showVersionDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: context.bgColor,
+          title: Column(
+            children: const [
+              SectionTitle(
+                title: 'Version',
+              ),
+              Divider(
+                indent: 0,
+                endIndent: 0,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          content: Container(
+            width: context.width * 0.2,
+            color: context.bgColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  context.appProvider.version,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+          actions: [
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: Text(
+                  'Close',
+                  style: TextStyle(
+                    color: context.highlightColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
+  }
+
 }

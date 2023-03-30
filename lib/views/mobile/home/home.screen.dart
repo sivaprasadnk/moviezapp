@@ -6,6 +6,7 @@ import 'package:moviezapp/views/mobile/home/page/activity.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/movie.list.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/profile.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/search/search.screen.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreenMobile extends StatefulWidget {
@@ -26,9 +27,19 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
         context.moviesProvider.getMoviesList();
         context.moviesProvider.getTvShowsList();
       }
+      setVersion();
       context.appProvider.updatedSelectedIndex(0);
     });
     super.initState();
+  }
+
+  setVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+    if (context.mounted) {
+      context.appProvider.updateVersion('v$version$buildNumber');
+    }
   }
 
   @override

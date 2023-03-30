@@ -8,6 +8,8 @@ import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
 extension ContextExtensions on BuildContext {
+
+
   Size get size => MediaQuery.of(this).size;
   double get height => size.height;
   double get width => size.width;

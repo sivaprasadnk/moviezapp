@@ -104,6 +104,8 @@ class MovieDetails {
     result.addAll({'runtime': runtime});
     result.addAll({'overview': overview});
     result.addAll({'release_date': releaseDate});
+    result.addAll({'homepage': homepage});
+    result.addAll({'spoken_language': language});
 
     return result;
   }

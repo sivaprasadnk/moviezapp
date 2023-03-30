@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AppProvider extends ChangeNotifier {
+  String _version = "v1.0.0";
+  String get version => _version;
+
+  void updateVersion(String value) {
+    _version = value;
+    notifyListeners();
+  }
+
   Brightness _selectedBrightness = Brightness.light;
   Brightness get selectedBrightness => _selectedBrightness;
   // ThemeData _selectedTheme = ThemeData(
