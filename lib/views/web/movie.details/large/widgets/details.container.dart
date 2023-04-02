@@ -136,8 +136,7 @@ class MovieDetailsContainer extends StatelessWidget {
                       launchUrl(Uri.parse(movie.homepage));
                     }
                   } catch (err) {
-                    context.scaffoldMessenger.showSnackBar(
-                        const SnackBar(content: Text('Cannot launch url!')));
+                    context.showSnackbar('Cannot launch url!');
                   }
                 },
                 child: Text(

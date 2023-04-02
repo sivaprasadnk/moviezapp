@@ -8,8 +8,6 @@ import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
 extension ContextExtensions on BuildContext {
-
-
   Size get size => MediaQuery.of(this).size;
   double get height => size.height;
   double get width => size.width;
@@ -50,6 +48,12 @@ extension ContextExtensions on BuildContext {
   AppProvider get appProvider => Provider.of<AppProvider>(this, listen: false);
 
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
+
+  void showSnackbar(String title) => scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text(title),
+        ),
+      );
 
   ThemeData get theme => Theme.of(this);
 

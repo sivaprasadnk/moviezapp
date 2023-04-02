@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/string.constants.dart';
 
 class AuthRepo {
   /// register
@@ -68,36 +69,59 @@ class AuthRepo {
       try {
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
-        if (userCredential.additionalUserInfo!.isNewUser) {
-          debugPrint('is new user');
-          await userCredential.user!
-              .updateDisplayName(userCredential.user!.displayName);
-          await UserRepo.addUserDetails();
-          return userCredential.user;
-        } else {
-          debugPrint('is existing user');
-          return userCredential.user;
+        // if (userCredential.additionalUserInfo != null &&
+        //     userCredential.additionalUserInfo!.isNewUser) {
+        //   var user = userCredential.user!;
+        //   // await user.updateDisplayName(user.displayName);
+        //   // await UserRepo.addUserDetails();
+        //   // var user = FirebaseAuth.instance.currentUser!;
+
+        //   userColllection.doc(user.uid).set({
+        //     kEmail: user.email,
+        //     kDisplayName: user.displayName,
+        //     kBookMarkedMovieIdList: [],
+        //     kBookMarkedShowIdList: [],
+        //     kCreatedDateTime: DateTime.now(),
+        //   });
+        //   return user;
+        // } else {
+        //   return userCredential.user;
+        // }
+        var user = userCredential.user!;
+        // await user.updateDisplayName(user.displayName);
+        // await UserRepo.addUserDetails();
+        // var user = FirebaseAuth.instance.currentUser!;
+        //     userCredential.additionalUserInfo!.isNewUser))
+        if (userCredential.additionalUserInfo != null &&
+            userCredential.additionalUserInfo!.isNewUser) {
+          await user.updateDisplayName(user.displayName);
+
+          userColllection.doc(user.uid).set({
+            kEmail: user.email,
+            kDisplayName: user.displayName,
+            kBookMarkedMovieIdList: [],
+            kBookMarkedShowIdList: [],
+            kCreatedDateTime: DateTime.now(),
+          });
         }
+        return user;
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           if (context.mounted) {
-            context.scaffoldMessenger.showSnackBar(const SnackBar(
-                content: Text(
-                    'The account already exists with a different credential')));
+            context.showSnackbar(
+                'The account already exists with a different credential');
           }
         } else if (e.code == 'invalid-credential') {
           if (context.mounted) {
-            context.scaffoldMessenger.showSnackBar(const SnackBar(
-                content: Text(
-                    'Error occurred while accessing credentials. Try again.')));
+            context.showSnackbar(
+                'Error occurred while accessing credentials. Try again.');
           }
         }
         return null;
       } catch (e) {
         if (context.mounted) {
-          context.scaffoldMessenger.showSnackBar(const SnackBar(
-              content:
-                  Text('Error occurred using Google Sign In. Try again.')));
+          context
+              .showSnackbar('Error occurred using Google Sign In. Try again.');
         }
         return null;
       }

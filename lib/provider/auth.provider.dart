@@ -50,10 +50,7 @@ class AuthProvider extends ChangeNotifier {
       }
     } on CustomException catch (exc) {
       context.pop();
-
-      context.scaffoldMessenger.showSnackBar(SnackBar(
-        content: Text(exc.message),
-      ));
+      context.showSnackbar(exc.message);
     } on FirebaseAuthException catch (e) {
       context.pop();
 
@@ -65,9 +62,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         message = e.code;
       }
-      context.scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      context.showSnackbar(message);
     }
   }
 
@@ -102,11 +97,7 @@ class AuthProvider extends ChangeNotifier {
     } on CustomException catch (exc) {
       context.pop();
 
-      final snackBar = SnackBar(
-        content: Text(exc.message),
-      );
-
-      context.scaffoldMessenger.showSnackBar(snackBar);
+      context.showSnackbar(exc.message);
     } on FirebaseAuthException catch (e) {
       context.pop();
       debugPrint(e.message);
@@ -118,9 +109,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         message = e.code;
       }
-      context.scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      context.showSnackbar(message);
     } catch (err) {
       debugPrint(err.toString());
     }
@@ -148,9 +137,7 @@ class AuthProvider extends ChangeNotifier {
           verificationFailed: (error) {
             debugPrint('verificationFailed :');
             debugPrint(error.toString());
-            context.scaffoldMessenger.showSnackBar(
-              SnackBar(content: Text(error.toString())),
-            );
+            context.showSnackbar(error.toString());
           },
           codeSent: (verificationId, forceResendingToken) {
             debugPrint('codeSent : $verificationId');

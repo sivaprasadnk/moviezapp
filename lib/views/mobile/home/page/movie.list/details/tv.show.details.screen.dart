@@ -115,10 +115,8 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                                             .addTvShowToBookmarks(
                                                 show, context);
                                       } else {
-                                        context.scaffoldMessenger.showSnackBar(
-                                            const SnackBar(
-                                                content: Text(
-                                                    "Login to Bookmark !")));
+                                        context.showSnackbar(
+                                            'Login to Bookmark !');
                                       }
                                     },
                                     title: 'Bookmark '),

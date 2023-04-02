@@ -53,26 +53,7 @@ class _VideoListState extends State<VideoList> {
                                 return VideoPlayerScreen(videoId: video.key);
                               }));
                             }
-                            // var link =
-                            //     "https://www.youtube.com/watch?v=${video.key}";
-                            // if (widget.isWeb) {
-                            //   playVideo(video.key, video.name, context);
-                            //   // html.window.open(link, 'new tab');
-                            // } else {
 
-                            //   // var url = Uri.parse(link);
-                            //   // if (await canLaunchUrl(url)) {
-                            //   //   await launchUrl(url);
-                            //   // } else {
-                            //   //   if (context.mounted) {
-                            //   //     context.scaffoldMessenger.showSnackBar(
-                            //   //         SnackBar(
-                            //   //             content:
-                            //   //                 Text('Could not launch $url')));
-                            //   //     // throw 'Could not launch $url';
-                            //   //   }
-                            //   // }
-                            // }
                           },
                           child: Stack(
                             children: [

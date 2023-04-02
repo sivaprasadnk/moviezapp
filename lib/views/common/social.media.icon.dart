@@ -20,7 +20,7 @@ class SocialMediaIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     var color =
         isMobile ? context.highlightColor.withOpacity(0.6) : Colors.white;
-    
+
     double size = 25;
     return GestureDetector(
       onTap: () async {
@@ -32,13 +32,11 @@ class SocialMediaIcon extends StatelessWidget {
               await launchUrl(Uri.parse(link));
             } else {
               if (context.mounted) {
-                context.scaffoldMessenger.showSnackBar(
-                    SnackBar(content: Text("Failed to launch $link")));
+                context.showSnackbar("Failed to launch $link");
               }
             }
           } catch (err) {
-            context.scaffoldMessenger.showSnackBar(
-                SnackBar(content: Text("Failed to launch $link")));
+            context.showSnackbar("Failed to launch $link");
           }
         }
       },

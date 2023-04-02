@@ -30,14 +30,13 @@ class UserProvider extends ChangeNotifier {
     var savedIds = await UserRepo.getBookmarkMovieIds();
     if (savedIds.contains(movie.id)) {
       if (context.mounted) {
-        context.scaffoldMessenger.showSnackBar(
-            const SnackBar(content: Text("Already Bookmarked !")));
+        context.showSnackbar("Already Bookmarked !");
       }
     } else {
       await UserRepo.addMovieToBookmarks(movie);
       if (context.mounted) {
-        context.scaffoldMessenger.showSnackBar(
-            SnackBar(content: Text("${movie.title}  added to Bookmarks !")));
+        context.showSnackbar("${movie.title}  added to Bookmarks !");
+
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreenMobile.routeName, (route) => false);
       }
@@ -48,14 +47,13 @@ class UserProvider extends ChangeNotifier {
     var savedIds = await UserRepo.getBookmarkShowIds();
     if (savedIds.contains(show.id)) {
       if (context.mounted) {
-        context.scaffoldMessenger.showSnackBar(
-            const SnackBar(content: Text("Already Bookmarked !")));
+        context.showSnackbar("Already Bookmarked !");
+
       }
     } else {
       await UserRepo.addShowToBookmarks(show);
       if (context.mounted) {
-        context.scaffoldMessenger.showSnackBar(
-            SnackBar(content: Text("${show.name}  added to Bookmarks !")));
+        context.showSnackbar("${show.name}  added to Bookmarks !");
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreenMobile.routeName, (route) => false);
       }

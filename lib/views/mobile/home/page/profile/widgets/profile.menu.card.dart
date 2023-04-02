@@ -28,11 +28,7 @@ class ProfileMenuCard extends StatelessWidget {
         if (isImplemented) {
           onTap!.call();
         } else {
-          context.scaffoldMessenger.showSnackBar(
-            const SnackBar(
-              content: Text("Not Implemented"),
-            ),
-          );
+          context.showSnackbar('Not Implemented!');
         }
       },
       child: Container(

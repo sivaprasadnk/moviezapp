@@ -146,10 +146,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                             .addMovieToBookmarks(
                                                 movie, context);
                                       } else {
-                                        context.scaffoldMessenger.showSnackBar(
-                                            const SnackBar(
-                                                content: Text(
-                                                    "Login to Bookmark !")));
+                                        context.showSnackbar(
+                                            'Login to Bookmark !');
                                       }
                                     },
                                     title: 'Bookmark '),
@@ -232,8 +230,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           launchUrl(Uri.parse(movie.homepage));
                         }
                       } catch (err) {
-                        context.scaffoldMessenger.showSnackBar(const SnackBar(
-                            content: Text('Cannot launch url!')));
+                        context.showSnackbar('Cannot launch Url !');
                       }
                     },
                     child: Text(

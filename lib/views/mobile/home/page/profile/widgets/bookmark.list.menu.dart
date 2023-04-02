@@ -40,8 +40,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
           context.userProvider.clearList();
           Navigator.pushNamed(context, BookmarkListScreen.routeName);
         } else {
-          context.scaffoldMessenger.showSnackBar(const SnackBar(
-              content: Text("Login to add and view bookmarks !")));
+          context.showSnackbar('Login to add and view bookmarks !');
         }
       },
     );
