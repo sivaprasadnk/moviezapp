@@ -88,6 +88,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation "androidx.browser:browser:1.2.0"
+    implementation 'com.google.android.gms:play-services-gcm:16.1.0'
 }
 
 configurations.all { 

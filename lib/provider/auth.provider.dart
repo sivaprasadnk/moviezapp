@@ -247,4 +247,23 @@ class AuthProvider extends ChangeNotifier {
       debugPrint(err.toString());
     }
   }
+
+  Future signInWithGoogle(bool isApp, BuildContext context) async {
+    User? user = await AuthRepo.signInWithGoogle(context: context);
+    debugPrint("..@@@@@@@@@@@@222");
+    if (user != null) {
+      updateGuestUser(false);
+      if (context.mounted) {
+        if (isApp) {
+          Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+        } else {
+          Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
+        }
+      }
+    } else {
+      if (context.mounted) {
+        context.pop();
+      }
+    }
+  }
 }

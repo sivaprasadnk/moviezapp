@@ -103,7 +103,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          //
+                          // _formKey.currentState!.save();
+                          // context.authProvider
+                          //     .signInWithMobile(context, email.trim());
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -123,6 +126,14 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   const SizedBox(height: 50),
                   CommonButton(callback: validateAndProceed, title: 'Sign In'),
+                  const SizedBox(height: 20),
+                  CommonButton(
+                    callback: () {
+                      googleSignin();
+                    },
+                    title: 'Sign In with Google',
+                  ),
+                  const SizedBox(height: 20),
                   const SizedBox(height: 20),
                   RichText(
                     text: TextSpan(
@@ -170,5 +181,14 @@ class _SignInScreenState extends State<SignInScreen> {
     );
 
     // context.authProvider.signInWithMobile(context, email);
+  }
+
+  googleSignin() async {
+    Dialogs.showLoader(context: context);
+
+    context.authProvider.signInWithGoogle(
+      context.appProvider.isMobileApp,
+      context,
+    );
   }
 }

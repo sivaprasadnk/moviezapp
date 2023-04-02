@@ -20,6 +20,17 @@ class ProfileDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (user!.photoURL != null && user.photoURL!.isNotEmpty)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50),
+            child: Image.network(
+              user.photoURL!,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.error);
+              },
+            ),
+          )
+        else
         const CircleAvatar(
           radius: 35,
           child: Icon(
@@ -33,7 +44,9 @@ class ProfileDetails extends StatelessWidget {
           children: [
             !isGuest
                 ? Text(
-                    user!.displayName!,
+                    user.displayName != null
+                        ? user.displayName!
+                        : "(no displayname)",
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
@@ -47,7 +60,7 @@ class ProfileDetails extends StatelessWidget {
             const SizedBox(height: 5),
             if (!isGuest)
               Text(
-                user!.email!,
+                user.email!,
                 style: const TextStyle(
                     fontWeight: FontWeight.w200, color: Colors.grey),
               ),

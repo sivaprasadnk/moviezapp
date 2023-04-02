@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
 
 enum MovieType { trending, nowPlaying, topRated, upcoming, similar, search }
@@ -43,14 +42,12 @@ class Movie {
     }
     List genreIds = json['genre_ids'] ?? [];
     List<int> genreIdIntList = [];
-    debugPrint('genreIds : $genreIds');
     if (genreIds.isNotEmpty) {
       genreIdIntList =
           (json['genre_ids'] as List).map((e) => e as int).toList();
     } else {
       genreIdIntList = <int>[];
     }
-    debugPrint('genreIdIntList : $genreIdIntList');
 
 
     return Movie(
