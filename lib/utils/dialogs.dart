@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
@@ -8,6 +9,7 @@ import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 class Dialogs {
   static void showLoader({required BuildContext context}) async {
@@ -529,6 +531,30 @@ class Dialogs {
                   ),
                 ),
                 const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () async {
+                    context.pop();
+                    await InAppUpdate.checkForUpdate().then((value) async {
+                      if (value.updateAvailability ==
+                          UpdateAvailability.updateAvailable) {
+                        await StoreRedirect.redirect();
+                      } else {
+                        context.scaffoldMessenger.showSnackBar(
+                          const SnackBar(
+                            content: Text("No update available!"),
+                          ),
+                        );
+                      }
+                    });
+                  },
+                  child: const Text(
+                    "Check for update",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -553,5 +579,4 @@ class Dialogs {
       },
     );
   }
-
 }

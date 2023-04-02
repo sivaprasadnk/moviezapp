@@ -20,7 +20,7 @@ class ProfileDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (user!.photoURL != null && user.photoURL!.isNotEmpty)
+        if (user != null && user.photoURL != null && user.photoURL!.isNotEmpty)
           ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Image.network(
@@ -44,7 +44,7 @@ class ProfileDetails extends StatelessWidget {
           children: [
             !isGuest
                 ? Text(
-                    user.displayName != null
+                    user != null && user.displayName != null
                         ? user.displayName!
                         : "(no displayname)",
                     style: const TextStyle(
@@ -60,7 +60,7 @@ class ProfileDetails extends StatelessWidget {
             const SizedBox(height: 5),
             if (!isGuest)
               Text(
-                user.email!,
+                user!.email!,
                 style: const TextStyle(
                     fontWeight: FontWeight.w200, color: Colors.grey),
               ),
