@@ -36,23 +36,6 @@ class RatingProgressContainer extends StatelessWidget {
           backgroundColor: const Color.fromRGBO(8, 28, 34, 0.9),
           circularStrokeCap: CircularStrokeCap.round,
           percent: (vote / 10),
-          // center: Container(
-          //   height: 10,
-          //   width: 10,
-          //   decoration: const BoxDecoration(
-          //     shape: BoxShape.circle,
-          //     color: Color.fromRGBO(8, 28, 34, 1),
-          //   ),
-          //   child: Center(
-          //     child: Text(
-          //       ((vote * 10).ceilToDouble()).toInt().toString(),
-          //       style: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: isWeb ? 14 : 12,
-          //       ),
-          //     ),
-          //   ),
-          // ),
           progressColor: Colors.green,
         ),
       ],

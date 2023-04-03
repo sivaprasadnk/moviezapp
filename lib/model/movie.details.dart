@@ -69,10 +69,37 @@ class MovieDetails {
   factory MovieDetails.fromDoc(
       QueryDocumentSnapshot<Map<String, dynamic>> json) {
     var language = "";
-    List languageList = json['spoken_languages'] ?? [];
-    if (languageList.isNotEmpty) {
-      language = languageList[0]['english_name'] ?? "";
+    if (json.data().containsKey('spoken_languages')) {
+      List languageList = json['spoken_languages'] ?? [];
+      if (languageList.isNotEmpty) {
+        language = languageList[0]['english_name'] ?? "";
+      }
+    } else {
+      language = json['spoken_language'] ?? "";
     }
+    return MovieDetails(
+      id: json['id'],
+      backdropPath: kImageBaseUrl + json['backdrop_path'],
+      posterPath: kImageBaseUrl + json['poster_path'],
+      genreList:
+          (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
+      title: json['title'] ?? "",
+      voteAverage: json['vote_average'],
+      voteCount: json['vote_count'],
+      runtime: json['runtime'],
+      releaseDate: json['release_date'],
+      overview: json['overview'],
+      language: language,
+      homepage: json['homepage'],
+    );
+  }
+
+  factory MovieDetails.fromBookmarkDoc(
+      QueryDocumentSnapshot<Map<String, dynamic>> json) {
+    var language = "";
+
+    language = json['spoken_language'];
+
     return MovieDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],

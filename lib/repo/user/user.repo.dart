@@ -6,6 +6,22 @@ import 'package:moviezapp/utils/string.constants.dart';
 
 var userColllection = FirebaseFirestore.instance.collection(kUsersCollection);
 
+enum AccountType {
+  emailPassword,
+  googleSignIn,
+}
+
+extension AccountTypeExt on AccountType {
+  String get value {
+    switch (this) {
+      case AccountType.emailPassword:
+        return "email-Password";
+      case AccountType.googleSignIn:
+        return "google-signIn";
+    }
+  }
+}
+
 class UserRepo {
   static Future addUserDetails() async {
     var user = FirebaseAuth.instance.currentUser!;
@@ -15,6 +31,7 @@ class UserRepo {
       kDisplayName: user.displayName,
       kBookMarkedMovieIdList: [],
       kBookMarkedShowIdList: [],
+      kAccountType: AccountType.emailPassword.value,
       kCreatedDateTime: DateTime.now(),
     });
   }

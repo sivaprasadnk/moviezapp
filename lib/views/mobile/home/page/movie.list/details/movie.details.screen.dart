@@ -112,10 +112,14 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                   )
                                 : const SizedBox.shrink(),
                           ),
+                          if (!provider.videosLoading)
+                            if (provider.videoList.isNotEmpty)
                           const SizedBox(height: 40),
                           if (!provider.videosLoading)
                             if (provider.videoList.isNotEmpty)
                               const SectionTitle(title: 'Related Videos'),
+                          if (!provider.videosLoading)
+                            if (provider.videoList.isNotEmpty)
                           const SizedBox(height: 20),
                           AnimatedSwitcher(
                             duration: const Duration(

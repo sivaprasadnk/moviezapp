@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 
-import 'edit.icon.dart';
 
 class ProfileDetails extends StatelessWidget {
   const ProfileDetails({
@@ -25,6 +25,8 @@ class ProfileDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(50),
             child: Image.network(
               user.photoURL!,
+              height: 80,
+              width: 80,
               errorBuilder: (context, error, stackTrace) {
                 return const Icon(Icons.error);
               },
@@ -41,7 +43,10 @@ class ProfileDetails extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 12),
+
             !isGuest
                 ? Text(
                     user != null && user.displayName != null
@@ -61,39 +66,16 @@ class ProfileDetails extends StatelessWidget {
             if (!isGuest)
               Text(
                 user!.email!,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w200, color: Colors.grey),
+                style: TextStyle(
+                  fontWeight: FontWeight.w200,
+                  color: context.highlightColor.withOpacity(0.85),
+                ),
               ),
             const SizedBox(height: 8),
-            if (!isGuest)
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.amber,
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(
-                      Icons.person,
-                      size: 12,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Premium',
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
-              )
+              
           ],
         ),
         const Spacer(),
-        const EditIcon(),
       ],
     );
   }

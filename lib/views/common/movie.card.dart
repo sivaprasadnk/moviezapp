@@ -37,7 +37,6 @@ class MovieCard extends StatefulWidget {
   final double imageHeight;
   final double imageWidth;
   final bool withSize;
-  // final double voteAverage;
 
   @override
   State<MovieCard> createState() => _MovieCardState();
@@ -88,7 +87,6 @@ class _MovieCardState extends State<MovieCard> {
             if (widget.isMovie) {
               debugPrint('id :: ${widget.id}');
               provider.getMovieDetails(widget.id).then((value) {
-                // context.pop();
                 Navigator.pushNamed(
                   context,
                   MovieDetailsScreenWeb.routeName,

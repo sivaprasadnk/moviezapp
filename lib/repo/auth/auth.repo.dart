@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -5,6 +6,7 @@ import 'package:googleapis/oauth2/v2.dart' as oath;
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
+
 class AuthRepo {
   /// register
   static Future<void> register(
@@ -44,6 +46,16 @@ class AuthRepo {
     return user;
   }
 
+  static Future<String> checkIfEmailIdRegistered(String email) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await userColllection.get();
+    for (var doc in snapshot.docs) {
+      if (doc.data()['email'] == email) {
+        return doc.data()[kAccountType];
+      }
+    }
+    return '';
+  }
+
   static Future resetPassword(String emailAddress) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(
       email: emailAddress,
@@ -55,7 +67,6 @@ class AuthRepo {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     final GoogleSignIn googleSignIn = GoogleSignIn.standard(
-        // scopes: [drive.DriveApi.driveFileScope],
       scopes: [
         'email',
         oath.Oauth2Api.userinfoEmailScope,
@@ -75,39 +86,22 @@ class AuthRepo {
       try {
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
-        // if (userCredential.additionalUserInfo != null &&
-        //     userCredential.additionalUserInfo!.isNewUser) {
-        //   var user = userCredential.user!;
-        //   // await user.updateDisplayName(user.displayName);
-        //   // await UserRepo.addUserDetails();
-        //   // var user = FirebaseAuth.instance.currentUser!;
-
-        //   userColllection.doc(user.uid).set({
-        //     kEmail: user.email,
-        //     kDisplayName: user.displayName,
-        //     kBookMarkedMovieIdList: [],
-        //     kBookMarkedShowIdList: [],
-        //     kCreatedDateTime: DateTime.now(),
-        //   });
-        //   return user;
-        // } else {
-        //   return userCredential.user;
-        // }
         var user = userCredential.user!;
-        // await user.updateDisplayName(user.displayName);
-        // await UserRepo.addUserDetails();
-        // var user = FirebaseAuth.instance.currentUser!;
-        //     userCredential.additionalUserInfo!.isNewUser))
         if (userCredential.additionalUserInfo != null &&
             userCredential.additionalUserInfo!.isNewUser) {
           await user.updateDisplayName(user.displayName);
 
-          userColllection.doc(user.uid).set({
+          await userColllection.doc(user.uid).set({
             kEmail: user.email,
             kDisplayName: user.displayName,
             kBookMarkedMovieIdList: [],
+            kAccountType: AccountType.googleSignIn.value,
             kBookMarkedShowIdList: [],
             kCreatedDateTime: DateTime.now(),
+          });
+        } else {
+          await userColllection.doc(user.uid).update({
+            kAccountType: AccountType.googleSignIn.value,
           });
         }
         return user;

@@ -4,6 +4,7 @@ const String kDisplayName = 'displayName';
 const String kBookMarkedMovieIdList = 'bookMarkedMovieIdList';
 const String kBookMarkedShowIdList = 'bookMarkedShowIdList';
 const String kCreatedDateTime = 'createdDateTime';
+const String kAccountType = 'accountType';
 const String kMoviesCollection = 'movies';
 const String kTvShowsCollection = 'tvShows';
 const String kUsersCollection = 'users';

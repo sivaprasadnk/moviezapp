@@ -59,13 +59,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             }),
             const SizedBox(height: 25),
-            const ProfileSectionTitle(title: 'Account'),
-            const SizedBox(height: 15),
-            const ProfileMenuCard(
-              title: 'Change Password',
-              icon: Icons.lock,
-            ),
-            const SizedBox(height: 30),
+            // const ProfileSectionTitle(title: 'Account'),
+            // const SizedBox(height: 15),
+            // const ProfileMenuCard(
+            //   title: 'Change Password',
+            //   icon: Icons.lock,
+            // ),
+            // const SizedBox(height: 30),
             const ProfileSectionTitle(title: 'Others'),
             const SizedBox(height: 15),
             ProfileMenuCard(

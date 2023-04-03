@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/auth/sign.up/widgets/custom.decoration.dart';
 import 'package:moviezapp/views/common/common.button.dart';
@@ -88,7 +89,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   validateAndProceed() async {
     _formKey.currentState!.save();
-    // Dialogs.showLoader(context: context);
+    Dialogs.showLoader(context: context);
 
     await context.authProvider.resetPassword(
       email,
