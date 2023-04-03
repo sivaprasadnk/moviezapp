@@ -56,7 +56,11 @@ class AuthRepo {
 
     final GoogleSignIn googleSignIn = GoogleSignIn.standard(
         // scopes: [drive.DriveApi.driveFileScope],
-        scopes: [oath.Oauth2Api.userinfoEmailScope]);
+      scopes: [
+        'email',
+        oath.Oauth2Api.userinfoEmailScope,
+      ],
+    );
 
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();

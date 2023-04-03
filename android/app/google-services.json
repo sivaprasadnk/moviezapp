@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "625310114702-empnravcfa77ick2gf7121ccrdaj4cc7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spverse.moviezapp",
+            "certificate_hash": "68e5263feee3cb37efc23fe0957d6474fab7f6b7"
+          }
+        },
+        {
           "client_id": "625310114702-esvm6sn83ar2996k2g33hev7msghv1mo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
