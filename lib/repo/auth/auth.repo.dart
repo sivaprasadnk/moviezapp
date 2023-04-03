@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/oauth2/v2.dart' as oath;
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
-
 class AuthRepo {
   /// register
   static Future<void> register(
@@ -54,7 +54,9 @@ class AuthRepo {
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn.standard(
+        // scopes: [drive.DriveApi.driveFileScope],
+        scopes: [oath.Oauth2Api.userinfoEmailScope]);
 
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
