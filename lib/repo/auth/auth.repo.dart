@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:googleapis/oauth2/v2.dart' as oath;
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
@@ -69,7 +68,8 @@ class AuthRepo {
     final GoogleSignIn googleSignIn = GoogleSignIn.standard(
       scopes: [
         'email',
-        oath.Oauth2Api.userinfoEmailScope,
+        // 'https://www.googleapis.com/auth/drive.metadata.readonly',
+        // oath.Oauth2Api.userinfoEmailScope,
       ],
     );
 

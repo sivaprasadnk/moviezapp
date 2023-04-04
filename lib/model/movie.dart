@@ -1,6 +1,14 @@
 import 'package:moviezapp/repo/movie/end.points.dart';
 
-enum MovieType { trending, nowPlaying, topRated, upcoming, similar, search }
+enum MovieType {
+  trending,
+  nowPlaying,
+  topRated,
+  upcoming,
+  similar,
+  search,
+  bookmarks,
+}
 
 class Movie {
   String title;

@@ -7,6 +7,7 @@ import 'package:moviezapp/views/web/home/widgets/region.text.dart';
 import 'package:moviezapp/views/web/home/widgets/section/movie.section.web.dart';
 import 'package:moviezapp/views/web/home/widgets/section/search.container.dart';
 import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dart';
+import 'package:moviezapp/views/web/home/widgets/web.drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/movies.provider.dart';
@@ -43,7 +44,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
       appBar: const TitleAppBar(),
+      endDrawer: const WebDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,10 +63,8 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                   ContentSelectionWeb(),
                   SizedBox(width: 10),
                   SearchContainer(),
-
                   Spacer(),
                   SizedBox(width: 10),
-
                   RegionText(),
                   SizedBox(height: 20),
                 ],

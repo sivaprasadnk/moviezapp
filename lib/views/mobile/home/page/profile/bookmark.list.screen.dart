@@ -65,24 +65,30 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
                           const SizedBox(height: 20),
                           if (!provider.bookmarkListLoading)
                             SizedBox(
-                              height: 200,
+                              height: 210,
                               width: double.infinity,
                               child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
                                 separatorBuilder: (context, index) {
-                                  return const SizedBox(width: 15);
+                                  return const SizedBox(width: 10);
                                 },
+                                scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemCount: moviesList.length,
                                 itemBuilder: (context, index) {
                                   var movie = moviesList[index];
-                                  return MovieCard(
-                                    poster: movie.posterPath,
-                                    name: movie.title,
-                                    vote: movie.voteAverage,
-                                    id: movie.id,
-                                    withSize: false,
-                                    releaseDate: movie.releaseDate,
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        right: index == 4 ? 20 : 0),
+                                    child: MovieCard(
+                                      name: movie.title,
+                                      poster: movie.posterPath,
+                                      vote: movie.voteAverage,
+                                      id: movie.id,
+                                      imageHeight: 180,
+                                      imageWidth: 120,
+                                      withSize: true,
+                                      releaseDate: movie.releaseDate,
+                                    ),
                                   );
                                 },
                               ),
@@ -93,26 +99,55 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
                               const SectionTitle(title: 'Tv Shows'),
                           const SizedBox(height: 20),
                           if (!provider.bookmarkShowsListLoading)
+                            // SizedBox(
+                            //   height: 200,
+                            //   width: double.infinity,
+                            //   child: ListView.separated(
+                            //     scrollDirection: Axis.horizontal,
+                            //     separatorBuilder: (context, index) {
+                            //       return const SizedBox(width: 15);
+                            //     },
+                            //     shrinkWrap: true,
+                            //     itemCount: shows.length,
+                            //     itemBuilder: (context, index) {
+                            //       var movie = shows[index];
+                            //       return MovieCard(
+                            //         poster: movie.posterPath,
+                            //         name: movie.name,
+                            //         vote: movie.voteAverage,
+                            //         id: movie.id,
+                            //         isMovie: false,
+                            //         withSize: false,
+                            //         releaseDate: movie.releaseDate,
+                            //       );
+                            //     },
+                            //   ),
+                            // )
                             SizedBox(
-                              height: 200,
+                              height: 210,
                               width: double.infinity,
                               child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
                                 separatorBuilder: (context, index) {
-                                  return const SizedBox(width: 15);
+                                  return const SizedBox(width: 10);
                                 },
+                                scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemCount: shows.length,
                                 itemBuilder: (context, index) {
-                                  var movie = shows[index];
-                                  return MovieCard(
-                                    poster: movie.posterPath,
-                                    name: movie.name,
-                                    vote: movie.voteAverage,
-                                    id: movie.id,
-                                    isMovie: false,
-                                    withSize: false,
-                                    releaseDate: movie.releaseDate,
+                                  var show = shows[index];
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        right: index == 4 ? 20 : 0),
+                                    child: MovieCard(
+                                      name: show.name,
+                                      poster: show.posterPath,
+                                      vote: show.voteAverage,
+                                      id: show.id,
+                                      imageHeight: 180,
+                                      imageWidth: 120,
+                                      withSize: true,
+                                      releaseDate: show.releaseDate,
+                                    ),
                                   );
                                 },
                               ),

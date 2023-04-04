@@ -48,6 +48,8 @@ extension ContextExtensions on BuildContext {
   AppProvider get appProvider => Provider.of<AppProvider>(this, listen: false);
 
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
+  
+  ScaffoldState get scaffold => Scaffold.of(this);
 
   void showSnackbar(String title) => scaffoldMessenger.showSnackBar(
         SnackBar(
