@@ -82,19 +82,37 @@ class AuthProvider extends ChangeNotifier {
         throw CustomException('Password cannot be empty !');
       }
 
-      await AuthRepo.signIn(emailAddress, password).then((userCredential) {
-        if (userCredential != null) {
-          context.pop();
-          updateGuestUser(false);
-          if (isApp) {
-            Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
-          } else {
-            Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
-          }
+      var accountType = await AuthRepo.checkIfEmailIdRegistered(emailAddress);
+      if (accountType.isNotEmpty) {
+        if (accountType == AccountType.emailPassword.value) {
+          await AuthRepo.signIn(emailAddress, password).then((userCredential) {
+            if (userCredential != null) {
+              context.pop();
+              updateGuestUser(false);
+              if (isApp) {
+                Navigator.pushReplacementNamed(
+                    context, HomeScreenMobile.routeName);
+              } else {
+                Navigator.pushReplacementNamed(
+                    context, HomeScreenWeb.routeName);
+              }
+            } else {
+              context.pop();
+            }
+          });
         } else {
-          context.pop();
+          if (context.mounted) {
+            context.pop();
+            context.showSnackbar(
+                "Account doesn't have a password. Try login via Google SignIn!");
+          }
         }
-      });
+      } else {
+        if (context.mounted) {
+          context.pop();
+          context.showSnackbar("Email address is not registered!");
+        }
+      }
     } on CustomException catch (exc) {
       context.pop();
 
@@ -190,7 +208,6 @@ class AuthProvider extends ChangeNotifier {
       }
 
       var accountType = await AuthRepo.checkIfEmailIdRegistered(emailAddress);
-      debugPrint('account : $accountType');
       if (accountType.isNotEmpty) {
         if (accountType == AccountType.emailPassword.value) {
           await AuthRepo.resetPassword(emailAddress).then((_) {
@@ -224,14 +241,21 @@ class AuthProvider extends ChangeNotifier {
 
   Future signInWithGoogle(bool isApp, BuildContext context) async {
     User? user = await AuthRepo.signInWithGoogle(context: context);
-    debugPrint("..@@@@@@@@@@@@222");
     if (user != null) {
       updateGuestUser(false);
       if (context.mounted) {
         if (isApp) {
-          Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomeScreenMobile.routeName,
+            (route) => false,
+          );
         } else {
-          Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            HomeScreenWeb.routeName,
+            (route) => false,
+          );
         }
       }
     } else {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/bottom.nav.bar.dart';
@@ -18,6 +19,7 @@ class HomeScreenMobile extends StatefulWidget {
 }
 
 class _HomeScreenMobileState extends State<HomeScreenMobile> {
+  DateTime? currentBackPressTime;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -44,24 +46,38 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        bottomNavigationBar: const BottomNavBar(),
-        body: Consumer<AppProvider>(
-          builder: (_, provider, __) {
-            switch (provider.selectedIndex) {
-              case 0:
-                return const MovieListScreen();
-              case 1:
-                return const SearchScreen();
-              case 2:
-                return const ActivityScreen();
-              case 3:
-                return const ProfileScreen();
-            }
-            return const SizedBox.shrink();
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        DateTime now = DateTime.now();
+        if (currentBackPressTime == null ||
+            now.difference(currentBackPressTime!) >
+                const Duration(seconds: 2)) {
+          currentBackPressTime = now;
+          context.showSnackbar('Double tap to exit!');
+          return Future.value(false);
+        }
+        SystemNavigator.pop();
+        return Future.value(true);
+      },
+      child: SafeArea(
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          bottomNavigationBar: const BottomNavBar(),
+          body: Consumer<AppProvider>(
+            builder: (_, provider, __) {
+              switch (provider.selectedIndex) {
+                case 0:
+                  return const MovieListScreen();
+                case 1:
+                  return const SearchScreen();
+                case 2:
+                  return const ActivityScreen();
+                case 3:
+                  return const ProfileScreen();
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );
