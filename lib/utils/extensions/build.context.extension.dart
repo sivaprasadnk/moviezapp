@@ -6,7 +6,7 @@ import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
-
+import 'package:universal_html/html.dart' as html;
 extension ContextExtensions on BuildContext {
   Size get size => MediaQuery.of(this).size;
   double get height => size.height;
@@ -48,7 +48,7 @@ extension ContextExtensions on BuildContext {
   AppProvider get appProvider => Provider.of<AppProvider>(this, listen: false);
 
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
-  
+
   ScaffoldState get scaffold => Scaffold.of(this);
 
   void showSnackbar(String title) => scaffoldMessenger.showSnackBar(
@@ -80,5 +80,12 @@ extension ContextExtensions on BuildContext {
 
   void unfocus() {
     FocusScope.of(this).unfocus();
+  }
+
+  void openInNewTab(String url) {
+    html.window.open(
+      url,
+      'new tab',
+    );
   }
 }

@@ -25,7 +25,7 @@ class SocialMediaIcon extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         if (kIsWeb) {
-          // html.window.open(link, 'new tab');
+          context.openInNewTab(link);
         } else {
           try {
             if (await canLaunchUrl(Uri.parse(link))) {

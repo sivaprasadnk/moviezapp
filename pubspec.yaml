@@ -51,6 +51,7 @@ dependencies:
   shimmer: ^2.0.0
   store_redirect: ^2.0.1
   url_launcher: ^6.1.10
+  universal_html:
   webview_flutter: ^4.0.7
   youtube_player_iframe: ^4.0.4
 

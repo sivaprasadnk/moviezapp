@@ -1,10 +1,10 @@
-import 'dart:html' as html;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/common.button.dart';
+import 'package:moviezapp/views/mobile/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +15,8 @@ class WebDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     var user = FirebaseAuth.instance.currentUser;
     var name = 'Username';
+    var provider = context.authProvider;
+    var isGuest = provider.isGuestUser;
     if (user!.displayName != null) {
       name = user.displayName!;
     }
@@ -72,6 +74,8 @@ class WebDrawer extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 38),
+            BookmarkListMenu(isGuest: isGuest),
+            const SizedBox(height: 12),
             Consumer<AppProvider>(builder: (_, provider, __) {
               var isDark = provider.selectedBrightness == Brightness.dark;
               var title = 'Switch to Dark theme';
@@ -91,16 +95,24 @@ class WebDrawer extends StatelessWidget {
               );
             }),
             const SizedBox(height: 12),
-
             ProfileMenuCard(
               title: 'Get app',
               icon: Icons.android,
               isImplemented: true,
               onTap: () {
-                html.window.open(
-                  'https://play.google.com/store/apps/details?id=com.spverse.moviezapp',
-                  'new tab',
-                );
+                var url =
+                    'https://play.google.com/store/apps/details?id=com.spverse.moviezapp';
+                context.openInNewTab(url);
+              },
+            ),
+            const SizedBox(height: 12),
+            ProfileMenuCard(
+              title: 'Privacy Policy & Terms',
+              icon: Icons.policy,
+              isImplemented: true,
+              onTap: () {
+                var url = 'https://sivaprasadnk.dev/moviez-app/privacy-policy/';
+                context.openInNewTab(url);
               },
             ),
             const Spacer(),
