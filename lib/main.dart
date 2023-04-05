@@ -13,7 +13,11 @@ import 'package:provider/provider.dart';
 
 //  flutter run -d chrome --web-renderer html
 
+//  flutter run -d chrome --web-hostname localhost --web-port 5000
+
 //  flutter build web --web-renderer html --release
+
+
 
 //  https://moviezapp-spverse.web.app/
 

@@ -2,9 +2,11 @@ import 'dart:html' as html;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
+import 'package:provider/provider.dart';
 
 class WebDrawer extends StatelessWidget {
   const WebDrawer({super.key});
@@ -22,12 +24,21 @@ class WebDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            GestureDetector(
+              onTap: () {
+                context.pop();
+              },
+              child: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 20,
+              ),
+            ),
+            const SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     Text(
                       name,
@@ -60,7 +71,27 @@ class WebDrawer extends StatelessWidget {
                   ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 38),
+            Consumer<AppProvider>(builder: (_, provider, __) {
+              var isDark = provider.selectedBrightness == Brightness.dark;
+              var title = 'Switch to Dark theme';
+              var icon = Icons.dark_mode;
+              if (isDark) {
+                title = "Switch to Light theme";
+                icon = Icons.light_mode;
+              }
+              return ProfileMenuCard(
+                title: title,
+                icon: icon,
+                onTap: () {
+                  provider.toggleBrightness();
+                },
+                showtrailing: false,
+                isImplemented: true,
+              );
+            }),
+            const SizedBox(height: 12),
+
             ProfileMenuCard(
               title: 'Get app',
               icon: Icons.android,
