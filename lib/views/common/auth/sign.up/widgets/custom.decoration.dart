@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 InputDecoration customDecoration(FocusNode node, String label, IconData icon) {
   return InputDecoration(
     prefixIcon: Icon(icon),
-    label: Text(label),
+    label: Text(
+      label,
+      style: const TextStyle(
+        fontSize: 15,
+      ),
+    ),
     prefixIconColor: node.hasFocus ? Colors.blue : Colors.grey,
-    floatingLabelStyle: const TextStyle(color: Colors.blue),
+    floatingLabelStyle:
+        TextStyle(color: node.hasFocus ? Colors.blue : Colors.grey),
     focusColor: Colors.blue,
     focusedBorder: OutlineInputBorder(
       borderSide: const BorderSide(

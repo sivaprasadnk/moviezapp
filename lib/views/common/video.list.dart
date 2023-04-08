@@ -1,4 +1,3 @@
-// import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/movies.provider.dart';

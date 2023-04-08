@@ -77,6 +77,11 @@ class MovieDetails {
     } else {
       language = json['spoken_language'] ?? "";
     }
+
+    var vote = json['vote_average'];
+    if (vote.runtimeType == int) {
+      vote = (vote as int).toDouble();
+    }
     return MovieDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
@@ -84,7 +89,7 @@ class MovieDetails {
       genreList:
           (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
       title: json['title'] ?? "",
-      voteAverage: json['vote_average'],
+      voteAverage: vote,
       voteCount: json['vote_count'],
       runtime: json['runtime'],
       releaseDate: json['release_date'],

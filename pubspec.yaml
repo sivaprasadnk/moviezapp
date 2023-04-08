@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cached_network_image: ^3.2.3
+  cherry_toast: ^1.1.0
   cloud_firestore: ^4.4.3
   connectivity_plus: ^3.0.3
   cupertino_icons: ^1.0.2
@@ -41,7 +42,7 @@ dependencies:
   flutter_login_facebook: ^1.7.0
   flutter_svg: ^2.0.4
   google_sign_in: ^6.0.2
-  google_sign_in_web : ^0.11.0+2
+  google_sign_in_web: ^0.11.0+2
   googleapis: ^10.1.0
   http: ^0.13.5
   in_app_update: ^4.0.1
@@ -50,8 +51,8 @@ dependencies:
   provider: ^6.0.5
   shimmer: ^2.0.0
   store_redirect: ^2.0.1
+  universal_html: null
   url_launcher: ^6.1.10
-  universal_html:
   webview_flutter: ^4.0.7
   youtube_player_iframe: ^4.0.4
 

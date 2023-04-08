@@ -30,13 +30,15 @@ class SearchContainer extends StatelessWidget {
         child: TextFormField(
           enabled: false,
           decoration: InputDecoration(
-              border: InputBorder.none,
-              suffixIcon: GestureDetector(
-                onTap: () {},
-                child: const Icon(
-                  Icons.search,
-                ),
-              )),
+            label: const Text(" Search movies/ tv shows here .."),
+            border: InputBorder.none,
+            suffixIcon: GestureDetector(
+              onTap: () {},
+              child: const Icon(
+                Icons.search,
+              ),
+            ),
+          ),
         ),
       ),
     );

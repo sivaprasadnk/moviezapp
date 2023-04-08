@@ -26,18 +26,19 @@ class PlayTrailerTextButton extends StatelessWidget {
               },
               child: SizedBox(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      height: 50,
-                      width: 50,
+                      height: 35,
+                      width: 35,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
                       ),
                       child: const Icon(
                         Icons.play_arrow_rounded,
-                        size: 23,
+                        size: 20,
                         color: Colors.black,
                       ),
                     ),
@@ -46,7 +47,7 @@ class PlayTrailerTextButton extends StatelessWidget {
                       'Play Trailer',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 15,
                       ),
                     ),
                   ],

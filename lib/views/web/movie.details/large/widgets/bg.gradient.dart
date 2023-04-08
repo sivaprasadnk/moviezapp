@@ -10,7 +10,7 @@ class BgGradient extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          height: context.height * 0.6,
+          height: context.height * 0.6 + 55,
           decoration: const BoxDecoration(
             color: Color.fromRGBO(26, 26, 26, 1),
             gradient: LinearGradient(

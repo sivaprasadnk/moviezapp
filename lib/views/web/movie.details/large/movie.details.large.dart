@@ -26,7 +26,7 @@ class MovieDetailsLarge extends StatelessWidget {
             children: [
               Container(
                 color: const Color.fromRGBO(26, 26, 26, 1),
-                height: context.height * 0.6,
+                height: context.height * 0.6 + 55,
                 width: double.infinity,
               ),
               Positioned.fill(

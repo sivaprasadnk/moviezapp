@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.details.dart';
-import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
-import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/common/social.media.links.dart';
 import 'package:moviezapp/views/common/video.list.dart';
@@ -18,6 +16,7 @@ import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/genr
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/movie.name.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/movie.rating.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/similar.movies.list.dart';
+import 'package:moviezapp/views/web/movie.details/large/widgets/bookmark.button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -139,24 +138,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           const SizedBox(height: 20),
                           if (!provider.actorsListLoading &&
                               !provider.similarMovieListLoading)
-                            Consumer<AuthProvider>(
-                                builder: (_, authProvider, __) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 25),
-                                child: CommonButton(
-                                    callback: () {
-                                      if (!authProvider.isGuestUser) {
-                                        context.userProvider
-                                            .addMovieToBookmarks(
-                                                movie, context);
-                                      } else {
-                                        context.showSnackbar(
-                                            'Login to Bookmark !');
-                                      }
-                                    },
-                                    title: 'Bookmark '),
-                              );
-                            }),
+                            BookMarkButton(
+                              width: double.infinity,
+                              movie: movie,
+                            ),
                           const SizedBox(height: 20),
                         ],
                       ),

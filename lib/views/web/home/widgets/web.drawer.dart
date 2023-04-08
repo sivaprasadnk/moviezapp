@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
@@ -34,7 +35,7 @@ class WebDrawer extends StatelessWidget {
                 Icons.arrow_forward_ios_rounded,
                 size: 20,
               ),
-            ),
+            ).addMousePointer,
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +123,7 @@ class WebDrawer extends StatelessWidget {
                     .logout(context, context.appProvider.isMobileApp);
               },
               title: 'Sign Out',
-            )
+            ).addMousePointer
           ],
         ),
       ),

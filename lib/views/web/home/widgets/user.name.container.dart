@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 
 class UserNameContainerWeb extends StatelessWidget {
   const UserNameContainerWeb({super.key});
@@ -35,6 +36,6 @@ class UserNameContainerWeb extends StatelessWidget {
           Text(name),
         ],
       ),
-    );
+    ).addMousePointer;
   }
 }

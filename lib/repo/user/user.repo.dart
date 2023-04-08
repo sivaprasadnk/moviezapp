@@ -53,6 +53,26 @@ class UserRepo {
     });
   }
 
+  static Future removeMovieFromBookmarks(MovieDetails movie) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await userColllection
+        .doc(userId)
+        .collection(kMoviesCollection)
+        .where('id', isEqualTo: movie.id)
+        .get();
+
+    await snapshot.docs[0].reference.delete();
+
+    List list = await getBookmarkMovieIds();
+
+    list.remove(movie.id);
+
+    userColllection.doc(userId).update({
+      kBookMarkedMovieIdList: list,
+    });
+  }
+
   static Future addShowToBookmarks(TvShowDetails show) async {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 

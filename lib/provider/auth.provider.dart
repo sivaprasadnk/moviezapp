@@ -47,11 +47,16 @@ class AuthProvider extends ChangeNotifier {
       await AuthRepo.register(emailAddress, password, userName);
       if (context.mounted) {
         context.pop();
-        Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+        if (context.appProvider.isMobileApp) {
+          Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+        } else {
+          Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
+        }
+
       }
     } on CustomException catch (exc) {
       context.pop();
-      context.showSnackbar(exc.message);
+      context.showErrorToast(exc.message);
     } on FirebaseAuthException catch (e) {
       context.pop();
 
@@ -63,7 +68,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         message = e.code;
       }
-      context.showSnackbar(message);
+      context.showErrorToast(message);
     }
   }
 
@@ -103,25 +108,26 @@ class AuthProvider extends ChangeNotifier {
         } else {
           if (context.mounted) {
             context.pop();
-            context.showSnackbar(
-                "Account doesn't have a password. Try login via Google SignIn!");
+            var msg =
+                "Account doesn't have a password. Try login via Google SignIn!";
+            context.showErrorToast(msg);
           }
         }
       } else {
         if (context.mounted) {
+          var msg = "Email address is not registered!";
           context.pop();
-          context.showSnackbar("Email address is not registered!");
+          context.showErrorToast(msg);
         }
       }
     } on CustomException catch (exc) {
       context.pop();
 
-      context.showSnackbar(exc.message);
+      context.showErrorToast(exc.message, autoDismiss: true);
     } on FirebaseAuthException catch (e) {
       context.pop();
       debugPrint(e.message);
-
-      context.showSnackbar(e.message!);
+      context.showErrorToast(e.message!);
     } catch (err) {
       debugPrint(err.toString());
     }
@@ -133,9 +139,8 @@ class AuthProvider extends ChangeNotifier {
   ) async {
     await AuthRepo.logout().then((value) {
       if (isApp) {
-
-      Navigator.pushNamedAndRemoveUntil(
-          context, SplashScreenMobile.routeName, (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, SplashScreenMobile.routeName, (route) => false);
       } else {
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreenWeb.routeName, (route) => false);

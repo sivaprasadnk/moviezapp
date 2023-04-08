@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/common/title.app.bar.dart';
+import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:moviezapp/views/web/movie.details/large/tvshow.details.large.dart';
 
 class TvShowDetailsScreenWeb extends StatelessWidget {
@@ -11,8 +11,7 @@ class TvShowDetailsScreenWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var movie = context.moviesProvider.selectedShow!;
-    return Scaffold(
-      appBar: const TitleAppBar(),
+    return WebScaffold(
       body: SingleChildScrollView(
         child: context.width > 700
             ? TvShowDetailsLarge(show: movie)

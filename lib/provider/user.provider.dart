@@ -5,6 +5,8 @@ import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 
+import '../views/web/home/home.screen.web.dart';
+
 class UserProvider extends ChangeNotifier {
   //
 
@@ -26,19 +28,48 @@ class UserProvider extends ChangeNotifier {
     return movieCount + showCount;
   }
 
+  Future<bool> checkIfMovieBookmarked(int id) async {
+    var savedIds = await UserRepo.getBookmarkMovieIds();
+    if (savedIds.contains(id)) {
+      return true;
+    }
+    return false;
+  }
+
   Future addMovieToBookmarks(MovieDetails movie, BuildContext context) async {
     var savedIds = await UserRepo.getBookmarkMovieIds();
     if (savedIds.contains(movie.id)) {
       if (context.mounted) {
-        context.showSnackbar("Already Bookmarked !");
+        context.showInfoToast("Already Bookmarked !");
       }
     } else {
       await UserRepo.addMovieToBookmarks(movie);
       if (context.mounted) {
-        context.showSnackbar("${movie.title}  added to Bookmarks !");
+        context.showInfoToast("${movie.title}  added to Bookmarks !");
 
+        if (context.appProvider.isMobileApp) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenMobile.routeName, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenWeb.routeName, (route) => false);
+        }
+      }
+    }
+  }
+
+  Future removeMovieFromBookmarks(
+      MovieDetails movie, BuildContext context) async {
+    await UserRepo.removeMovieFromBookmarks(movie);
+    if (context.mounted) {
+      context.showInfoToast("${movie.title}  removed from Bookmarks !");
+
+      if (context.appProvider.isMobileApp) {
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreenMobile.routeName, (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, HomeScreenWeb.routeName, (route) => false);
       }
     }
   }
@@ -47,15 +78,20 @@ class UserProvider extends ChangeNotifier {
     var savedIds = await UserRepo.getBookmarkShowIds();
     if (savedIds.contains(show.id)) {
       if (context.mounted) {
-        context.showSnackbar("Already Bookmarked !");
-
+        context.showInfoToast("Already Bookmarked !");
       }
     } else {
       await UserRepo.addShowToBookmarks(show);
       if (context.mounted) {
-        context.showSnackbar("${show.name}  added to Bookmarks !");
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreenMobile.routeName, (route) => false);
+        context.showInfoToast("${show.name}  added to Bookmarks !");
+
+        if (context.appProvider.isMobileApp) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenMobile.routeName, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenWeb.routeName, (route) => false);
+        }
       }
     }
   }

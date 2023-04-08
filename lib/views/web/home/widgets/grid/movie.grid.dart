@@ -3,6 +3,7 @@ import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
+import 'package:moviezapp/views/common/loading.shimmer.dart';
 import 'package:moviezapp/views/common/movie.card.dart';
 
 class MovieGrid extends StatelessWidget {
@@ -28,12 +29,33 @@ class MovieGrid extends StatelessWidget {
     double spacing = isWeb ? 15 : 10;
     double ratio = 0.6;
     return isLoading
-        ? const SizedBox(
-            height: 75,
-            width: double.infinity,
-            child: Center(
-              child: CircularProgressIndicator(),
+        ? GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: context.gridCrossAxisCount,
+              crossAxisSpacing: spacing,
+              mainAxisSpacing: 1,
+              childAspectRatio: ratio,
             ),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: context.gridCrossAxisCount,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: LoadingShimmer(
+                  child: AspectRatio(
+                    aspectRatio: 0.667,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           )
         : movieGrid.isNotEmpty
             ? GridView.builder(
@@ -63,6 +85,7 @@ class MovieGrid extends StatelessWidget {
                         id: movie.id,
                         isWeb: isWeb,
                         withSize: false,
+                        
                         releaseDate: movie.releaseDate,
                       ),
                     ).addMousePointer;

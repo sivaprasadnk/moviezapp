@@ -5,9 +5,9 @@ import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/section.title.dart';
-import 'package:moviezapp/views/common/title.app.bar.dart';
 import 'package:moviezapp/views/web/home/widgets/genre.list.dart';
 import 'package:moviezapp/views/web/home/widgets/grid/movie.grid.dart';
+import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:provider/provider.dart';
 
 class MovieListScreenWeb extends StatelessWidget {
@@ -26,8 +26,7 @@ class MovieListScreenWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const TitleAppBar(),
+    return WebScaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(

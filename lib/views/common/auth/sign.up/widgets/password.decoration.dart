@@ -9,7 +9,12 @@ InputDecoration passwordDecoration(
 ) {
   return InputDecoration(
     prefixIcon: Icon(icon),
-    label: Text(label),
+    label: Text(
+      label,
+      style: const TextStyle(
+        fontSize: 15,
+      ),
+    ),
     suffixIcon: GestureDetector(
       onTap: () {
         onTap.call();
@@ -20,8 +25,9 @@ InputDecoration passwordDecoration(
       ),
     ),
     prefixIconColor: node.hasFocus ? Colors.blue : Colors.grey,
-    // suffixIconColor: node.hasFocus ? Colors.blue : Colors.grey,
-    floatingLabelStyle: const TextStyle(color: Colors.blue),
+    suffixIconColor: node.hasFocus ? Colors.blue : Colors.grey,
+    floatingLabelStyle:
+        TextStyle(color: node.hasFocus ? Colors.blue : Colors.grey),
     focusColor: Colors.blue,
     focusedBorder: OutlineInputBorder(
       borderSide: const BorderSide(

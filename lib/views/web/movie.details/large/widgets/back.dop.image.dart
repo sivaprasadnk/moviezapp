@@ -17,13 +17,13 @@ class MovieBackdropImage extends StatelessWidget {
       child: movie.backdropPath.isNotEmpty
           ? CustomCacheImage(
               imageUrl: movie.backdropPath,
-              height: context.height * 0.6,
+              height: context.height * 0.6 + 55,
               width: double.infinity,
               cacheKey: cacheKey,
               borderRadius: 0,
             )
           : Container(
-              height: context.height * 0.6,
+              height: context.height * 0.6 + 55,
               width: double.infinity,
               color: Colors.black,
             ),

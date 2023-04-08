@@ -5,10 +5,10 @@ import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/section.title.dart';
-import 'package:moviezapp/views/common/title.app.bar.dart';
 import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
 import 'package:moviezapp/views/web/home/widgets/list/movie.list.web.dart';
 import 'package:moviezapp/views/web/home/widgets/list/tv.show.list.web.dart';
+import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:moviezapp/views/web/search/info.text.dart';
 import 'package:provider/provider.dart';
 
@@ -27,8 +27,7 @@ class _SearchScreenWebState extends State<SearchScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const TitleAppBar(),
+    return WebScaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

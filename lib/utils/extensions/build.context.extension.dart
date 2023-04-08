@@ -1,3 +1,5 @@
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/auth.provider.dart';
@@ -56,6 +58,21 @@ extension ContextExtensions on BuildContext {
           content: Text(title),
         ),
       );
+ 
+
+  void showInfoToast(String title, {bool autoDismiss = true}) =>
+      CherryToast.info(
+        title: Text(title),
+        animationType: AnimationType.fromRight,
+        autoDismiss: autoDismiss,
+      ).show(this);
+
+  void showErrorToast(String title, {bool autoDismiss = true}) =>
+      CherryToast.error(
+        title: Text(title),
+        animationType: AnimationType.fromRight,
+        autoDismiss: autoDismiss,
+      ).show(this);        
 
   ThemeData get theme => Theme.of(this);
 
@@ -88,4 +105,6 @@ extension ContextExtensions on BuildContext {
       'new tab',
     );
   }
+
+
 }

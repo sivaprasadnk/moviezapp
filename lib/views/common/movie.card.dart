@@ -120,15 +120,12 @@ class _MovieCardState extends State<MovieCard> {
                       Positioned.fill(
                         child: Align(
                           alignment: Alignment.bottomLeft,
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            child: showRating && widget.vote != 0.0
-                                ? RatingProgressContainer(
-                                    vote: widget.vote,
-                                    isWeb: widget.isWeb,
-                                  )
-                                : const SizedBox.shrink(),
-                          ),
+                          child: showRating && widget.vote != 0.0
+                              ? RatingProgressContainer(
+                                  vote: widget.vote,
+                                  isWeb: widget.isWeb,
+                                )
+                              : const SizedBox.shrink(),
                         ),
                       ),
                     ],
@@ -141,6 +138,7 @@ class _MovieCardState extends State<MovieCard> {
                           borderRadius: 8,
                           imageUrl: widget.poster,
                           cacheKey: cacheKey,
+                          aspectRatio: 0.667,
                         ),
                       ),
                       Positioned.fill(
@@ -166,7 +164,6 @@ class _MovieCardState extends State<MovieCard> {
                   child: Text(
                     "  ${widget.releaseDate.formatedDateString}",
                     style: const TextStyle(
-                      // color: Colors.black54,
                       fontSize: 13,
                     ),
                   ),

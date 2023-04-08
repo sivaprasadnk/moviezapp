@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/common/title.app.bar.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
 import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
 import 'package:moviezapp/views/web/home/widgets/region.text.dart';
 import 'package:moviezapp/views/web/home/widgets/section/movie.section.web.dart';
 import 'package:moviezapp/views/web/home/widgets/section/search.container.dart';
 import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dart';
-import 'package:moviezapp/views/web/home/widgets/web.drawer.dart';
+import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/movies.provider.dart';
@@ -43,10 +42,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawerEnableOpenDragGesture: false,
-      appBar: const TitleAppBar(),
-      endDrawer: const WebDrawer(),
+    return WebScaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

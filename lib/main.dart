@@ -11,9 +11,8 @@ import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
-//  flutter run -d chrome --web-renderer html
 
-//  flutter run -d chrome --web-hostname localhost --web-port 5000
+//  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
 
 //  flutter build web --web-renderer html --release
 

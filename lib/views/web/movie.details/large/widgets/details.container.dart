@@ -6,8 +6,8 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
-import 'package:moviezapp/views/common/play.trailer.text.button.dart';
 import 'package:moviezapp/views/common/social.media.links.dart';
+import 'package:moviezapp/views/web/movie.details/large/widgets/bookmark.button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -123,10 +123,10 @@ class MovieDetailsContainer extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            const PlayTrailerTextButton(
-              isMobile: false,
-            ),
+            // const SizedBox(height: 20),
+            // const PlayTrailerTextButton(
+            //   isMobile: false,
+            // ),
             const SizedBox(height: 20),
             if (movie.homepage.isNotEmpty)
               GestureDetector(
@@ -157,6 +157,11 @@ class MovieDetailsContainer extends StatelessWidget {
                     ? const SizedBox.shrink()
                     : SocialMediaLinks(model: social);
               },
+            ),
+            const SizedBox(height: 20),
+            BookMarkButton(
+              movie: movie,
+              width: context.width * 0.2,
             ),
           ],
         ),

@@ -17,8 +17,6 @@ class TvShowListWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        debugPrint(
-            '@ searchTvShowList.length : ${provider.searchTvShowList.length}');
         return TvShowGridWeb(
           isSearch: isSearch,
           showList: type == TvShowType.airingToday

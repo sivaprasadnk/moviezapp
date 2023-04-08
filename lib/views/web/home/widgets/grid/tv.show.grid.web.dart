@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/views/common/loading.shimmer.dart';
 import 'package:moviezapp/views/common/movie.card.dart';
 import 'package:provider/provider.dart';
 
@@ -18,47 +19,70 @@ class TvShowGridWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double spacing = 15;
+
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
         return !isSearch
             ? provider.tvShowListLoading
-                ? const SizedBox(
-                height: 75,
-                width: double.infinity,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            : GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: context.gridCrossAxisCount,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 0,
-                  childAspectRatio: 0.6,
-                ),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: context.gridCrossAxisCount,
-                itemBuilder: (context, index) {
-                  var movie = showList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      right: 10,
+                ? GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: context.gridCrossAxisCount,
+                      crossAxisSpacing: spacing,
+                      mainAxisSpacing: 1,
+                      childAspectRatio: 0.6,
                     ),
-                    child: MovieCard(
-                      name: movie.name,
-                      poster: movie.posterPath,
-                      vote: movie.voteAverage,
-                      id: movie.id,
-                      isMovie: false,
-                      isWeb: true,
-                      imageHeight: 200,
-                      imageWidth: 150,
-                      withSize: false,
-                      releaseDate: '',
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: context.gridCrossAxisCount,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: LoadingShimmer(
+                          child: AspectRatio(
+                            aspectRatio: 0.667,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                ),
+                      );
+                    },
+                  )
+                : GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: context.gridCrossAxisCount,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 0,
+                      childAspectRatio: 0.6,
                     ),
-                  );
-                },
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: context.gridCrossAxisCount,
+                    itemBuilder: (context, index) {
+                      var movie = showList[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          right: 10,
+                        ),
+                        child: MovieCard(
+                          name: movie.name,
+                          poster: movie.posterPath,
+                          vote: movie.voteAverage,
+                          id: movie.id,
+                          isMovie: false,
+                          isWeb: true,
+                          imageHeight: 200,
+                          imageWidth: 150,
+                          withSize: false,
+                          releaseDate: '',
+                        ),
+                      );
+                    },
                   )
             : GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
