@@ -9,6 +9,7 @@ import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_html/html.dart' as html;
+
 extension ContextExtensions on BuildContext {
   Size get size => MediaQuery.of(this).size;
   double get height => size.height;
@@ -58,7 +59,6 @@ extension ContextExtensions on BuildContext {
           content: Text(title),
         ),
       );
- 
 
   void showInfoToast(String title, {bool autoDismiss = true}) =>
       CherryToast.info(
@@ -78,7 +78,9 @@ extension ContextExtensions on BuildContext {
         ),
         animationType: AnimationType.fromRight,
         autoDismiss: autoDismiss,
-      ).show(this);        
+      ).show(this);
+
+  bool get isMobileApp => appProvider.isMobileApp;
 
   ThemeData get theme => Theme.of(this);
 
@@ -111,6 +113,4 @@ extension ContextExtensions on BuildContext {
       'new tab',
     );
   }
-
-
 }

@@ -120,7 +120,7 @@ class SigninButton extends StatelessWidget {
                             email,
                             password,
                             context,
-                            context.appProvider.isMobileApp,
+                            context.isMobileApp,
                           );
                         },
                         title: 'Sign In',

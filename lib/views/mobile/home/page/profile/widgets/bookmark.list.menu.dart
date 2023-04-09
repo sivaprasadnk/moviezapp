@@ -48,7 +48,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
                 .getBookmarkedShows(context)
                 .then((value) {
               context.pop();
-              if (context.appProvider.isMobileApp) {
+              if (context.isMobileApp) {
 
                 Navigator.pushNamed(context, BookmarkListScreen.routeName);
               } else {

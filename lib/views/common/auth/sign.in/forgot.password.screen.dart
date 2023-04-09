@@ -94,7 +94,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     await context.authProvider.resetPassword(
       email,
       context,
-      context.appProvider.isMobileApp,
+      context.isMobileApp,
     );
   }
 }

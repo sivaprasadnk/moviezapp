@@ -129,7 +129,7 @@ class WebDrawer extends StatelessWidget {
               CommonButton(
                 callback: () {
                   context.authProvider
-                      .logout(context, context.appProvider.isMobileApp);
+                      .logout(context, context.isMobileApp);
                 },
                 title: 'Sign Out',
               ).addMousePointer

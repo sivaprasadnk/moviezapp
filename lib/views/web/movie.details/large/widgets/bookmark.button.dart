@@ -48,7 +48,7 @@ class _BookMarkButtonState extends State<BookMarkButton> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = context.appProvider.isMobileApp ? 20 : 150;
+    double topPadding = context.isMobileApp ? 20 : 150;
 
     return Consumer<AuthProvider>(
       builder: (_, authProvider, __) {
@@ -85,9 +85,9 @@ class _BookMarkButtonState extends State<BookMarkButton> {
                                         title: 'Remove from Bookmarks ')
                                     .addMousePointer,
                       ),
-                      if (!context.appProvider.isMobileApp)
+                      if (!context.isMobileApp)
                         const SizedBox(width: 15),
-                      if (!context.appProvider.isMobileApp)
+                      if (!context.isMobileApp)
                         GestureDetector(
                           onTap: () {
                             showDetailsDialog(widget.movie!, context);

@@ -177,7 +177,7 @@ class _SignInScreenState extends State<SignInScreen> {
       // 'sp@sp.com',
       // '1234567890',
       context,
-      context.appProvider.isMobileApp,
+      context.isMobileApp,
     );
 
     // context.authProvider.signInWithMobile(context, email);
@@ -187,7 +187,7 @@ class _SignInScreenState extends State<SignInScreen> {
     Dialogs.showLoader(context: context);
 
     context.authProvider.signInWithGoogle(
-      context.appProvider.isMobileApp,
+      context.isMobileApp,
       context,
     );
   }

@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             !isGuest
                 ? CommonButton(
                     callback: () {
-                      provider.logout(context, context.appProvider.isMobileApp);
+                      provider.logout(context, context.isMobileApp);
                     },
                     title: 'Sign Out',
                   )

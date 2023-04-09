@@ -12,7 +12,7 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isMobileWeb = context.appProvider.isMobileApp;
+    var isMobileWeb = context.isMobileApp;
     var user = FirebaseAuth.instance.currentUser;
     return AppBar(
       elevation: 0,

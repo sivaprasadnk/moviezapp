@@ -47,7 +47,7 @@ class AuthProvider extends ChangeNotifier {
       await AuthRepo.register(emailAddress, password, userName);
       if (context.mounted) {
         context.pop();
-        if (context.appProvider.isMobileApp) {
+        if (context.isMobileApp) {
           Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
         } else {
           Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);

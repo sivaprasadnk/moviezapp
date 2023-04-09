@@ -47,7 +47,7 @@ class UserProvider extends ChangeNotifier {
       if (context.mounted) {
         context.showInfoToast("${movie.title}  added to Bookmarks !");
         Future.delayed(const Duration(seconds: 2)).then((value) {
-          if (context.appProvider.isMobileApp) {
+          if (context.isMobileApp) {
             Navigator.pushNamedAndRemoveUntil(
                 context, HomeScreenMobile.routeName, (route) => false);
           } else {
@@ -65,7 +65,7 @@ class UserProvider extends ChangeNotifier {
     if (context.mounted) {
       context.showInfoToast("${movie.title}  removed from Bookmarks !");
       Future.delayed(const Duration(seconds: 2)).then((value) {
-        if (context.appProvider.isMobileApp) {
+        if (context.isMobileApp) {
           Navigator.pushNamedAndRemoveUntil(
               context, HomeScreenMobile.routeName, (route) => false);
         } else {
@@ -87,7 +87,7 @@ class UserProvider extends ChangeNotifier {
       if (context.mounted) {
         context.showInfoToast("${show.name}  added to Bookmarks !");
         Future.delayed(const Duration(milliseconds: 1500)).then((value) {
-          if (context.appProvider.isMobileApp) {
+          if (context.isMobileApp) {
             Navigator.pushNamedAndRemoveUntil(
                 context, HomeScreenMobile.routeName, (route) => false);
           } else {
