@@ -34,13 +34,28 @@ class ActorsList extends StatelessWidget {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomCacheImage(
-                          imageUrl: actor.profilePath,
-                          borderRadius: size - 10,
-                          height: size - 10,
-                          width: size - 10,
-                          cacheKey: 'actor${actor.id}${actor.name}',
-                        ),
+                        actor.profileUrl.isNotEmpty
+                            ? CustomCacheImage(
+                                imageUrl: actor.profilePath,
+                                borderRadius: size - 10,
+                                height: size - 10,
+                                width: size - 10,
+                                cacheKey: 'actor${actor.id}${actor.name}',
+                              )
+                            : Container(
+                                height: size - 10,
+                                width: size - 10,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.person,
+                                    size: size - 90,
+                                  ),
+                                ),
+                              ),
                         const SizedBox(height: 8),
                         SizedBox(
                           width: size - 20,

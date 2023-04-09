@@ -46,14 +46,15 @@ class UserProvider extends ChangeNotifier {
       await UserRepo.addMovieToBookmarks(movie);
       if (context.mounted) {
         context.showInfoToast("${movie.title}  added to Bookmarks !");
-
-        if (context.appProvider.isMobileApp) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreenMobile.routeName, (route) => false);
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreenWeb.routeName, (route) => false);
-        }
+        Future.delayed(const Duration(seconds: 2)).then((value) {
+          if (context.appProvider.isMobileApp) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeScreenMobile.routeName, (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeScreenWeb.routeName, (route) => false);
+          }
+        });
       }
     }
   }
@@ -63,14 +64,15 @@ class UserProvider extends ChangeNotifier {
     await UserRepo.removeMovieFromBookmarks(movie);
     if (context.mounted) {
       context.showInfoToast("${movie.title}  removed from Bookmarks !");
-
-      if (context.appProvider.isMobileApp) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreenMobile.routeName, (route) => false);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreenWeb.routeName, (route) => false);
-      }
+      Future.delayed(const Duration(seconds: 2)).then((value) {
+        if (context.appProvider.isMobileApp) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenMobile.routeName, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenWeb.routeName, (route) => false);
+        }
+      });
     }
   }
 
@@ -84,14 +86,15 @@ class UserProvider extends ChangeNotifier {
       await UserRepo.addShowToBookmarks(show);
       if (context.mounted) {
         context.showInfoToast("${show.name}  added to Bookmarks !");
-
-        if (context.appProvider.isMobileApp) {
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreenMobile.routeName, (route) => false);
-        } else {
-          Navigator.pushNamedAndRemoveUntil(
-              context, HomeScreenWeb.routeName, (route) => false);
-        }
+        Future.delayed(const Duration(milliseconds: 1500)).then((value) {
+          if (context.appProvider.isMobileApp) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeScreenMobile.routeName, (route) => false);
+          } else {
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeScreenWeb.routeName, (route) => false);
+          }
+        });
       }
     }
   }

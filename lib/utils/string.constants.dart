@@ -12,3 +12,6 @@ const String kUsersCollection = 'users';
 const String kTmdbText =
     "All film-related metadata used in this app, including actor names, synopses, release dates, trailers and poster art is supplied by The Movie Database (TMDb)";
 const String kVersion = "v1.0.0+3";
+
+const String kPlayStoreLink =
+    'https://play.google.com/store/apps/details?id=com.spverse.moviezapp';

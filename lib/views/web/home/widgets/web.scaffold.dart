@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moviezapp/views/common/title.app.bar.dart';
+import 'package:moviezapp/views/web/home/widgets/title.app.bar.dart';
 import 'package:moviezapp/views/web/home/widgets/web.drawer.dart';
 
 class WebScaffold extends StatelessWidget {

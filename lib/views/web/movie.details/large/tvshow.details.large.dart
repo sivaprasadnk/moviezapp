@@ -7,11 +7,11 @@ import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
-import 'package:moviezapp/views/common/play.trailer.text.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/common/social.media.links.dart';
 import 'package:moviezapp/views/common/video.list.dart';
 import 'package:moviezapp/views/web/home/widgets/grid/movie.grid.dart';
+import 'package:moviezapp/views/web/movie.details/large/widgets/play.trailer.text.button.dart';
 import 'package:provider/provider.dart';
 
 class TvShowDetailsLarge extends StatelessWidget {

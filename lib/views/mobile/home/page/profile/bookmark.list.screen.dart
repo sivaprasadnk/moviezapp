@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class BookmarkListScreen extends StatefulWidget {
   const BookmarkListScreen({super.key});
 
-  static const routeName = "/bookmarks";
+  static const routeName = "/bookmarksMobile";
 
   @override
   State<BookmarkListScreen> createState() => _BookmarkListScreenState();

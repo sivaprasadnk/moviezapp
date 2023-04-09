@@ -48,6 +48,7 @@ dependencies:
   in_app_update: ^4.0.1
   package_info_plus: ^3.0.3
   percent_indicator: ^4.2.3
+  # pretty_qr_code_plus: ^0.0.1
   provider: ^6.0.5
   shimmer: ^2.0.0
   store_redirect: ^2.0.1

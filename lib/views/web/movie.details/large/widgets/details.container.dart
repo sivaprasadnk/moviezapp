@@ -159,6 +159,7 @@ class MovieDetailsContainer extends StatelessWidget {
               },
             ),
             const SizedBox(height: 20),
+            const Spacer(),
             BookMarkButton(
               movie: movie,
               width: context.width * 0.2,

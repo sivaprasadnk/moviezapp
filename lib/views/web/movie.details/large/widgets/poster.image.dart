@@ -1,28 +1,27 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
-import 'package:moviezapp/views/common/play.trailer.text.button.dart';
+import 'package:moviezapp/views/web/movie.details/large/widgets/play.trailer.text.button.dart';
 
 class MoviePosterImage extends StatelessWidget {
   const MoviePosterImage({super.key, required this.movie});
 
   final MovieDetails movie;
 
-  Future<Size> _getImageSize(String imageUrl) {
-    Completer<Size> completer = Completer();
-    NetworkImage(imageUrl).resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener(
-        (ImageInfo info, bool _) {
-          completer.complete(
-              Size(info.image.width.toDouble(), info.image.height.toDouble()));
-        },
-      ),
-    );
-    return completer.future;
-  }
+  // Future<Size> _getImageSize(String imageUrl) {
+  //   Completer<Size> completer = Completer();
+  //   NetworkImage(imageUrl).resolve(const ImageConfiguration()).addListener(
+  //     ImageStreamListener(
+  //       (ImageInfo info, bool _) {
+  //         completer.complete(
+  //             Size(info.image.width.toDouble(), info.image.height.toDouble()));
+  //       },
+  //     ),
+  //   );
+  //   return completer.future;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +29,8 @@ class MoviePosterImage extends StatelessWidget {
 
     return Positioned.fill(
       left: context.width * 0.1,
-      top: 50,
-      bottom: 50,
+      // top: 50,
+      bottom: 20,
       child: Align(
         alignment: Alignment.centerLeft,
         child: Column(
@@ -52,13 +51,8 @@ class MoviePosterImage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              height: 45,
-              width: 242,
-              color: Colors.black,
-              child: const PlayTrailerTextButton(
-                isMobile: false,
-              ),
+            const PlayTrailerTextButton(
+              isMobile: false,
             )
           ],
         ),

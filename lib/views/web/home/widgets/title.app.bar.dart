@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
+import 'package:moviezapp/views/web/home/widgets/app.bar.menu.dart';
 import 'package:moviezapp/views/web/home/widgets/sign.in.button.dart';
 import 'package:moviezapp/views/web/home/widgets/user.name.container.dart';
 
@@ -43,12 +44,14 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         if (user == null)
           const Center(
-          child: SigninButton(),
+            child: SigninButton(),
           )
         else
           const Center(
             child: UserNameContainerWeb(),
           ),
+        const SizedBox(width: 20),
+        const AppbarMenu(),
         const SizedBox(width: 20),
       ],
     );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/bookmark.list.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
+import 'package:moviezapp/views/web/bookmark/bookmark.screen.web.dart';
 
 class BookmarkListMenu extends StatefulWidget {
   const BookmarkListMenu({super.key, required this.isGuest});
@@ -35,12 +37,27 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
       isCountItem: true,
       count: widget.isGuest ? 0 : count,
       isImplemented: true,
-      onTap: () {
+      onTap: () async {
         if (!widget.isGuest) {
           context.userProvider.clearList();
-          Navigator.pushNamed(context, BookmarkListScreen.routeName);
+          Dialogs.showLoader(context: context);
+          await context.userProvider
+              .getBookmarkedMovies(context)
+              .then((value) async {
+            await context.userProvider
+                .getBookmarkedShows(context)
+                .then((value) {
+              context.pop();
+              if (context.appProvider.isMobileApp) {
+
+                Navigator.pushNamed(context, BookmarkListScreen.routeName);
+              } else {
+                Navigator.pushNamed(context, BookmarkScreenWeb.routeName);
+              }
+            });
+          });
         } else {
-          context.showSnackbar('Login to add and view bookmarks !');
+          context.showErrorToast('Login to add and view bookmarks !');
         }
       },
     );

@@ -5,7 +5,7 @@ import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-import '../../provider/movies.provider.dart';
+import '../../../../../provider/movies.provider.dart';
 
 class PlayTrailerTextButton extends StatelessWidget {
   const PlayTrailerTextButton({super.key, required this.isMobile});
@@ -19,42 +19,51 @@ class PlayTrailerTextButton extends StatelessWidget {
           provider.videoList.trailer.isNotEmpty) {
         trailerVideo = provider.videoList.trailer;
       }
-      return trailerVideo.isNotEmpty
-          ? GestureDetector(
-              onTap: () {
-                playVideo(trailerVideo, context);
-              },
-              child: SizedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      height: 35,
-                      width: 35,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
+      return AnimatedSwitcher(
+        duration: const Duration(seconds: 1),
+        child: trailerVideo.isNotEmpty
+            ? GestureDetector(
+                onTap: () {
+                  playVideo(trailerVideo, context);
+                },
+                child: Container(
+                  height: 45,
+                  width: 242,
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 35,
+                        width: 35,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: const Icon(
+                          Icons.play_arrow_rounded,
+                          size: 20,
+                          color: Colors.black,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.play_arrow_rounded,
-                        size: 20,
-                        color: Colors.black,
+                      const SizedBox(width: 10),
+                      const Text(
+                        'Play Trailer',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      'Play Trailer',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+              ).addMousePointer
+            : const SizedBox(
+                height: 45,
+                width: 242,
               ),
-            ).addMousePointer
-          : const SizedBox.shrink();
+      );
     });
   }
 

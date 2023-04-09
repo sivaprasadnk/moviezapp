@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
@@ -36,6 +37,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       context.moviesProvider.getTvShowsList();
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
+      context.authProvider
+          .updateGuestUser(FirebaseAuth.instance.currentUser == null);
+
     });
     super.initState();
   }

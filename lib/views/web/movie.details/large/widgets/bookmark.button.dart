@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/common.button.dart';
 import 'package:provider/provider.dart';
 
@@ -61,13 +62,15 @@ class _BookMarkButtonState extends State<BookMarkButton> {
                                 context.userProvider.addMovieToBookmarks(
                                     widget.movie!, context);
                               },
-                              title: 'Add to Bookmarks ')
+                                  title: 'Add to Bookmarks ')
+                              .addMousePointer
                           : CommonButton(
                               callback: () {
                                 context.userProvider.removeMovieFromBookmarks(
                                     widget.movie!, context);
                               },
-                              title: 'Remove from Bookmarks '),
+                                  title: 'Remove from Bookmarks ')
+                              .addMousePointer,
                 )
               : const SizedBox.shrink(),
         );
