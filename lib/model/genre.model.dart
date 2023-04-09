@@ -28,7 +28,7 @@ class Genre {
 
 extension GenreExt on List<Genre> {
   String get stringText {
-    String list = " [ ";
+    String list = "";
     var count = 0;
     var limit = length > 3 ? 3 : length;
     for (var i in this) {
@@ -36,12 +36,12 @@ extension GenreExt on List<Genre> {
         list += i.name;
 
         if (count != limit - 1) {
-          list += ", ";
+          list += ",  ";
         }
         count++;
       }
     }
-    list = "$list ]";
+    list = "$list ";
     return list;
   }
 

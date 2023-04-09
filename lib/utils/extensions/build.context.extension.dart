@@ -62,14 +62,20 @@ extension ContextExtensions on BuildContext {
 
   void showInfoToast(String title, {bool autoDismiss = true}) =>
       CherryToast.info(
-        title: Text(title),
+        title: Text(
+          title,
+          style: const TextStyle(color: Colors.black),
+        ),
         animationType: AnimationType.fromRight,
         autoDismiss: autoDismiss,
       ).show(this);
 
   void showErrorToast(String title, {bool autoDismiss = true}) =>
       CherryToast.error(
-        title: Text(title),
+        title: Text(
+          title,
+          style: const TextStyle(color: Colors.black),
+        ),
         animationType: AnimationType.fromRight,
         autoDismiss: autoDismiss,
       ).show(this);        

@@ -26,36 +26,39 @@ class PlayTrailerTextButton extends StatelessWidget {
                 onTap: () {
                   playVideo(trailerVideo, context);
                 },
-                child: Container(
-                  height: 45,
-                  width: 242,
-                  color: Colors.black,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        height: 35,
-                        width: 35,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 50),
+                  child: Container(
+                    height: 45,
+                    width: 242,
+                    color: Colors.black,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          height: 35,
+                          width: 35,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: const Icon(
+                            Icons.play_arrow_rounded,
+                            size: 20,
+                            color: Colors.black,
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.play_arrow_rounded,
-                          size: 20,
-                          color: Colors.black,
+                        const SizedBox(width: 10),
+                        const Text(
+                          'Play Trailer',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Text(
-                        'Play Trailer',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ).addMousePointer

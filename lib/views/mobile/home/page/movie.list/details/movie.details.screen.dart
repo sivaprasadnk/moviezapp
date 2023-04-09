@@ -58,17 +58,18 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           bottom: 40,
                           right: 20,
                           child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: GestureDetector(
-                                onTap: () {
-                                  showDetailsDialog(movie);
-                                },
-                                child: const Icon(
-                                  Icons.info,
-                                  size: 30,
-                                  color: Colors.black,
-                                ),
-                              )),
+                            alignment: Alignment.bottomRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                showDetailsDialog(movie);
+                              },
+                              child: const Icon(
+                                Icons.info,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ),
                         GenreDetails(
                           duration: movie.runtime.durationInHrs,
@@ -113,13 +114,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           ),
                           if (!provider.videosLoading)
                             if (provider.videoList.isNotEmpty)
-                          const SizedBox(height: 40),
+                              const SizedBox(height: 40),
                           if (!provider.videosLoading)
                             if (provider.videoList.isNotEmpty)
                               const SectionTitle(title: 'Related Videos'),
                           if (!provider.videosLoading)
                             if (provider.videoList.isNotEmpty)
-                          const SizedBox(height: 20),
+                              const SizedBox(height: 20),
                           AnimatedSwitcher(
                             duration: const Duration(
                               seconds: 1,
@@ -139,7 +140,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           if (!provider.actorsListLoading &&
                               !provider.similarMovieListLoading)
                             BookMarkButton(
-                              width: double.infinity,
+                              width: context.width * 0.9,
                               movie: movie,
                             ),
                           const SizedBox(height: 20),
@@ -163,7 +164,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       builder: (_) {
         return AlertDialog(
           insetPadding: EdgeInsets.zero,
-          backgroundColor: context.bgColor,
           title: Column(
             children: const [
               SectionTitle(
@@ -176,9 +176,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               ),
             ],
           ),
-          content: Container(
+          content: SizedBox(
             width: context.width * 0.2,
-            color: context.bgColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -228,7 +227,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
                         color: context.highlightColor.withOpacity(0.6),
-
                         decoration: TextDecoration.underline,
                       ),
                     ),

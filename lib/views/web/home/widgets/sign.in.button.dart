@@ -47,9 +47,8 @@ class SigninButton extends StatelessWidget {
               }
               return Form(
                 key: formKey,
-                child: Container(
+                child: SizedBox(
                   width: context.width * 0.3,
-                  color: context.bgColor,
                   height: context.height * 0.49,
                   child: Column(
                     children: [
@@ -219,9 +218,8 @@ class SigninButton extends StatelessWidget {
               }
               return Form(
                 key: formKey,
-                child: Container(
+                child: SizedBox(
                   width: context.width * 0.34,
-                  color: context.bgColor,
                   height: context.height * 0.52,
                   child: Column(
                     children: [

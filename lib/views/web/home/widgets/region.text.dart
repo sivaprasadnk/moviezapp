@@ -64,12 +64,10 @@ class RegionText extends StatelessWidget {
       builder: (_) {
         var selected = currentRegion;
         return AlertDialog(
-          backgroundColor: Colors.white,
           title: const SectionTitle(title: 'Select Country'),
           content: StatefulBuilder(builder: (context, setState) {
-            return Container(
+            return SizedBox(
               width: context.width * 0.2,
-              color: Colors.white,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [

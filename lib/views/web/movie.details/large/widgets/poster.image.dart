@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -33,30 +32,26 @@ class MoviePosterImage extends StatelessWidget {
       bottom: 20,
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
           children: [
-            Flexible(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                child: CustomCacheImage(
-                  imageUrl: movie.posterPath,
-                  width: 242,
-                  height: 360,
-                  borderRadius: 0,
-                  cacheKey: cacheKey1,
+            CustomCacheImage(
+              imageUrl: movie.posterPath,
+              width: 242,
+              height: 360,
+              borderRadius: 10,
+              cacheKey: cacheKey1,
+            ),
+            const Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: PlayTrailerTextButton(
+                  isMobile: false,
                 ),
               ),
-            ),
-            const PlayTrailerTextButton(
-              isMobile: false,
             )
           ],
         ),
-     
+
         // child: FutureBuilder(
         //   future: _getImageSize(movie.posterPath),
         //   builder: (context, snapshot) {
