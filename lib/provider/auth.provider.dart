@@ -52,7 +52,6 @@ class AuthProvider extends ChangeNotifier {
         } else {
           Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
         }
-
       }
     } on CustomException catch (exc) {
       context.pop();
@@ -258,6 +257,9 @@ class AuthProvider extends ChangeNotifier {
     if (user != null) {
       updateGuestUser(false);
       if (context.mounted) {
+        context.authProvider.updateGuestUser(false);
+        context.moviesProvider.updateDataStatus(true);
+        context.appProvider.updatedSelectedIndex(0);
         if (isApp) {
           Navigator.pushNamedAndRemoveUntil(
             context,

@@ -1,29 +1,27 @@
-// import 'dart:async';
+import 'dart:async';
 
-// import 'package:connectivity_plus/connectivity_plus.dart';
-// import 'package:flutter/material.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
-// enum NetworkStatus { onLine, offline }
+enum NetworkStatus { onLine, offline }
 
-// class NetworkStatusService {
-//   StreamController<NetworkStatus> networkStatusController =
-//       StreamController<NetworkStatus>();
+class NetworkStatusService {
+  static StreamController<NetworkStatus> networkStatusController =
+      StreamController<NetworkStatus>();
 
-//   NetworkStatusService() {
-//     Connectivity().onConnectivityChanged.listen((status) {
-//       debugPrint(" status :::$status");
-//       networkStatusController.add(_getNetworkStatus(status));
-//     });
-//   }
+  NetworkStatusService() {
+    Connectivity().onConnectivityChanged.listen((status) {
+      networkStatusController.add(getNetworkStatus(status));
+    });
+  }
 
-//   NetworkStatus _getNetworkStatus(ConnectivityResult status) {
-//     return status != ConnectivityResult.mobile ||
-//             status != ConnectivityResult.wifi
-//         ? NetworkStatus.onLine
-//         : NetworkStatus.offline;
-//   }
+  static NetworkStatus getNetworkStatus(ConnectivityResult status) {
+    return status != ConnectivityResult.mobile ||
+            status != ConnectivityResult.wifi
+        ? NetworkStatus.onLine
+        : NetworkStatus.offline;
+  }
 
-//   void dispose() {
-//     networkStatusController.close();
-//   }
-// }
+  void dispose() {
+    networkStatusController.close();
+  }
+}

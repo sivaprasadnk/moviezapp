@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,17 +5,13 @@ import 'package:moviezapp/firebase_options.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/providers.dart';
 import 'package:moviezapp/utils/routes.dart';
-import 'package:moviezapp/views/common/not.network.screen.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
-
 //  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
 
 //  flutter build web --web-renderer html --release
-
-
 
 //  https://moviezapp-spverse.web.app/
 
@@ -47,59 +42,21 @@ class MobileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: providers,
-      child: StreamBuilder(
-        initialData: ConnectivityResult.wifi,
-        stream: Connectivity().onConnectivityChanged,
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? (snapshot.data == ConnectivityResult.mobile ||
-                      snapshot.data == ConnectivityResult.wifi)
-                  ? Consumer<AppProvider>(
-                      builder: (_, provider, __) {
-                        return MaterialApp(
-                          debugShowCheckedModeBanner: false,
-                          title: 'Movie App',
-                          routes: routes,
-                          theme: ThemeData(
-                            primaryColor: Colors.red,
-                            brightness: provider.selectedBrightness,
-                          ),
-                          home: const SplashScreenMobile(),
-                        );
-                      },
-                    )
-                  : Consumer<AppProvider>(
-                      builder: (_, provider, __) {
-                        return MaterialApp(
-                          debugShowCheckedModeBanner: false,
-                          title: 'Movie App',
-                          routes: routes,
-                          theme: ThemeData(
-                            primaryColor: Colors.red,
-                            brightness: provider.selectedBrightness,
-                          ),
-                          home: const NoNetworkScreen(),
-                        );
-                      },
-                    )
-              : Consumer<AppProvider>(
-                  builder: (_, provider, __) {
-                    return MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      title: 'Movie App',
-                      routes: routes,
-                      theme: ThemeData(
-                        primaryColor: Colors.red,
-                        brightness: provider.selectedBrightness,
-                      ),
-                      home: const NoNetworkScreen(),
-                    );
-                  },
-                );
-        },
-      ),
-    );
+        providers: providers,
+        child: Consumer<AppProvider>(
+          builder: (_, provider, __) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Movie App',
+              routes: routes,
+              theme: ThemeData(
+                primaryColor: Colors.red,
+                brightness: provider.selectedBrightness,
+              ),
+              home: const SplashScreenMobile(),
+            );
+          },
+        ));
   }
 }
 

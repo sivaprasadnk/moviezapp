@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/bottom.nav.bar.dart';
@@ -20,9 +23,33 @@ class HomeScreenMobile extends StatefulWidget {
 
 class _HomeScreenMobileState extends State<HomeScreenMobile> {
   DateTime? currentBackPressTime;
+  var isDeviceConnected = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      checkNetwork();
+    });
+    super.initState();
+  }
+
+  checkNetwork() {
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          updateData();
+          break;
+        case InternetConnectionStatus.disconnected:
+          noNetworkDialog();
+          break;
+      }
+    });
+  }
+
+  updateData() {
+    if (context.mounted) {
+      if (ModalRoute.of(context)?.isCurrent != true) {
+        context.pop();
+      }
       if (context.moviesProvider.updateData) {
         context.moviesProvider.getMovieGenres();
         context.moviesProvider.getTVGenres();
@@ -31,8 +58,38 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
       }
       setVersion();
       context.appProvider.updatedSelectedIndex(0);
-    });
-    super.initState();
+    }
+  }
+
+  noNetworkDialog() async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: const AlertDialog(
+            title: Text('No internet connection !'),
+            content: Text(
+                "Make sure wifi or cellular data is turned on and then try again!"),
+            // actions: [
+            //   GestureDetector(
+            //     onTap: () async {
+            //       context.pop();
+            //       await checkNetwork();
+            //     },
+            //     child: const Padding(
+            //       padding: EdgeInsets.all(10.0),
+            //       child: Text("Try again !"),
+            //     ),
+            //   )
+            // ],
+          ),
+        );
+      },
+    );
   }
 
   setVersion() async {

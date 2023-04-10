@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,8 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      // NetworkStatusService();
+      Connectivity().onConnectivityChanged.listen((event) {});
       context.appProvider.updateMobileApp(true);
       context.appProvider.updateMobileWeb(false);
       context.moviesProvider.updateDataStatus(true);
@@ -25,7 +28,8 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
         await Dialogs.showGetStartedDialog(context);
       } else {
         context.authProvider.updateGuestUser(false);
-
+        context.moviesProvider.updateDataStatus(true);
+        context.appProvider.updatedSelectedIndex(0);
         Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
       }
     });

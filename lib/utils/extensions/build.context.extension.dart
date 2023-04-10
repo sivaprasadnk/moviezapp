@@ -50,6 +50,9 @@ extension ContextExtensions on BuildContext {
 
   AppProvider get appProvider => Provider.of<AppProvider>(this, listen: false);
 
+  // ConnectivityStatus get connectivity =>
+  //     Provider.of<ConnectivityStatus>(this, listen: false);
+
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
 
   ScaffoldState get scaffold => Scaffold.of(this);

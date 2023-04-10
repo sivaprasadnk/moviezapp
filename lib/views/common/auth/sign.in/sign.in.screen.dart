@@ -1,3 +1,4 @@
+// import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/dialogs.dart';
@@ -184,11 +185,26 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   googleSignin() async {
+    // if (await Connectivity.isConnected()) {
+    //   if (context.mounted) {
+    //     Dialogs.showLoader(context: context);
+
+    //     context.authProvider.signInWithGoogle(
+    //       context.isMobileApp,
+    //       context,
+    //     );
+    //   }
+    // } else {
+    //   if (context.mounted) {
+    //     context.showErrorToast('NO network !');
+    //   }
+    // }
     Dialogs.showLoader(context: context);
 
     context.authProvider.signInWithGoogle(
       context.isMobileApp,
       context,
     );
+
   }
 }
