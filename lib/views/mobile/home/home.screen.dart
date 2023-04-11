@@ -1,7 +1,6 @@
-import 'dart:async';
 
+import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -16,7 +15,7 @@ import 'package:provider/provider.dart';
 class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({super.key});
   static const routeName = '/homeMobile';
-
+ 
   @override
   State<HomeScreenMobile> createState() => _HomeScreenMobileState();
 }
@@ -73,19 +72,8 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
           child: const AlertDialog(
             title: Text('No internet connection !'),
             content: Text(
-                "Make sure wifi or cellular data is turned on and then try again!"),
-            // actions: [
-            //   GestureDetector(
-            //     onTap: () async {
-            //       context.pop();
-            //       await checkNetwork();
-            //     },
-            //     child: const Padding(
-            //       padding: EdgeInsets.all(10.0),
-            //       child: Text("Try again !"),
-            //     ),
-            //   )
-            // ],
+              "Make sure wifi or cellular data is turned on and then try again!",
+            ),
           ),
         );
       },
@@ -103,19 +91,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        DateTime now = DateTime.now();
-        if (currentBackPressTime == null ||
-            now.difference(currentBackPressTime!) >
-                const Duration(seconds: 2)) {
-          currentBackPressTime = now;
-          context.showSnackbar('Double tap to exit!');
-          return Future.value(false);
-        }
-        SystemNavigator.pop();
-        return Future.value(true);
-      },
+    return DoubleTapToExit(
       child: SafeArea(
         child: Scaffold(
           extendBodyBehindAppBar: true,

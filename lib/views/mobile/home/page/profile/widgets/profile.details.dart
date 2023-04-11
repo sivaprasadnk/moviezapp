@@ -2,18 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 
-
 class ProfileDetails extends StatelessWidget {
-  const ProfileDetails({
-    super.key,
-    required this.isGuest,
-  });
-  final bool isGuest;
+  const ProfileDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
     User? user;
-    if (!isGuest) {
+    if (!context.isGuestUser) {
       user = FirebaseAuth.instance.currentUser!;
     }
     return Row(
@@ -33,12 +28,12 @@ class ProfileDetails extends StatelessWidget {
             ),
           )
         else
-        const CircleAvatar(
-          radius: 35,
-          child: Icon(
-            Icons.person,
+          const CircleAvatar(
+            radius: 35,
+            child: Icon(
+              Icons.person,
+            ),
           ),
-        ),
         const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,8 +41,7 @@ class ProfileDetails extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 12),
-
-            !isGuest
+            !context.isGuestUser
                 ? Text(
                     user != null && user.displayName != null
                         ? user.displayName!
@@ -63,7 +57,7 @@ class ProfileDetails extends StatelessWidget {
                     ),
                   ),
             const SizedBox(height: 5),
-            if (!isGuest)
+            if (!context.isGuestUser)
               Text(
                 user!.email!,
                 style: TextStyle(
@@ -72,7 +66,6 @@ class ProfileDetails extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 8),
-              
           ],
         ),
         const Spacer(),

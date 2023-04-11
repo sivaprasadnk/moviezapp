@@ -28,6 +28,7 @@ class UserRepo {
 
     userColllection.doc(user.uid).set({
       kEmail: user.email,
+      kRating: 0,
       kDisplayName: user.displayName,
       kBookMarkedMovieIdList: [],
       kBookMarkedShowIdList: [],
@@ -131,5 +132,22 @@ class UserRepo {
       list.add(TvShowDetails.fromDoc(i));
     }
     return list;
+  }
+
+  static Future<int> getRating() async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await userColllection.doc(userId).get();
+
+    return snapshot[kRating] ?? 0;
+  }
+
+  static Future<void> updateRating(int rating) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    await userColllection.doc(userId).update({
+      kRating: rating,
+    });
   }
 }

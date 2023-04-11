@@ -2,10 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/auth/sign.up/widgets/custom.decoration.dart';
 import 'package:moviezapp/views/common/auth/sign.up/widgets/password.decoration.dart';
 import 'package:moviezapp/views/common/common.button.dart';
+import 'package:moviezapp/views/common/webview.screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -130,12 +132,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  const Text(
-                    "By signing up, you accept Privacy Policy & Terms of Service",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 13,
-                      color: Colors.grey,
+                  RichText(
+                    text: TextSpan(
+                      text: "By signing up, you accept to",
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Privacy Policy & Terms',
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const WebViewScreen(
+                                      url: kPrivacyPolicyUrl),
+                                ),
+                              );
+                            },
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: context.primaryColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -163,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

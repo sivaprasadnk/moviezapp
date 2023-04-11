@@ -8,6 +8,22 @@ import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import '../views/web/home/home.screen.web.dart';
 
 class UserProvider extends ChangeNotifier {
+  final int _userRating = 0;
+  int get userRating => _userRating;
+
+  // void updateRating(int value) {
+  //   _userRating = value;
+  //   notifyListeners();
+  // }
+
+  Future<int> getRating() async {
+    return await UserRepo.getRating();
+  }
+
+  Future<void> updateRating(int value) async {
+    await UserRepo.updateRating(value);
+  }
+
   //
 
   List<MovieDetails> _bookMarkMoviesList = [];

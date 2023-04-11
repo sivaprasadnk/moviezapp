@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'moviezapp',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   // await FirebaseAppCheck.instance.activate(

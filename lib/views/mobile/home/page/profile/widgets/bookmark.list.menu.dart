@@ -6,8 +6,7 @@ import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.ca
 import 'package:moviezapp/views/web/bookmark/bookmark.screen.web.dart';
 
 class BookmarkListMenu extends StatefulWidget {
-  const BookmarkListMenu({super.key, required this.isGuest});
-  final bool isGuest;
+  const BookmarkListMenu({super.key});
 
   @override
   State<BookmarkListMenu> createState() => _BookmarkListMenuState();
@@ -19,7 +18,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (!widget.isGuest) {
+      if (!context.isGuestUser) {
         count = (await context.userProvider.getBookmarksCount());
       }
       if (mounted) {
@@ -35,10 +34,10 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
       title: 'Bookmark List',
       icon: Icons.bookmark,
       isCountItem: true,
-      count: widget.isGuest ? 0 : count,
+      count: context.isGuestUser ? 0 : count,
       isImplemented: true,
       onTap: () async {
-        if (!widget.isGuest) {
+        if (!context.isGuestUser) {
           context.userProvider.clearList();
           Dialogs.showLoader(context: context);
           await context.userProvider

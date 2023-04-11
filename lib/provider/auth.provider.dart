@@ -132,12 +132,9 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future logout(
-    BuildContext context,
-    bool isApp,
-  ) async {
+  Future logout(BuildContext context) async {
     await AuthRepo.logout().then((value) {
-      if (isApp) {
+      if (context.isMobileApp) {
         Navigator.pushNamedAndRemoveUntil(
             context, SplashScreenMobile.routeName, (route) => false);
       } else {

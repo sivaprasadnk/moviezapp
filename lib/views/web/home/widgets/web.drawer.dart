@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/utils/string.constants.dart';
@@ -30,7 +31,7 @@ class WebDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 context.pop();
               },
               child: const Icon(
@@ -85,7 +86,7 @@ class WebDrawer extends StatelessWidget {
                     ),
                   ),
             const SizedBox(height: 38),
-            BookmarkListMenu(isGuest: isGuest),
+            const BookmarkListMenu(),
             const SizedBox(height: 12),
             Consumer<AppProvider>(builder: (_, provider, __) {
               var isDark = provider.selectedBrightness == Brightness.dark;
@@ -116,20 +117,33 @@ class WebDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             ProfileMenuCard(
+              title: 'Give Feedback',
+              icon: Icons.rate_review,
+              isImplemented: true,
+              onTap: () {
+                if (isGuest) {
+                  context.showErrorToast('Login to give Feedback!');
+                } else {
+                  context.userProvider.getRating().then((value) {
+                    Dialogs.showFeedbackDialog(context, value);
+                  });
+                }
+              },
+            ),
+            const SizedBox(height: 12),
+            ProfileMenuCard(
               title: 'Privacy Policy & Terms',
               icon: Icons.policy,
               isImplemented: true,
               onTap: () {
-                var url = 'https://sivaprasadnk.dev/moviez-app/privacy-policy/';
-                context.openInNewTab(url);
+                context.openInNewTab(kPrivacyPolicyUrl);
               },
             ),
             const Spacer(),
             if (!isGuest)
               CommonButton(
                 callback: () {
-                  context.authProvider
-                      .logout(context, context.isMobileApp);
+                  context.authProvider.logout(context);
                 },
                 title: 'Sign Out',
               ).addMousePointer

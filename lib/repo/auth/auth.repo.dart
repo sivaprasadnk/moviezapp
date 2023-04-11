@@ -26,7 +26,6 @@ class AuthRepo {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
       if (await googleSignIn.isSignedIn()) {
-        // await googleSignIn.disconnect();
         await googleSignIn.signOut();
       } else {}
     } catch (e) {
@@ -93,6 +92,7 @@ class AuthRepo {
 
           await userColllection.doc(user.uid).set({
             kEmail: user.email,
+            kRating: 0,
             kDisplayName: user.displayName,
             kBookMarkedMovieIdList: [],
             kAccountType: AccountType.googleSignIn.value,

@@ -85,6 +85,8 @@ extension ContextExtensions on BuildContext {
 
   bool get isMobileApp => appProvider.isMobileApp;
 
+  bool get isGuestUser => authProvider.isGuestUser;
+
   ThemeData get theme => Theme.of(this);
 
   Color get primaryColor => theme.primaryColor;

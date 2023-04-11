@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
@@ -579,4 +580,164 @@ class Dialogs {
       },
     );
   }
+
+  static showFeedbackDialog(BuildContext context, int currentRating) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        int newRating = currentRating;
+        return AlertDialog(
+          title: const SectionTitle(
+            title: 'Give Feedback !',
+          ),
+          content: StatefulBuilder(builder: (context, setState) {
+            return SizedBox(
+              width: context.width * 0.19,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 12),
+                  RatingBar.builder(
+                    initialRating: currentRating.toDouble(),
+                    itemCount: 5,
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      context.userProvider.updateRating(rating.toInt());
+                      if (rating > 3) {
+                        if (context.isMobileApp) {
+                          StoreRedirect.redirect(
+                            androidAppId: kPackageName,
+                          );
+                        }
+                      }
+                      newRating = rating.toInt();
+                      setState(() {});
+                    },
+                  ),
+
+                  // if(newRating>3)
+                ],
+              ),
+            );
+          }),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                  if (newRating > 3 && context.isMobileApp) {}
+                },
+                child: const Text(
+                  'Close',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ).addMousePointer,
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(12.0),
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       context.pop();
+            //     },
+            //     child: const Text(
+            //       'Update',
+            //       style: TextStyle(
+            //         color: Colors.black,
+            //       ),
+            //     ),
+            //   ).addMousePointer,
+            // ),
+            const SizedBox(width: 10),
+          ],
+        );
+      },
+    );
+  }
+
+  // static promptToRateOnStore(BuildContext context, int currentRating) async {
+  //   await showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       int newRating = currentRating;
+  //       return AlertDialog(
+  //         title: const SectionTitle(
+  //           title: 'Opening PlayStore to rate !',
+  //         ),
+  //         content: StatefulBuilder(builder: (context, setState) {
+  //           return SizedBox(
+  //             width: context.width * 0.19,
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 const SizedBox(height: 12),
+  //                 RatingBar.builder(
+  //                   initialRating: currentRating.toDouble(),
+  //                   itemCount: 5,
+  //                   itemBuilder: (context, _) => const Icon(
+  //                     Icons.star,
+  //                     color: Colors.amber,
+  //                   ),
+  //                   onRatingUpdate: (rating) {
+  //                     context.userProvider.updateRating(rating.toInt());
+  //                     if (rating > 3) {
+  //                       if (context.isMobileApp) {
+  //                         StoreRedirect.redirect(
+  //                           androidAppId: 'com.spverse.moviezapp',
+  //                         );
+  //                       }
+  //                     }
+  //                     newRating = rating.toInt();
+  //                     setState(() {});
+  //                   },
+  //                 ),
+
+  //                 // if(newRating>3)
+  //               ],
+  //             ),
+  //           );
+  //         }),
+  //         actions: [
+  //           Padding(
+  //             padding: const EdgeInsets.all(12.0),
+  //             child: GestureDetector(
+  //               onTap: () {
+  //                 context.pop();
+  //                 if(newRating>3 && context.isMobileApp){
+
+  //                 }
+  //               },
+  //               child: const Text(
+  //                 'Close',
+  //                 style: TextStyle(
+  //                   color: Colors.black,
+  //                 ),
+  //               ),
+  //             ).addMousePointer,
+  //           ),
+  //           // Padding(
+  //           //   padding: const EdgeInsets.all(12.0),
+  //           //   child: GestureDetector(
+  //           //     onTap: () {
+  //           //       context.pop();
+  //           //     },
+  //           //     child: const Text(
+  //           //       'Update',
+  //           //       style: TextStyle(
+  //           //         color: Colors.black,
+  //           //       ),
+  //           //     ),
+  //           //   ).addMousePointer,
+  //           // ),
+  //           const SizedBox(width: 10),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 }
