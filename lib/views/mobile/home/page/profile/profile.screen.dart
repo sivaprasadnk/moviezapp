@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
-import 'package:moviezapp/utils/dynamic.link.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
@@ -52,12 +51,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return ProfileMenuCard(
                 title: title,
                 icon: icon,
-                onTap: () async {
-                  var link = await DynamicLinks.generateLink();
+                onTap: () {
+                  // var link = await DynamicLinks.generateLink();
                   // debugPrint('link : $link');
-                  if (context.mounted) {
-                    context.showSnackbar(link);
-                  }
+                  // if (context.mounted) {
+                  //   context.showSnackbar(link);
+                  // }
                   provider.toggleBrightness();
                 },
                 showtrailing: false,
