@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/video.player.screen.dart';
 import 'package:provider/provider.dart';
@@ -76,7 +77,7 @@ class _VideoListState extends State<VideoList> {
                               )
                             ],
                           ),
-                        ),
+                        ).addMousePointer,
                         const SizedBox(height: 8),
                         Flexible(
                           child: SizedBox(

@@ -13,6 +13,8 @@ class TvShowDetails {
   // int runtime;
   String releaseDate;
   String overview;
+  List networks;
+  String networkPath;
   TvShowDetails({
     required this.name,
     required this.id,
@@ -24,9 +26,16 @@ class TvShowDetails {
     // required this.runtime,
     required this.releaseDate,
     required this.overview,
+    required this.networkPath,
+    required this.networks,
   });
 
   factory TvShowDetails.fromJson(Map<String, dynamic> json) {
+    var networksList = json['networks'] as List;
+    var networkPath = "";
+    if (networksList.isNotEmpty) {
+      networkPath = kImageBaseUrl + networksList[0]['logo_path'];
+    }
     return TvShowDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
@@ -39,6 +48,8 @@ class TvShowDetails {
       // runtime: json['runtime'],
       releaseDate: json['first_air_date'],
       overview: json['overview'],
+      networks: networksList,
+      networkPath: networkPath,
     );
   }
 
@@ -50,6 +61,11 @@ class TvShowDetails {
     } else {
       name = json['name'];
     }
+    var networksList = json['networks'] as List;
+    var networkPath = "";
+    if (networksList.isNotEmpty) {
+      networkPath = kImageBaseUrl + networksList[0]['logo_path'];
+    }
     return TvShowDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
@@ -60,7 +76,11 @@ class TvShowDetails {
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
       releaseDate: json['first_air_date'],
+
       overview: json['overview'],
+      networks: networksList,
+      networkPath: networkPath,
+      
     );
   }
 

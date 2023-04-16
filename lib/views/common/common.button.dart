@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 
 class CommonButton extends StatelessWidget {
   const CommonButton({
@@ -34,6 +35,6 @@ class CommonButton extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ).addMousePointer;
   }
 }

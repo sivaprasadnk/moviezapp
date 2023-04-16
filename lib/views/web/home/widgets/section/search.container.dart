@@ -7,6 +7,11 @@ class SearchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var label = ' Search movies/ tv shows here ..';
+    if (context.width < 935) {
+      label = "Search here ..";
+    }
+    debugPrint('width : ${context.width}');
     return GestureDetector(
       onTap: () {
         context.moviesProvider.clearSearchList();
@@ -30,7 +35,7 @@ class SearchContainer extends StatelessWidget {
         child: TextFormField(
           enabled: false,
           decoration: InputDecoration(
-            label: const Text(" Search movies/ tv shows here .."),
+            label: Text(label),
             border: InputBorder.none,
             suffixIcon: GestureDetector(
               onTap: () {},

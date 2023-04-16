@@ -1,11 +1,10 @@
-
 import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/bottom.nav.bar.dart';
-import 'package:moviezapp/views/mobile/home/page/activity.screen.dart';
+import 'package:moviezapp/views/mobile/home/page/bookmarks/bookmarks.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/movie.list.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/profile.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/search/search.screen.dart';
@@ -15,7 +14,7 @@ import 'package:provider/provider.dart';
 class HomeScreenMobile extends StatefulWidget {
   const HomeScreenMobile({super.key});
   static const routeName = '/homeMobile';
- 
+
   @override
   State<HomeScreenMobile> createState() => _HomeScreenMobileState();
 }
@@ -50,10 +49,12 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
         context.pop();
       }
       if (context.moviesProvider.updateData) {
-        context.moviesProvider.getMovieGenres();
-        context.moviesProvider.getTVGenres();
-        context.moviesProvider.getMoviesList();
-        context.moviesProvider.getTvShowsList();
+        Future.wait([
+          context.moviesProvider.getMovieGenres(),
+          context.moviesProvider.getTVGenres(),
+          context.moviesProvider.getMoviesList(),
+          context.moviesProvider.getTvShowsList()
+        ]);
       }
       setVersion();
       context.appProvider.updatedSelectedIndex(0);
@@ -61,23 +62,25 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   }
 
   noNetworkDialog() async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return WillPopScope(
-          onWillPop: () async {
-            return false;
-          },
-          child: const AlertDialog(
-            title: Text('No internet connection !'),
-            content: Text(
-              "Make sure wifi or cellular data is turned on and then try again!",
+    if (context.mounted) {
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: const AlertDialog(
+              title: Text('No internet connection !'),
+              content: Text(
+                "Make sure wifi or cellular data is turned on and then try again!",
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    }
   }
 
   setVersion() async {
@@ -104,7 +107,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                 case 1:
                   return const SearchScreen();
                 case 2:
-                  return const ActivityScreen();
+                  return const BookmarkScreen();
                 case 3:
                   return const ProfileScreen();
               }

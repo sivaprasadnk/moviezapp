@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/movie.details.dart';
+import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -11,40 +12,21 @@ import 'package:moviezapp/views/common/social.media.links.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class BookMarkButton extends StatefulWidget {
-  const BookMarkButton({super.key, this.movie, required this.width});
+class BookMarkButton extends StatelessWidget {
+  const BookMarkButton({
+    super.key,
+    this.movie,
+    required this.width,
+    required this.isBookmarked,
+    this.isMovie = true,
+    this.tvShow,
+  });
 
   final MovieDetails? movie;
+  final TvShowDetails? tvShow;
   final double width;
-
-  @override
-  State<BookMarkButton> createState() => _BookMarkButtonState();
-}
-
-class _BookMarkButtonState extends State<BookMarkButton> {
-  bool isVisible = false;
-  bool isbookmarked = false;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(const Duration(seconds: 1)).then((value) async {
-        isVisible = true;
-        if (!context.authProvider.isGuestUser) {
-          isbookmarked = await context.userProvider
-              .checkIfMovieBookmarked(widget.movie!.id);
-          if (mounted) {
-            setState(() {});
-          }
-        } else {
-          if (mounted) {
-            setState(() {});
-          }
-        }
-      });
-    });
-    super.initState();
-  }
+  final bool isBookmarked;
+  final bool isMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -53,56 +35,82 @@ class _BookMarkButtonState extends State<BookMarkButton> {
     return Consumer<AuthProvider>(
       builder: (_, authProvider, __) {
         return Padding(
-          padding: const EdgeInsets.only(right: 0),
-          child: isVisible
-              ? Padding(
-                  padding: EdgeInsets.only(top: topPadding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: widget.width,
-                        child: authProvider.isGuestUser
+            padding: const EdgeInsets.only(right: 0),
+            child: Padding(
+              padding: EdgeInsets.only(top: topPadding),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width,
+                    child: authProvider.isGuestUser
+                        ? CommonButton(
+                            callback: () {
+                              context.showErrorToast('Login to Bookmark !');
+                            },
+                            title: 'Bookmark ')
+                        : !isBookmarked
                             ? CommonButton(
-                                callback: () {
-                                  context.showErrorToast('Login to Bookmark !');
-                                },
-                                title: 'Bookmark ')
-                            : !isbookmarked
-                                ? CommonButton(
-                                        callback: () {
+                                    callback: () {
+                                      if (isMovie) {
+                                        context.userProvider
+                                            .addMovieToBookmarks(
+                                                movie!, context)
+                                            .then((value) async {
                                           context.userProvider
-                                              .addMovieToBookmarks(
-                                                  widget.movie!, context);
-                                        },
-                                        title: 'Add to Bookmarks ')
-                                    .addMousePointer
-                                : CommonButton(
-                                        callback: () {
+                                              .getBookmarkedMovies(context);
+                                        });
+                                      } else {
+                                        context.userProvider
+                                            .addTvShowToBookmarks(
+                                                tvShow!, context)
+                                            .then((value) async {
                                           context.userProvider
-                                              .removeMovieFromBookmarks(
-                                                  widget.movie!, context);
-                                        },
-                                        title: 'Remove from Bookmarks ')
-                                    .addMousePointer,
-                      ),
-                      if (!context.isMobileApp)
-                        const SizedBox(width: 15),
-                      if (!context.isMobileApp)
-                        GestureDetector(
-                          onTap: () {
-                            showDetailsDialog(widget.movie!, context);
-                          },
-                          child: const Icon(
-                            Icons.info,
-                            size: 30,
-                            color: Colors.red,
-                          ),
-                        ).addMousePointer,
-                    ],
+                                              .getBookmarkedShows(context);
+                                        });
+                                      }
+                                    },
+                                    title: 'Add to Bookmarks ')
+                                .addMousePointer
+                            : CommonButton(
+                                    callback: () {
+                                      if (isMovie) {
+                                        context.userProvider
+                                            .removeMovieFromBookmarks(
+                                                movie!, context)
+                                            .then((value) async {
+                                          context.userProvider
+                                              .getBookmarkedMovies(context);
+                                        });
+                                      } else {
+                                        context.userProvider
+                                            .removeTvShowFromBookmarks(
+                                                tvShow!, context)
+                                            .then((value) async {
+                                          context.userProvider
+                                              .getBookmarkedShows(context);
+                                        });
+                                      }
+                                    },
+                                    title: 'Remove from Bookmarks ')
+                                .addMousePointer,
                   ),
-                )
-              : const SizedBox.shrink(),
-        );
+                  if (!context.isMobileApp && isMovie)
+                    const SizedBox(width: 15),
+                  if (!context.isMobileApp && isMovie)
+                    GestureDetector(
+                      onTap: () {
+                        
+                        showDetailsDialog(movie!, context);
+                      },
+                      child: const Icon(
+                        Icons.info,
+                        size: 30,
+                        color: Colors.red,
+                      ),
+                    ).addMousePointer,
+                ],
+              ),
+            ));
       },
     );
   }

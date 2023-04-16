@@ -3,9 +3,7 @@ import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/section.title.dart';
-import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
 import 'package:moviezapp/views/web/home/widgets/list/movie.list.web.dart';
 import 'package:moviezapp/views/web/home/widgets/list/tv.show.list.web.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
@@ -93,49 +91,49 @@ class _SearchScreenWebState extends State<SearchScreenWeb> {
                     );
                   }),
                   const SizedBox(width: 50),
-                  const Text(
-                    'Search in :',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const ContentSelectionWeb(clearSearch: true),
-                  const SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () {
-                      _formKey.currentState!.save();
-                      var query = context.moviesProvider.searchQuery;
-                      if (context.moviesProvider.selectedContentType ==
-                          Content.movie) {
-                        context.moviesProvider.searchMovie(query);
-                      } else {
-                        context.moviesProvider.searchTvShow(query);
-                      }
-                    },
-                    child: Row(
-                      children: const [
-                        Text(
-                          'Search',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.white,
-                          size: 15,
-                        )
-                      ],
-                    ),
-                  ).addMousePointer,
-                  const Spacer(),
-                  const SizedBox(width: 10),
-                  const SizedBox(height: 20),
+                  // const Text(
+                  //   'Search in :',
+                  //   style: TextStyle(
+                  //     fontWeight: FontWeight.w600,
+                  //     fontSize: 13,
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
+                  // const SizedBox(width: 10),
+                  // const ContentSelectionWeb(clearSearch: true),
+                  // const SizedBox(width: 10),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     _formKey.currentState!.save();
+                  //     var query = context.moviesProvider.searchQuery;
+                  //     if (context.moviesProvider.selectedContentType ==
+                  //         Content.movie) {
+                  //       context.moviesProvider.searchMovie(query);
+                  //     } else {
+                  //       context.moviesProvider.searchTvShow(query);
+                  //     }
+                  //   },
+                  //   child: Row(
+                  //     children: const [
+                  //       Text(
+                  //         'Search',
+                  //         style: TextStyle(
+                  //           color: Colors.white,
+                  //           fontSize: 18,
+                  //         ),
+                  //       ),
+                  //       SizedBox(width: 10),
+                  //       Icon(
+                  //         Icons.arrow_forward_ios_rounded,
+                  //         color: Colors.white,
+                  //         size: 15,
+                  //       )
+                  //     ],
+                  //   ),
+                  // ).addMousePointer,
+                  // const Spacer(),
+                  // const SizedBox(width: 10),
+                  // const SizedBox(height: 20),
                 ],
               ),
             ),

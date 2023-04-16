@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/carousal.indicator.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
+import 'package:moviezapp/views/web/details/tvshow.details.screen.web.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/left.arrow.container.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/right.arrow.container.dart';
-import 'package:moviezapp/views/web/movie.details/tvshow.details.screen.web.dart';
 import 'package:provider/provider.dart';
 
 class TvShowCarousalWeb extends StatefulWidget {
@@ -45,6 +46,9 @@ class _TvShowCarousalWebState extends State<TvShowCarousalWeb> {
                       items: provider.tvShowsList.trendingShows(10).map((show) {
                         return GestureDetector(
                           onTap: () {
+                            Dialogs.showLoader(context: context);
+                            provider.clearDetails();
+
                             provider.getTvShowDetails(show.id).then((value) {
                               Navigator.pushNamed(
                                   context, TvShowDetailsScreenWeb.routeName);

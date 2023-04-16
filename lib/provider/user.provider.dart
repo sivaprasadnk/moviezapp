@@ -52,6 +52,14 @@ class UserProvider extends ChangeNotifier {
     return false;
   }
 
+  Future<bool> checkIfTvShowBookmarked(int id) async {
+    var savedIds = await UserRepo.getBookmarkShowIds();
+    if (savedIds.contains(id)) {
+      return true;
+    }
+    return false;
+  }
+
   Future addMovieToBookmarks(MovieDetails movie, BuildContext context) async {
     var savedIds = await UserRepo.getBookmarkMovieIds();
     if (savedIds.contains(movie.id)) {
@@ -80,6 +88,23 @@ class UserProvider extends ChangeNotifier {
     await UserRepo.removeMovieFromBookmarks(movie);
     if (context.mounted) {
       context.showInfoToast("${movie.title}  removed from Bookmarks !");
+      Future.delayed(const Duration(seconds: 2)).then((value) {
+        if (context.isMobileApp) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenMobile.routeName, (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreenWeb.routeName, (route) => false);
+        }
+      });
+    }
+  }
+
+  Future removeTvShowFromBookmarks(
+      TvShowDetails show, BuildContext context) async {
+    await UserRepo.removeTvShowFromBookmarks(show);
+    if (context.mounted) {
+      context.showInfoToast("${show.name} removed from Bookmarks !");
       Future.delayed(const Duration(seconds: 2)).then((value) {
         if (context.isMobileApp) {
           Navigator.pushNamedAndRemoveUntil(

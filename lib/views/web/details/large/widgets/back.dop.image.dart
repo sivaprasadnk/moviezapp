@@ -22,10 +22,10 @@ class MovieBackdropImage extends StatelessWidget {
               cacheKey: cacheKey,
               borderRadius: 0,
             )
-          : Container(
+          : SizedBox(
               height: context.height * 0.6 + 55,
               width: double.infinity,
-              color: Colors.black,
+              // color: Colors.black,
             ),
     );
   }

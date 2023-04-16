@@ -7,9 +7,9 @@ import 'package:moviezapp/views/mobile/home/page/movie.list/details/tv.show.deta
 import 'package:moviezapp/views/mobile/home/page/profile/bookmark.list.screen.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
 import 'package:moviezapp/views/web/bookmark/bookmark.screen.web.dart';
+import 'package:moviezapp/views/web/details/movie.details.screen.web.dart';
+import 'package:moviezapp/views/web/details/tvshow.details.screen.web.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
-import 'package:moviezapp/views/web/movie.details/movie.details.screen.web.dart';
-import 'package:moviezapp/views/web/movie.details/tvshow.details.screen.web.dart';
 
 final routes = <String, WidgetBuilder>{
   SignInScreen.routeName: (context) => const SignInScreen(),

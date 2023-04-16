@@ -162,11 +162,17 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
-
-    getActorsList(id, 'movie');
-    getVideoList(id, "movie");
-    getSocialMediaLinks(id, "movie");
-    getSimilarMoviesList(id);
+    Future.wait([
+      getActorsList(id, 'movie'),
+      getVideoList(id, "movie"),
+      getSocialMediaLinks(id, "movie"),
+      getSimilarMoviesList(id),
+    ]);
+    // getActorsList(id, 'movie');
+    // getVideoList(id, "movie");
+    // getSocialMediaLinks(id, "movie");
+    // getSimilarMoviesList(id);
+    // debugPrint('_videoList length@2 : ${_videoList.length}');
     notifyListeners();
   }
 
@@ -409,8 +415,9 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void clearActorsAndSimilarList() {
+  void clearDetails() {
     _actorsList.clear();
+    _videoList.clear();
     _actorsListLoading = true;
     _similarMovieList.clear();
     _similarMovieListLoading = true;
@@ -429,7 +436,6 @@ class MoviesProvider extends ChangeNotifier {
     _videosLoading = true;
     _videoList = [];
     _videoList = await MovieRepo.getRelatedVideos(id, show);
-
     _videosLoading = false;
     notifyListeners();
   }

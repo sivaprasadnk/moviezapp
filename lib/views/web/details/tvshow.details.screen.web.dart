@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/views/web/details/large/tvshow.details.large.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
-import 'package:moviezapp/views/web/movie.details/large/tvshow.details.large.dart';
 
 class TvShowDetailsScreenWeb extends StatelessWidget {
   static const routeName = "/tvshow/";
@@ -10,12 +10,20 @@ class TvShowDetailsScreenWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var movie = context.moviesProvider.selectedShow!;
+    var show = context.moviesProvider.selectedShow!;
+    var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
+
     return WebScaffold(
       body: SingleChildScrollView(
         child: context.width > 700
-            ? TvShowDetailsLarge(show: movie)
-            : TvShowDetailsLarge(show: movie),
+            ? TvShowDetailsLarge(
+                show: show,
+                isBookmarked: isBookmarked,
+              )
+            : TvShowDetailsLarge(
+                show: show,
+                isBookmarked: isBookmarked,
+              ),
       ),
     );
   }

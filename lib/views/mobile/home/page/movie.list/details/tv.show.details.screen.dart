@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/genre.model.dart';
-import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
-import 'package:moviezapp/views/common/common.button.dart';
+import 'package:moviezapp/views/common/bookmark.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/back.button.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/backdrop.image.dart';
@@ -26,6 +25,8 @@ class TvShowDetailsScreen extends StatefulWidget {
 class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
+
     return WillPopScope(
       onWillPop: () async {
         context.moviesProvider.updateCarousalIndex(0);
@@ -39,7 +40,6 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
             child: Consumer<MoviesProvider>(
               builder: (_, provider, __) {
                 var show = provider.selectedShow!;
-                // var year = show.releaseDate.split('-').first;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -103,25 +103,13 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                             const SimilarShowsList(),
                           const SizedBox(height: 20),
                           if (!provider.actorsListLoading &&
-                              !provider.similarTvShowsLoading)
-                            Consumer<AuthProvider>(
-                                builder: (_, authProvider, __) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 25),
-                                child: CommonButton(
-                                    callback: () {
-                                      if (!authProvider.isGuestUser) {
-                                        context.userProvider
-                                            .addTvShowToBookmarks(
-                                                show, context);
-                                      } else {
-                                        context.showSnackbar(
-                                            'Login to Bookmark !');
-                                      }
-                                    },
-                                    title: 'Bookmark '),
-                              );
-                            }),
+                              !provider.similarMovieListLoading)
+                            BookMarkButton(
+                              width: context.width * 0.9,
+                              isMovie: false,
+                              tvShow: show,
+                              isBookmarked: isBookmarked,
+                            ),
                           const SizedBox(height: 20),
                         ],
                       ),

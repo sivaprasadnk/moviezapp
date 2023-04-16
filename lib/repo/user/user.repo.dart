@@ -74,6 +74,26 @@ class UserRepo {
     });
   }
 
+  static Future removeTvShowFromBookmarks(TvShowDetails show) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
+    QuerySnapshot<Map<String, dynamic>> snapshot = await userColllection
+        .doc(userId)
+        .collection(kTvShowsCollection)
+        .where('id', isEqualTo: show.id)
+        .get();
+
+    await snapshot.docs[0].reference.delete();
+
+    List list = await getBookmarkShowIds();
+
+    list.remove(show.id);
+
+    userColllection.doc(userId).update({
+      kBookMarkedShowIdList: list,
+    });
+  }
+
   static Future addShowToBookmarks(TvShowDetails show) async {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
@@ -119,6 +139,7 @@ class UserRepo {
     for (var i in list1) {
       list.add(MovieDetails.fromDoc(i));
     }
+    // list.sort(((a, b) =>a. ));
     return list;
   }
 

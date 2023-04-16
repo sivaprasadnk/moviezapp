@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
 
 class CustomCacheImage extends StatelessWidget {
@@ -64,13 +63,17 @@ class CustomCacheImageWithoutSize extends StatelessWidget {
     required this.imageUrl,
     required this.cacheKey,
     required this.borderRadius,
+    this.loadingHeight,
     this.aspectRatio,
+    this.showPlaceHolder = true,
   });
 
   final String imageUrl;
   final String cacheKey;
   final double borderRadius;
   final double? aspectRatio;
+  final double? loadingHeight;
+  final bool showPlaceHolder;
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +86,26 @@ class CustomCacheImageWithoutSize extends StatelessWidget {
         cacheKey: cacheKey,
         fit: BoxFit.cover,
         placeholder: (context, url) {
-          if (aspectRatio != null) {
-            return LoadingShimmer(
-              child: AspectRatio(
-                aspectRatio: aspectRatio!,
+          if (showPlaceHolder) {
+            if (aspectRatio != null) {
+              return LoadingShimmer(
+                child: AspectRatio(
+                  aspectRatio: aspectRatio!,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(borderRadius),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return LoadingShimmer(
                 child: Container(
+                  height: loadingHeight,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(
@@ -95,21 +113,10 @@ class CustomCacheImageWithoutSize extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           } else {
-            return LoadingShimmer(
-              child: Container(
-                height: context.height * 0.6,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(borderRadius),
-                  ),
-                ),
-              ),
-            );
+            return const SizedBox.shrink();
           }
         },
         // imageBuilder: (context, imageProvider) {

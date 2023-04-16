@@ -6,6 +6,7 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
+import 'package:moviezapp/views/common/bookmark.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/common/social.media.links.dart';
 import 'package:moviezapp/views/common/video.list.dart';
@@ -16,7 +17,6 @@ import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/genr
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/movie.name.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/movie.rating.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/similar.movies.list.dart';
-import 'package:moviezapp/views/web/movie.details/large/widgets/bookmark.button.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,6 +30,9 @@ class MovieDetailsScreen extends StatefulWidget {
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
+
+
     return WillPopScope(
       onWillPop: () async {
         context.moviesProvider.updateCarousalIndex(0);
@@ -93,10 +96,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 20),
-                          const SectionTitle(title: 'Story'),
-                          const SizedBox(height: 20),
-                          Text(movie.overview),
+                          if (movie.overview.isNotEmpty)
+                            const SizedBox(height: 20),
+                          if (movie.overview.isNotEmpty)
+                            const SectionTitle(title: 'Story'),
+                          if (movie.overview.isNotEmpty)
+                            const SizedBox(height: 20),
+                          if (movie.overview.isNotEmpty) Text(movie.overview),
                           const SizedBox(height: 20),
                           if (!provider.actorsListLoading)
                             const SectionTitle(title: 'Cast'),
@@ -142,6 +148,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             BookMarkButton(
                               width: context.width * 0.9,
                               movie: movie,
+                              isBookmarked: isBookmarked,
                             ),
                           const SizedBox(height: 20),
                         ],

@@ -21,10 +21,6 @@ void main() async {
     name: 'moviezapp',
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await FirebaseAppCheck.instance.activate(
-  //   webRecaptchaSiteKey: 'recaptcha-v3-site-key',
-  //   androidProvider: AndroidProvider.playIntegrity,
-  // );
   if (defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS) {
     if (kIsWeb) {
@@ -43,21 +39,22 @@ class MobileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: providers,
-        child: Consumer<AppProvider>(
-          builder: (_, provider, __) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Movie App',
-              routes: routes,
-              theme: ThemeData(
-                primaryColor: Colors.red,
-                brightness: provider.selectedBrightness,
-              ),
-              home: const SplashScreenMobile(),
-            );
-          },
-        ));
+      providers: providers,
+      child: Consumer<AppProvider>(
+        builder: (_, provider, __) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Movie App',
+            routes: routes,
+            theme: ThemeData(
+              primaryColor: Colors.red,
+              brightness: provider.selectedBrightness,
+            ),
+            home: const SplashScreenMobile(),
+          );
+        },
+      ),
+    );
   }
 }
 

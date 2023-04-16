@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/carousal.indicator.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
+import 'package:moviezapp/views/web/details/movie.details.screen.web.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/left.arrow.container.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/right.arrow.container.dart';
-import 'package:moviezapp/views/web/movie.details/movie.details.screen.web.dart';
 import 'package:provider/provider.dart';
 
 class MovieCarousalWeb extends StatefulWidget {
@@ -46,9 +47,25 @@ class _MovieCarousalWebState extends State<MovieCarousalWeb> {
                           provider.moviesList.trendingMovies(10).map((movie) {
                         return GestureDetector(
                           onTap: () {
-                            provider.getMovieDetails(movie.id).then((value) {
-                              Navigator.pushNamed(
-                                  context, MovieDetailsScreenWeb.routeName);
+                            Dialogs.showLoader(context: context);
+                            provider.clearDetails();
+
+                            provider
+                                .getMovieDetails(movie.id)
+                                .then((value) async {
+                              context.pop();
+                              var isbookmarked = false;
+                              if (!context.isGuestUser) {
+                                isbookmarked = await context.userProvider
+                                    .checkIfMovieBookmarked(movie.id);
+                              }
+                              if (context.mounted) {
+                                Navigator.pushNamed(
+                                  context,
+                                  MovieDetailsScreenWeb.routeName,
+                                  arguments: isbookmarked,
+                                );
+                              }
                             });
                           },
                           child: CarousalMovieItem(

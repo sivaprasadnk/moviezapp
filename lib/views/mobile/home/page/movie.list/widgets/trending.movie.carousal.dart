@@ -43,14 +43,23 @@ class TrendingMovieCarousal extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   Dialogs.showLoader(context: context);
-
                                   provider
                                       .getMovieDetails(movie.id)
-                                      .then((value) {
-                                    context.pop();
+                                      .then((value) async {
+                                    var isbookmarked = false;
+                                    if (!context.isGuestUser) {
+                                      isbookmarked = await context.userProvider
+                                          .checkIfMovieBookmarked(movie.id);
+                                    }
+                                    if (context.mounted) {
+                                      context.pop();
 
-                                    Navigator.pushNamed(
-                                        context, MovieDetailsScreen.routeName);
+                                      Navigator.pushNamed(
+                                        context,
+                                        MovieDetailsScreen.routeName,
+                                        arguments: isbookmarked,
+                                      );
+                                    }
                                   });
                                 },
                                 child: CarousalMovieItem(

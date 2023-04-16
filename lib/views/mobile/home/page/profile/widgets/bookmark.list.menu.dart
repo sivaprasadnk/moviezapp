@@ -48,7 +48,6 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
                 .then((value) {
               context.pop();
               if (context.isMobileApp) {
-
                 Navigator.pushNamed(context, BookmarkListScreen.routeName);
               } else {
                 Navigator.pushNamed(context, BookmarkScreenWeb.routeName);
@@ -56,7 +55,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
             });
           });
         } else {
-          context.showErrorToast('Login to add and view bookmarks !');
+          context.showErrorToast('Login to view bookmarks !');
         }
       },
     );

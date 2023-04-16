@@ -30,11 +30,12 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.appProvider.updateMobileApp(false);
-
-      context.moviesProvider.getMovieGenres();
-      context.moviesProvider.getTVGenres();
-      context.moviesProvider.getMoviesList();
-      context.moviesProvider.getTvShowsList();
+      Future.wait([
+        context.moviesProvider.getMovieGenres(),
+        context.moviesProvider.getTVGenres(),
+        context.moviesProvider.getMoviesList(),
+        context.moviesProvider.getTvShowsList()
+      ]);
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
       context.authProvider

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
 
@@ -15,6 +16,7 @@ class MovieDetails {
   String overview;
   String language;
   String homepage;
+  List<Actors>? actorsList;
   MovieDetails({
     required this.title,
     required this.id,
@@ -28,6 +30,7 @@ class MovieDetails {
     required this.overview,
     required this.language,
     required this.homepage,
+    this.actorsList,
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) {

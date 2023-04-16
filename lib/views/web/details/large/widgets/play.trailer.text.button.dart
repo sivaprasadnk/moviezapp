@@ -28,12 +28,11 @@ class PlayTrailerTextButton extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  child: Container(
+                  child: SizedBox(
                     height: 45,
                     width: 242,
-                    color: Colors.black,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(

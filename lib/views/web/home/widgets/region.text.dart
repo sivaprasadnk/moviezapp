@@ -17,30 +17,34 @@ class RegionText extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const Text(
-            'Country :',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 13,
-              color: Colors.white,
+          if (context.width > 710)
+            const Text(
+              'Country :',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                color: Colors.white,
+              ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            selected,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 13,
-              color: Colors.white,
+          if (context.width > 710) const SizedBox(width: 10),
+          if (context.width > 710)
+            Text(
+              selected,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                color: Colors.white,
+              ),
             ),
-          ),
           const SizedBox(width: 10),
           GestureDetector(
             onTap: () {
               showListDialog(context, selected).then((value) {
                 if (provider.updateData) {
-                  provider.getMoviesList();
-                  provider.getTvShowsList();
+                  Future.wait([
+                    provider.getMoviesList(),
+                    provider.getTvShowsList(),
+                  ]);
                   provider.updateDataStatus(false);
                 }
               });

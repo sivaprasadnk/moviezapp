@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/bottom.nav.bar.item.dart';
 import 'package:provider/provider.dart';
@@ -36,10 +37,11 @@ class BottomNavBar extends StatelessWidget {
             ),
             BottomNavBarItem(
               icon: Icons.favorite,
-              name: 'Activity',
+              name: 'Bookmarks',
               isSelected: provider.selectedIndex == 2,
-              onTap: () {
+              onTap: () async {
                 provider.updatedSelectedIndex(2);
+                getBookmarks(context);
               },
             ),
             BottomNavBarItem(
@@ -53,6 +55,15 @@ class BottomNavBar extends StatelessWidget {
           ],
         ),
       );
+    });
+  }
+
+  getBookmarks(BuildContext context) async {
+    Dialogs.showLoader(context: context);
+    await context.userProvider.getBookmarkedMovies(context).then((value) async {
+      await context.userProvider.getBookmarkedShows(context).then((value) {
+        context.pop();
+      });
     });
   }
 }
