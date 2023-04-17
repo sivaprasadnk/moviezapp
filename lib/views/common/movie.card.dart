@@ -97,6 +97,7 @@ class _MovieCardState extends State<MovieCard> {
                     isbookmarked = await context.userProvider
                         .checkIfTvShowBookmarked(widget.id);
                   }
+                  debugPrint('isbookmarked :$isbookmarked');
                   if (context.mounted) {
                     context.pop();
 

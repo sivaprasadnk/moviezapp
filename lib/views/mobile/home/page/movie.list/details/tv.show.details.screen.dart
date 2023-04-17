@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -23,6 +24,10 @@ class TvShowDetailsScreen extends StatefulWidget {
 }
 
 class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
+
+  bool _isVisible = true;
+
+
   @override
   Widget build(BuildContext context) {
     var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
@@ -36,87 +41,118 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
       },
       child: SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: Consumer<MoviesProvider>(
-              builder: (_, provider, __) {
-                var show = provider.selectedShow!;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        BackdropImageMobile(
-                          id: show.id,
-                          isMovie: false,
-                          imageUrl: show.backdropPath,
-                        ),
-                        const BgBradientContainerMobile(),
-                        MovieName(name: show.name),
-                        GenreDetails(
-                          releaseDate: show.releaseDate.formatedDateString,
-                          genreList: show.genreList.stringText,
-                          duration: '',
-                        ),
-                        MovieRatingDetailsMobile(
-                          voteAverage: show.voteAverage,
-                          voteCount: show.voteCount.toString(),
-                        ),
-                        const BackButtonMobile(),
-                      ],
-                    ),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: Colors.black12,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          extendBody: true,
+          bottomNavigationBar: AnimatedSlide(
+            duration: const Duration(milliseconds: 500),
+            offset: _isVisible ? Offset.zero : const Offset(0, 2),
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 500),
+              opacity: _isVisible ? 1 : 0,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40, bottom: 10),
+                child: BookMarkButton(
+                  width: context.width * 0.8,
+                  isBookmarked: isBookmarked,
+                  isMovie: false,
+                  tvShow: context.moviesProvider.selectedShow,
+                ),
+              ),
+            ),
+          ),
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) {
+              final ScrollDirection direction = notification.direction;
+              setState(() {
+                if (direction == ScrollDirection.reverse) {
+                  _isVisible = false;
+                } else if (direction == ScrollDirection.forward) {
+                  _isVisible = true;
+                }
+              });
+              return true;
+            },
+            child: SingleChildScrollView(
+              child: Consumer<MoviesProvider>(
+                builder: (_, provider, __) {
+                  var show = provider.selectedShow!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
                         children: [
-                          const SizedBox(height: 20),
-                          const SectionTitle(title: 'Story'),
-                          const SizedBox(height: 20),
-                          Text(show.overview),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading)
-                            if (provider.actorsList.isNotEmpty)
-                              const SectionTitle(title: 'Cast'),
-                          const SizedBox(height: 20),
-                          AnimatedSwitcher(
-                            duration: const Duration(
-                              seconds: 1,
-                            ),
-                            child: !provider.actorsListLoading
-                                ? const ActorsList(
-                                    size: 120,
-                                    height: 180,
-                                  )
-                                : const SizedBox.shrink(),
+                          BackdropImageMobile(
+                            id: show.id,
+                            isMovie: false,
+                            imageUrl: show.backdropPath,
                           ),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading)
-                            if (provider.similarTvShowList.isNotEmpty)
-                              const SectionTitle(title: 'Similar'),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading)
-                            const SimilarShowsList(),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading &&
-                              !provider.similarMovieListLoading)
-                            BookMarkButton(
-                              width: context.width * 0.9,
-                              isMovie: false,
-                              tvShow: show,
-                              isBookmarked: isBookmarked,
-                            ),
-                          const SizedBox(height: 20),
+                          const BgBradientContainerMobile(),
+                          MovieName(name: show.name),
+                          GenreDetails(
+                            releaseDate: show.releaseDate.formatedDateString,
+                            genreList: show.genreList.stringText,
+                            duration: '',
+                          ),
+                          MovieRatingDetailsMobile(
+                            voteAverage: show.voteAverage,
+                            voteCount: show.voteCount.toString(),
+                          ),
+                          const BackButtonMobile(),
                         ],
                       ),
-                    ),
-                  ],
-                );
-              },
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 20),
+                            const SectionTitle(title: 'Story'),
+                            const SizedBox(height: 20),
+                            Text(show.overview),
+                            const SizedBox(height: 20),
+                            if (!provider.actorsListLoading)
+                              if (provider.actorsList.isNotEmpty)
+                                const SectionTitle(title: 'Cast'),
+                            const SizedBox(height: 20),
+                            AnimatedSwitcher(
+                              duration: const Duration(
+                                seconds: 1,
+                              ),
+                              child: !provider.actorsListLoading
+                                  ? const ActorsList(
+                                      size: 120,
+                                      height: 180,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                            const SizedBox(height: 20),
+                            if (!provider.actorsListLoading)
+                              if (provider.similarTvShowList.isNotEmpty)
+                                const SectionTitle(title: 'Similar'),
+                            const SizedBox(height: 20),
+                            if (!provider.actorsListLoading)
+                              const SimilarShowsList(),
+                            const SizedBox(height: 20),
+                            // if (!provider.actorsListLoading &&
+                            //     !provider.similarMovieListLoading)
+                            //   BookMarkButton(
+                            //     width: context.width * 0.9,
+                            //     isMovie: false,
+                            //     tvShow: show,
+                            //     isBookmarked: isBookmarked,
+                            //   ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

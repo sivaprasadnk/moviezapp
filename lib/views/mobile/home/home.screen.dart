@@ -32,6 +32,8 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
 
   checkNetwork() {
     InternetConnectionChecker().onStatusChange.listen((status) {
+      if (mounted) {
+        
       switch (status) {
         case InternetConnectionStatus.connected:
           updateData();
@@ -40,11 +42,12 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
           noNetworkDialog();
           break;
       }
+      }
     });
   }
 
   updateData() {
-    if (context.mounted) {
+    if (mounted) {
       if (ModalRoute.of(context)?.isCurrent != true) {
         context.pop();
       }
@@ -62,7 +65,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   }
 
   noNetworkDialog() async {
-    if (context.mounted) {
+    if (mounted) {
       await showDialog(
         context: context,
         barrierDismissible: false,

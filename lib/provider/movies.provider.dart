@@ -420,6 +420,7 @@ class MoviesProvider extends ChangeNotifier {
     _videoList.clear();
     _actorsListLoading = true;
     _similarMovieList.clear();
+    _videosLoading = true;
     _similarMovieListLoading = true;
   }
 

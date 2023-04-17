@@ -48,7 +48,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                           withSeeMore: moviesList.length > 2,
                           seeMoreCallBack: () {},
                         ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       if (!provider.bookmarkListLoading)
                         GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -82,7 +82,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                           },
                         ),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 0),
                       if (!provider.bookmarkShowsListLoading)
                         if (shows.isNotEmpty)
                           const SectionTitle(title: 'Tv Shows'),
@@ -107,7 +107,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                 right: 10,
                               ),
                               child: MovieCard(
-                                isMovie: true,
+                                isMovie: false,
                                 name: movie.name,
                                 poster: movie.posterPath,
                                 vote: movie.voteAverage,
@@ -144,35 +144,35 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                       //     },
                       //   ),
                       // )
-                      SizedBox(
-                        height: 210,
-                        width: double.infinity,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(width: 10);
-                          },
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: shows.length,
-                          itemBuilder: (context, index) {
-                            var show = shows[index];
-                            return Padding(
-                              padding:
-                                  EdgeInsets.only(right: index == 4 ? 20 : 0),
-                              child: MovieCard(
-                                name: show.name,
-                                poster: show.posterPath,
-                                vote: show.voteAverage,
-                                id: show.id,
-                                imageHeight: 180,
-                                imageWidth: 120,
-                                withSize: true,
-                                releaseDate: show.releaseDate,
-                              ),
-                            );
-                          },
-                        ),
-                      )
+                      // SizedBox(
+                      //   height: 210,
+                      //   width: double.infinity,
+                      //   child: ListView.separated(
+                      //     separatorBuilder: (context, index) {
+                      //       return const SizedBox(width: 10);
+                      //     },
+                      //     scrollDirection: Axis.horizontal,
+                      //     shrinkWrap: true,
+                      //     itemCount: shows.length,
+                      //     itemBuilder: (context, index) {
+                      //       var show = shows[index];
+                      //       return Padding(
+                      //         padding:
+                      //             EdgeInsets.only(right: index == 4 ? 20 : 0),
+                      //         child: MovieCard(
+                      //           name: show.name,
+                      //           poster: show.posterPath,
+                      //           vote: show.voteAverage,
+                      //           id: show.id,
+                      //           imageHeight: 180,
+                      //           imageWidth: 120,
+                      //           withSize: true,
+                      //           releaseDate: show.releaseDate,
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // )
                     ],
                   ),
                 )

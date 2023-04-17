@@ -98,6 +98,8 @@ class TvShowDetails {
     // result.addAll({'runtime': runtime});
     result.addAll({'overview': overview});
     result.addAll({'first_air_date': releaseDate});
+    result.addAll({'networks': networks});
+    result.addAll({'networkPath': networkPath});
 
     return result;
   }

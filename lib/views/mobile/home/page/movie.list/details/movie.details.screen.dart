@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
@@ -28,6 +29,8 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+  bool _isVisible = true;
+
   @override
   Widget build(BuildContext context) {
     var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
@@ -42,121 +45,151 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       },
       child: SafeArea(
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: Consumer<MoviesProvider>(
-              builder: (_, provider, __) {
-                var movie = provider.selectedMovie!;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        BackdropImageMobile(
-                          id: movie.id,
-                          imageUrl: movie.backdropPath,
-                        ),
-                        const BgBradientContainerMobile(),
-                        MovieName(name: movie.title),
-                        Positioned.fill(
-                          bottom: 40,
-                          right: 20,
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: GestureDetector(
-                              onTap: () {
-                                showDetailsDialog(movie);
-                              },
-                              child: const Icon(
-                                Icons.info,
-                                size: 30,
-                                color: Colors.black,
+          extendBody: true,
+          bottomNavigationBar: AnimatedSlide(
+            duration: const Duration(milliseconds: 500),
+            offset: _isVisible ? Offset.zero : const Offset(0, 2),
+            child: AnimatedOpacity(
+              duration: const Duration(seconds: 1),
+              opacity: _isVisible ? 1 : 0,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40, bottom: 10),
+                child: BookMarkButton(
+                  width: context.width * 0.8,
+                  isBookmarked: isBookmarked,
+                  movie: context.moviesProvider.selectedMovie,
+                ),
+              ),
+            ),
+          ),
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) {
+              final ScrollDirection direction = notification.direction;
+              setState(() {
+                if (direction == ScrollDirection.reverse) {
+                  _isVisible = false;
+                } else if (direction == ScrollDirection.forward) {
+                  _isVisible = true;
+                }
+              });
+              return true;
+            },
+            child: SingleChildScrollView(
+              child: Consumer<MoviesProvider>(
+                builder: (_, provider, __) {
+                  var movie = provider.selectedMovie!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          BackdropImageMobile(
+                            id: movie.id,
+                            imageUrl: movie.backdropPath,
+                          ),
+                          const BgBradientContainerMobile(),
+                          MovieName(name: movie.title),
+                          Positioned.fill(
+                            bottom: 40,
+                            right: 20,
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDetailsDialog(movie);
+                                },
+                                child: const Icon(
+                                  Icons.info,
+                                  size: 30,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        GenreDetails(
-                          duration: movie.runtime.durationInHrs,
-                          genreList: movie.genreList.stringText,
-                          releaseDate: movie.releaseDate.split('-').first,
-                        ),
-                        MovieRatingDetailsMobile(
-                          voteAverage: movie.voteAverage,
-                          voteCount: movie.voteCount.toString(),
-                        ),
-                        const BackButtonMobile(),
-                      ],
-                    ),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: Colors.black12,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (movie.overview.isNotEmpty)
-                            const SizedBox(height: 20),
-                          if (movie.overview.isNotEmpty)
-                            const SectionTitle(title: 'Story'),
-                          if (movie.overview.isNotEmpty)
-                            const SizedBox(height: 20),
-                          if (movie.overview.isNotEmpty) Text(movie.overview),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading)
-                            const SectionTitle(title: 'Cast'),
-                          const SizedBox(height: 20),
-                          AnimatedSwitcher(
-                            duration: const Duration(
-                              seconds: 1,
-                            ),
-                            child: !provider.actorsListLoading
-                                ? const ActorsList(
-                                    size: 120,
-                                    height: 190,
-                                  )
-                                : const SizedBox.shrink(),
+                          GenreDetails(
+                            duration: movie.runtime.durationInHrs,
+                            genreList: movie.genreList.stringText,
+                            releaseDate: movie.releaseDate.split('-').first,
                           ),
-                          if (!provider.videosLoading)
-                            if (provider.videoList.isNotEmpty)
-                              const SizedBox(height: 40),
-                          if (!provider.videosLoading)
-                            if (provider.videoList.isNotEmpty)
-                              const SectionTitle(title: 'Related Videos'),
-                          if (!provider.videosLoading)
-                            if (provider.videoList.isNotEmpty)
-                              const SizedBox(height: 20),
-                          AnimatedSwitcher(
-                            duration: const Duration(
-                              seconds: 1,
-                            ),
-                            child: !provider.videosLoading
-                                ? const VideoList()
-                                : const SizedBox.shrink(),
+                          MovieRatingDetailsMobile(
+                            voteAverage: movie.voteAverage,
+                            voteCount: movie.voteCount.toString(),
                           ),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading)
-                            if (provider.similarMovieList.isNotEmpty)
-                              const SectionTitle(title: 'Similar'),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading)
-                            const SimilarMovieList(),
-                          const SizedBox(height: 20),
-                          if (!provider.actorsListLoading &&
-                              !provider.similarMovieListLoading)
-                            BookMarkButton(
-                              width: context.width * 0.9,
-                              movie: movie,
-                              isBookmarked: isBookmarked,
-                            ),
-                          const SizedBox(height: 20),
+                          const BackButtonMobile(),
                         ],
                       ),
-                    ),
-                  ],
-                );
-              },
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Colors.black12,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (movie.overview.isNotEmpty)
+                              const SizedBox(height: 20),
+                            if (movie.overview.isNotEmpty)
+                              const SectionTitle(title: 'Story'),
+                            if (movie.overview.isNotEmpty)
+                              const SizedBox(height: 20),
+                            if (movie.overview.isNotEmpty) Text(movie.overview),
+                            const SizedBox(height: 20),
+                            if (!provider.actorsListLoading)
+                              const SectionTitle(title: 'Cast'),
+                            const SizedBox(height: 20),
+                            AnimatedSwitcher(
+                              duration: const Duration(
+                                seconds: 1,
+                              ),
+                              child: !provider.actorsListLoading
+                                  ? const ActorsList(
+                                      size: 120,
+                                      height: 190,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                            if (!provider.videosLoading)
+                              if (provider.videoList.isNotEmpty)
+                                const SizedBox(height: 40),
+                            if (!provider.videosLoading)
+                              if (provider.videoList.isNotEmpty)
+                                const SectionTitle(title: 'Related Videos'),
+                            if (!provider.videosLoading)
+                              if (provider.videoList.isNotEmpty)
+                                const SizedBox(height: 20),
+                            AnimatedSwitcher(
+                              duration: const Duration(
+                                seconds: 1,
+                              ),
+                              child: !provider.videosLoading
+                                  ? const VideoList()
+                                  : const SizedBox.shrink(),
+                            ),
+                            const SizedBox(height: 20),
+                            if (!provider.actorsListLoading)
+                              if (provider.similarMovieList.isNotEmpty)
+                                const SectionTitle(title: 'Similar'),
+                            const SizedBox(height: 20),
+                            if (!provider.actorsListLoading)
+                              const SimilarMovieList(),
+                            const SizedBox(height: 20),
+                            // if (!provider.actorsListLoading &&
+                            //     !provider.similarMovieListLoading)
+                            //   BookMarkButton(
+                            //     width: context.width * 0.9,
+                            //     movie: movie,
+                            //     isBookmarked: isBookmarked,
+                            //   ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),
