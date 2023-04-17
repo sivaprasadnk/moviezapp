@@ -47,8 +47,11 @@ class UserProvider extends ChangeNotifier {
   Future<bool> checkIfMovieBookmarked(int id) async {
     var savedIds = await UserRepo.getBookmarkMovieIds();
     if (savedIds.contains(id)) {
+      debugPrint('movie bookmarked!');
       return true;
     }
+    debugPrint('movie not  bookmarked!');
+
     return false;
   }
 

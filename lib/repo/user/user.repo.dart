@@ -63,15 +63,17 @@ class UserRepo {
         .where('id', isEqualTo: movie.id)
         .get();
 
-    await snapshot.docs[0].reference.delete();
+    if (snapshot.docs.isNotEmpty) {
+      await snapshot.docs[0].reference.delete();
 
-    List list = await getBookmarkMovieIds();
+      List list = await getBookmarkMovieIds();
 
-    list.remove(movie.id);
+      list.remove(movie.id);
 
-    userColllection.doc(userId).update({
-      kBookMarkedMovieIdList: list,
-    });
+      userColllection.doc(userId).update({
+        kBookMarkedMovieIdList: list,
+      });
+    }
   }
 
   static Future removeTvShowFromBookmarks(TvShowDetails show) async {

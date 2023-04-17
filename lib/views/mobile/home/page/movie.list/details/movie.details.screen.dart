@@ -29,13 +29,31 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
-  bool _isVisible = true;
+  bool _isVisible = false;
+  bool isBookmarked = false;
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      if (context.isGuestUser) {
+        _isVisible = true;
+        setState(() {});
+      } else {
+        await context.userProvider
+            .checkIfMovieBookmarked(context.movieId)
+            .then((value) {
+          isBookmarked = value;
+          _isVisible = true;
+          setState(() {});
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
 
-
+    debugPrint('_isVisible : $_isVisible');
     return WillPopScope(
       onWillPop: () async {
         context.moviesProvider.updateCarousalIndex(0);

@@ -75,38 +75,21 @@ class _MovieCardState extends State<MovieCard> {
             if (!widget.isWeb) {
               if (widget.isMovie) {
                 provider.getMovieDetails(widget.id).then((value) async {
-                  var isbookmarked = false;
-                  if (!context.isGuestUser) {
-                    isbookmarked = await context.userProvider
-                        .checkIfMovieBookmarked(widget.id);
-                  }
-                  if (context.mounted) {
-                    context.pop();
+                  context.pop();
 
-                    Navigator.pushNamed(
-                      context,
-                      MovieDetailsScreen.routeName,
-                      arguments: isbookmarked,
-                    );
-                  }
+                  Navigator.pushNamed(
+                    context,
+                    MovieDetailsScreen.routeName,
+                  );
                 });
               } else {
                 provider.getTvShowDetails(widget.id).then((value) async {
-                  var isbookmarked = false;
-                  if (!context.isGuestUser) {
-                    isbookmarked = await context.userProvider
-                        .checkIfTvShowBookmarked(widget.id);
-                  }
-                  debugPrint('isbookmarked :$isbookmarked');
-                  if (context.mounted) {
-                    context.pop();
+                  context.pop();
 
-                    Navigator.pushNamed(
-                      context,
-                      TvShowDetailsScreen.routeName,
-                      arguments: isbookmarked,
-                    );
-                  }
+                  Navigator.pushNamed(
+                    context,
+                    TvShowDetailsScreen.routeName,
+                  );
                 });
               }
             } else {
@@ -183,7 +166,6 @@ class _MovieCardState extends State<MovieCard> {
                             imageUrl: widget.poster,
                             cacheKey: cacheKey,
                             aspectRatio: 0.667,
-
                           ),
                         ),
                         Positioned.fill(

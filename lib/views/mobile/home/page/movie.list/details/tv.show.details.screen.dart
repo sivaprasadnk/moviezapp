@@ -24,13 +24,30 @@ class TvShowDetailsScreen extends StatefulWidget {
 }
 
 class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
+  bool _isVisible = false;
 
-  bool _isVisible = true;
-
+  bool isBookmarked = false;
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      if (context.isGuestUser) {
+        _isVisible = true;
+        setState(() {});
+      } else {
+        await context.userProvider
+            .checkIfTvShowBookmarked(context.tvShowId)
+            .then((value) {
+          isBookmarked = value;
+          _isVisible = true;
+          setState(() {});
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
 
     return WillPopScope(
       onWillPop: () async {

@@ -162,16 +162,16 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
-    Future.wait([
-      getActorsList(id, 'movie'),
-      getVideoList(id, "movie"),
-      getSocialMediaLinks(id, "movie"),
-      getSimilarMoviesList(id),
-    ]);
-    // getActorsList(id, 'movie');
-    // getVideoList(id, "movie");
-    // getSocialMediaLinks(id, "movie");
-    // getSimilarMoviesList(id);
+    // Future.wait([
+    //   getActorsList(id, 'movie'),
+    //   getVideoList(id, "movie"),
+    //   getSocialMediaLinks(id, "movie"),
+    //   getSimilarMoviesList(id),
+    // ]);
+    getActorsList(id, 'movie');
+    getVideoList(id, "movie");
+    getSocialMediaLinks(id, "movie");
+    getSimilarMoviesList(id);
     // debugPrint('_videoList length@2 : ${_videoList.length}');
     notifyListeners();
   }

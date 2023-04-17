@@ -87,6 +87,9 @@ extension ContextExtensions on BuildContext {
 
   bool get isGuestUser => authProvider.isGuestUser;
 
+  int get movieId => moviesProvider.selectedMovie!.id;
+  int get tvShowId => moviesProvider.selectedShow!.id;
+
   ThemeData get theme => Theme.of(this);
 
   Color get primaryColor => theme.primaryColor;
