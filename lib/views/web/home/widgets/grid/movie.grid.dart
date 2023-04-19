@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -75,7 +76,6 @@ class MovieGrid extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(
                         right: 10,
-                        // bottom: 10,
                       ),
                       child: MovieCard(
                         isMovie: true,
@@ -85,10 +85,19 @@ class MovieGrid extends StatelessWidget {
                         id: movie.id,
                         isWeb: isWeb,
                         withSize: false,
-                        
                         releaseDate: movie.releaseDate,
                       ),
-                    ).addMousePointer;
+                    )
+                        .animate(
+                          effects: [
+                            ScaleEffect(duration: 500.ms),
+                          ],
+                        )
+                        .scale(
+                          duration: const Duration(milliseconds: 800),
+                          delay: Duration(seconds: (index)),
+                        )
+                        .addMousePointer;
                   } else {
                     var show = tvShowsList[index];
                     return Padding(
@@ -107,7 +116,17 @@ class MovieGrid extends StatelessWidget {
                         imageWidth: 150,
                         withSize: false,
                         releaseDate: '',
-                      ).addMousePointer,
+                      )
+                          .animate(
+                            effects: [
+                              ScaleEffect(duration: 500.ms),
+                            ],
+                          )
+                          .scale(
+                            duration: const Duration(milliseconds: 800),
+                            delay: Duration(seconds: (index)),
+                          )
+                          .addMousePointer,
                     );
                   }
                 },
@@ -140,7 +159,17 @@ class MovieGrid extends StatelessWidget {
                         withSize: false,
                         releaseDate: movie.releaseDate,
                       ),
-                    ).addMousePointer;
+                    )
+                        .animate(
+                          effects: [
+                            ScaleEffect(duration: 500.ms),
+                          ],
+                        )
+                        .scale(
+                          duration: const Duration(milliseconds: 800),
+                          delay: Duration(seconds: (index)),
+                        )
+                        .addMousePointer;
                   } else {
                     var show = tvShowsList[index];
                     return Padding(
@@ -158,7 +187,17 @@ class MovieGrid extends StatelessWidget {
                         imageWidth: 150,
                         withSize: false,
                         releaseDate: '',
-                      ).addMousePointer,
+                      )
+                          .animate(
+                            effects: [
+                              ScaleEffect(duration: 500.ms),
+                            ],
+                          )
+                          .scale(
+                            duration: const Duration(milliseconds: 800),
+                            delay: Duration(seconds: (index)),
+                          )
+                          .addMousePointer,
                     );
                   }
                 },

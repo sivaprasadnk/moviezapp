@@ -3,7 +3,6 @@ import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
-import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/common/page.title.dart';
 import 'package:moviezapp/views/common/webview.screen.dart';
@@ -140,8 +139,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
                 : CommonButton(
                     callback: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, SignInScreen.routeName, (route) => false);
+                      Dialogs.showLoader(context: context);
+
+                      context.authProvider.signInWithGoogle(context);
                     },
                     title: 'Sign In',
                   ),

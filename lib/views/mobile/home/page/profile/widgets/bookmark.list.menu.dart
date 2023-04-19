@@ -55,7 +55,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
             });
           });
         } else {
-          context.showErrorToast('Login to view bookmarks !');
+          context.showErrorToast('Login to add / view bookmarks !');
         }
       },
     );

@@ -29,7 +29,7 @@ class CarousalMovieItem extends StatelessWidget {
           imageUrl: backdropImage,
           cacheKey: cacheKey,
           borderRadius: 0,
-          loadingHeight: context.height * 0.3,
+          loadingHeight: context.height * 0.6,
         ),
         Positioned.fill(
           child: Align(

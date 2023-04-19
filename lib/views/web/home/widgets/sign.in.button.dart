@@ -16,7 +16,10 @@ class SigninButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showSignInDialog(context);
+        Dialogs.showLoader(context: context);
+        context.authProvider.signInWithGoogle(context).then((value) {
+          // context.pop();
+        });
       },
       child: const Text("Sign In"),
     ).addMousePointer;
@@ -360,10 +363,5 @@ class SigninButton extends StatelessWidget {
     );
   }
 
-  googleSignin(BuildContext context) async {
-    context.authProvider.signInWithGoogle(
-      false,
-      context,
-    );
-  }
+  googleSignin(BuildContext context) async {}
 }

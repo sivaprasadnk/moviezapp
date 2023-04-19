@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
 import 'package:moviezapp/views/common/movie.card.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +51,7 @@ class TvShowGridWeb extends StatelessWidget {
                               ),
                             ),
                           ),
-                ),
+                        ),
                       );
                     },
                   )
@@ -81,7 +83,17 @@ class TvShowGridWeb extends StatelessWidget {
                           withSize: false,
                           releaseDate: '',
                         ),
-                      );
+                      )
+                          .animate(
+                            effects: [
+                              ScaleEffect(duration: 500.ms),
+                            ],
+                          )
+                          .scale(
+                            duration: const Duration(milliseconds: 800),
+                            delay: Duration(seconds: (index)),
+                          )
+                          .addMousePointer;
                     },
                   )
             : GridView.builder(
@@ -112,7 +124,17 @@ class TvShowGridWeb extends StatelessWidget {
                       withSize: false,
                       releaseDate: '',
                     ),
-                  );
+                  )
+                      .animate(
+                        effects: [
+                          ScaleEffect(duration: 500.ms),
+                        ],
+                      )
+                      .scale(
+                        duration: const Duration(milliseconds: 800),
+                        delay: Duration(seconds: (index)),
+                      )
+                      .addMousePointer;
                 },
               );
       },

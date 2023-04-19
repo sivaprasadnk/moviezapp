@@ -6,7 +6,6 @@ import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/utils/string.constants.dart';
-import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
@@ -167,7 +166,11 @@ class Dialogs {
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, SignInScreen.routeName);
+                    Dialogs.showLoader(context: context);
+                    context.appProvider.updatedSelectedIndex(0);
+
+                    context.authProvider.signInWithGoogle(context);
+                    // Navigator.pushNamed(context, SignInScreen.routeName);
                   },
                   child: Container(
                     height: 75,
@@ -198,7 +201,7 @@ class Dialogs {
                               ),
                             ),
                             Text(
-                              ' You can sign up/ sign in with your\n email address',
+                              ' Sign in with your gmail address',
                               style: TextStyle(
                                 fontWeight: FontWeight.w200,
                                 color: Colors.white,
@@ -220,6 +223,8 @@ class Dialogs {
                 InkWell(
                   onTap: () {
                     context.authProvider.updateGuestUser(true);
+                    context.appProvider.updatedSelectedIndex(0);
+
                     Navigator.pushNamed(context, HomeScreenMobile.routeName);
                   },
                   child: Container(

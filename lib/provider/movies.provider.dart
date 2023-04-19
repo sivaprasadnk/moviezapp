@@ -193,31 +193,34 @@ class MoviesProvider extends ChangeNotifier {
   void updateMovieGenre(Genre genre, MovieType type) {
     _selectedMovieGenre = genre;
     _filteredMoviesList = [];
-    if (genre.id == 0) {
-      if (type == MovieType.nowPlaying) {
-        _filteredMoviesList = _moviesList.nowPlayingMovies(20);
-      } else if (type == MovieType.topRated) {
-        _filteredMoviesList = _moviesList.popularMovies(20);
-      } else if (type == MovieType.upcoming) {
-        _filteredMoviesList = _moviesList.upcomingMovies(20);
-      } else {
-        _filteredSearchMoviesList = _searchMoviesList;
-      }
-    } else {
-      if (type == MovieType.nowPlaying) {
-        _filteredMoviesList =
-            genre.getFilteredList(_moviesList.nowPlayingMovies(20));
-      } else if (type == MovieType.topRated) {
-        _filteredMoviesList =
-            genre.getFilteredList(_moviesList.popularMovies(20));
-      } else if (type == MovieType.upcoming) {
-        _filteredMoviesList =
-            genre.getFilteredList(_moviesList.upcomingMovies(20));
-      } else {
-        _filteredSearchMoviesList = genre.getFilteredList(_searchMoviesList);
-      }
-    }
     notifyListeners();
+    Future.delayed(const Duration(milliseconds: 500)).then((value) {
+      if (genre.id == 0) {
+        if (type == MovieType.nowPlaying) {
+          _filteredMoviesList = _moviesList.nowPlayingMovies(20);
+        } else if (type == MovieType.topRated) {
+          _filteredMoviesList = _moviesList.popularMovies(20);
+        } else if (type == MovieType.upcoming) {
+          _filteredMoviesList = _moviesList.upcomingMovies(20);
+        } else {
+          _filteredSearchMoviesList = _searchMoviesList;
+        }
+      } else {
+        if (type == MovieType.nowPlaying) {
+          _filteredMoviesList =
+              genre.getFilteredList(_moviesList.nowPlayingMovies(20));
+        } else if (type == MovieType.topRated) {
+          _filteredMoviesList =
+              genre.getFilteredList(_moviesList.popularMovies(20));
+        } else if (type == MovieType.upcoming) {
+          _filteredMoviesList =
+              genre.getFilteredList(_moviesList.upcomingMovies(20));
+        } else {
+          _filteredSearchMoviesList = genre.getFilteredList(_searchMoviesList);
+        }
+      }
+    notifyListeners();
+    });
   }
 
   Future getMovieGenres() async {

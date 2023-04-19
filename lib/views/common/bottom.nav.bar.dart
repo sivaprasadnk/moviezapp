@@ -41,7 +41,11 @@ class BottomNavBar extends StatelessWidget {
               isSelected: provider.selectedIndex == 2,
               onTap: () async {
                 provider.updatedSelectedIndex(2);
-                getBookmarks(context);
+                if (!context.isGuestUser) {
+                  getBookmarks(context);
+                } else {
+                  context.userProvider.clearList();
+                }
               },
             ),
             BottomNavBarItem(

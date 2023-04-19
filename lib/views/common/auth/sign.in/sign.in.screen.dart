@@ -201,10 +201,6 @@ class _SignInScreenState extends State<SignInScreen> {
     // }
     Dialogs.showLoader(context: context);
 
-    context.authProvider.signInWithGoogle(
-      context.isMobileApp,
-      context,
-    );
-
+    context.authProvider.signInWithGoogle(context);
   }
 }

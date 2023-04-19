@@ -145,6 +145,7 @@ class UserProvider extends ChangeNotifier {
 
   void clearList() {
     _bookMarkMoviesList.clear();
+    _bookMarkShowsList.clear();
     notifyListeners();
   }
 

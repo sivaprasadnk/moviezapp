@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/views/common/movie.card.dart';
@@ -51,6 +52,13 @@ class TvShowList extends StatelessWidget {
                         imageWidth: 120,
                         releaseDate: '',
                       ),
+                    ).animate(
+                      effects: [
+                        ScaleEffect(duration: 500.ms),
+                      ],
+                    ).scale(
+                      duration: const Duration(milliseconds: 800),
+                      delay: Duration(seconds: (index)),
                     );
                   },
                 ),

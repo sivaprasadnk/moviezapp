@@ -19,7 +19,6 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      // NetworkStatusService();
       Connectivity().onConnectivityChanged.listen((event) {});
       context.appProvider.updateMobileApp(true);
       context.appProvider.updateMobileWeb(false);

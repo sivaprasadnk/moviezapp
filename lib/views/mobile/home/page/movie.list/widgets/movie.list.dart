@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
@@ -75,6 +76,13 @@ class MovieList extends StatelessWidget {
                           withSize: true,
                           releaseDate: movie.releaseDate,
                         ),
+                      ).animate(
+                        effects: [
+                          ScaleEffect(duration: 500.ms),
+                        ],
+                      ).scale(
+                        duration: const Duration(milliseconds: 800),
+                        delay: Duration(seconds: (index)),
                       );
                     },
                   ),

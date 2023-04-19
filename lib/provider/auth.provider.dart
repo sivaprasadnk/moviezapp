@@ -249,7 +249,8 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future signInWithGoogle(bool isApp, BuildContext context) async {
+  Future signInWithGoogle(BuildContext context) async {
+    try {
     User? user = await AuthRepo.signInWithGoogle(context: context);
     if (user != null) {
       updateGuestUser(false);
@@ -257,7 +258,7 @@ class AuthProvider extends ChangeNotifier {
         context.authProvider.updateGuestUser(false);
         context.moviesProvider.updateDataStatus(true);
         context.appProvider.updatedSelectedIndex(0);
-        if (isApp) {
+        if (context.isMobileApp) {
           Navigator.pushNamedAndRemoveUntil(
             context,
             HomeScreenMobile.routeName,
@@ -275,6 +276,12 @@ class AuthProvider extends ChangeNotifier {
       if (context.mounted) {
         context.pop();
       }
+    }
+    } catch (err) {
+      if (context.mounted) {
+        context.pop();
+      }
+      debugPrint('errorrrrrrrr');
     }
   }
 }
