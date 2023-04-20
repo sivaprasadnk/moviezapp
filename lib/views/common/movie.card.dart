@@ -102,6 +102,7 @@ class _MovieCardState extends State<MovieCard> {
                         .checkIfMovieBookmarked(widget.id);
                   }
                   if (context.mounted) {
+                    context.pop();
                     Navigator.pushNamed(
                       context,
                       MovieDetailsScreenWeb.routeName,
@@ -117,6 +118,8 @@ class _MovieCardState extends State<MovieCard> {
                         .checkIfTvShowBookmarked(widget.id);
                   }
                   if (context.mounted) {
+                    context.pop();
+
                     Navigator.pushNamed(
                       context,
                       TvShowDetailsScreenWeb.routeName,
