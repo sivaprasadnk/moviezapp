@@ -543,7 +543,9 @@ class Dialogs {
                     await InAppUpdate.checkForUpdate().then((value) async {
                       if (value.updateAvailability ==
                           UpdateAvailability.updateAvailable) {
-                        await StoreRedirect.redirect();
+                        await InAppUpdate.performImmediateUpdate()
+                            .then((value) {});
+                        // await StoreRedirect.redirect();
                       } else {
                         context.scaffoldMessenger.showSnackBar(
                           const SnackBar(
