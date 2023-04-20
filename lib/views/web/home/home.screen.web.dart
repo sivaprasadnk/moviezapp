@@ -81,7 +81,8 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                     ? MovieSectionWeb(isMobileWeb: widget.isMobileWeb)
                     : TvShowSectionWeb(isMobileWeb: widget.isMobileWeb),
               );
-            }),
+              },
+            ),
           ],
         ),
       ),

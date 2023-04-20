@@ -14,39 +14,36 @@ class UserDetailsContainer extends StatelessWidget {
     if (!isGuest) {
       user = FirebaseAuth.instance.currentUser!;
     }
-    return GestureDetector(
-      onTap: () {},
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircleAvatar(
-                radius: 20,
-                child: Icon(
-                  Icons.person,
-                ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircleAvatar(
+              radius: 20,
+              child: Icon(
+                Icons.person,
               ),
-              const SizedBox(width: 10),
-              !isGuest
-                  ? Text(
-                      user!.displayName!,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  : const Text(
-                      'Hi, Guest',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
+            ),
+            const SizedBox(width: 10),
+            !isGuest
+                ? Text(
+                    user!.displayName!,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
                     ),
-            ],
-          ),
-        ],
-      ),
+                  )
+                : const Text(
+                    'Hi, Guest',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+          ],
+        ),
+      ],
     );
   }
 }

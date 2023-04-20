@@ -50,56 +50,51 @@ class BookMarkButton extends StatelessWidget {
                             title: 'Bookmark ')
                         : !isBookmarked
                             ? CommonButton(
-                                    callback: () {
-                                      if (isMovie) {
-                                        context.userProvider
-                                            .addMovieToBookmarks(
-                                                movie!, context)
-                                            .then((value) async {
-                                          context.userProvider
-                                              .getBookmarkedMovies(context);
-                                        });
-                                      } else {
-                                        context.userProvider
-                                            .addTvShowToBookmarks(
-                                                tvShow!, context)
-                                            .then((value) async {
-                                          context.userProvider
-                                              .getBookmarkedShows(context);
-                                        });
-                                      }
-                                    },
-                                    title: 'Add to Bookmarks ')
-                                .addMousePointer
+                                callback: () {
+                                  if (isMovie) {
+                                    context.userProvider
+                                        .addMovieToBookmarks(movie!, context)
+                                        .then((value) async {
+                                      context.userProvider
+                                          .getBookmarkedMovies(context);
+                                    });
+                                  } else {
+                                    context.userProvider
+                                        .addTvShowToBookmarks(tvShow!, context)
+                                        .then((value) async {
+                                      context.userProvider
+                                          .getBookmarkedShows(context);
+                                    });
+                                  }
+                                },
+                                title: 'Add to Bookmarks ')
                             : CommonButton(
-                                    callback: () {
-                                      if (isMovie) {
-                                        context.userProvider
-                                            .removeMovieFromBookmarks(
-                                                movie!, context)
-                                            .then((value) async {
-                                          context.userProvider
-                                              .getBookmarkedMovies(context);
-                                        });
-                                      } else {
-                                        context.userProvider
-                                            .removeTvShowFromBookmarks(
-                                                tvShow!, context)
-                                            .then((value) async {
-                                          context.userProvider
-                                              .getBookmarkedShows(context);
-                                        });
-                                      }
-                                    },
-                                    title: 'Remove from Bookmarks ')
-                                .addMousePointer,
+                                callback: () {
+                                  if (isMovie) {
+                                    context.userProvider
+                                        .removeMovieFromBookmarks(
+                                            movie!, context)
+                                        .then((value) async {
+                                      context.userProvider
+                                          .getBookmarkedMovies(context);
+                                    });
+                                  } else {
+                                    context.userProvider
+                                        .removeTvShowFromBookmarks(
+                                            tvShow!, context)
+                                        .then((value) async {
+                                      context.userProvider
+                                          .getBookmarkedShows(context);
+                                    });
+                                  }
+                                },
+                                title: 'Remove from Bookmarks '),
                   ),
                   if (!context.isMobileApp && isMovie)
                     const SizedBox(width: 15),
                   if (!context.isMobileApp && isMovie)
                     GestureDetector(
                       onTap: () {
-                        
                         showDetailsDialog(movie!, context);
                       },
                       child: const Icon(
