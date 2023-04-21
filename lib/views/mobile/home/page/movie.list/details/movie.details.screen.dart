@@ -52,7 +52,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     debugPrint('_isVisible : $_isVisible');
     return WillPopScope(
       onWillPop: () async {

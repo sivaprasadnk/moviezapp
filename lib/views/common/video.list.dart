@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -53,7 +52,6 @@ class _VideoListState extends State<VideoList> {
                                 return VideoPlayerScreen(videoId: video.key);
                               }));
                             }
-
                           },
                           child: Stack(
                             children: [

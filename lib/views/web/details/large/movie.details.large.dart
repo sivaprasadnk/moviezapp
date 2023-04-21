@@ -200,7 +200,10 @@ class MovieDetailsLarge extends StatelessWidget {
                           color: context.primaryColor,
                         ),
                       ),
-                  // const SizedBox(height: 20),
+                  const SizedBox(
+                    height: 20,
+                    width: 1,
+                  ),
                   AnimatedSwitcher(
                     duration: const Duration(
                       seconds: 1,

@@ -40,7 +40,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
       context.authProvider
           .updateGuestUser(FirebaseAuth.instance.currentUser == null);
-
     });
     super.initState();
   }
@@ -74,13 +73,14 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
             const SizedBox(height: 20),
             const CarousalWeb(),
             const SizedBox(height: 20),
-            Consumer<MoviesProvider>(builder: (_, provider, __) {
-              return AnimatedSwitcher(
-                duration: const Duration(seconds: 1),
-                child: provider.selectedContentType == Content.movie
-                    ? MovieSectionWeb(isMobileWeb: widget.isMobileWeb)
-                    : TvShowSectionWeb(isMobileWeb: widget.isMobileWeb),
-              );
+            Consumer<MoviesProvider>(
+              builder: (_, provider, __) {
+                return AnimatedSwitcher(
+                  duration: const Duration(seconds: 1),
+                  child: provider.selectedContentType == Content.movie
+                      ? MovieSectionWeb(isMobileWeb: widget.isMobileWeb)
+                      : TvShowSectionWeb(isMobileWeb: widget.isMobileWeb),
+                );
               },
             ),
           ],

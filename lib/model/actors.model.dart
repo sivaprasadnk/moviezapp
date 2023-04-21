@@ -32,7 +32,7 @@ extension ActorsExt on List<Actors> {
     List<Actors> list = [];
 
     for (var actor in this) {
-        list.add(actor);
+      list.add(actor);
       // if (actor.profileUrl.isNotEmpty) {
       // }
     }

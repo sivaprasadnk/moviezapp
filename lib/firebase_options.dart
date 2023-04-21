@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '625310114702',
     projectId: 'moviezapp-spverse',
     storageBucket: 'moviezapp-spverse.appspot.com',
-    iosClientId: '625310114702-9o6utaofs03l2pgmsvbjd6977316t8p4.apps.googleusercontent.com',
+    iosClientId:
+        '625310114702-9o6utaofs03l2pgmsvbjd6977316t8p4.apps.googleusercontent.com',
     iosBundleId: 'com.spverse.moviezapp',
   );
 }

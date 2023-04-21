@@ -57,7 +57,6 @@ class Movie {
       genreIdIntList = <int>[];
     }
 
-
     return Movie(
       id: json['id'],
       backdropPath: backdropImage,
@@ -111,8 +110,8 @@ extension MovieExtension on List<Movie> {
     for (var i in this) {
       if (i.genreIdList != null && i.genreIdList!.isNotEmpty) {
         for (var id in i.genreIdList!) {
-        idList.add(id);
-      }
+          idList.add(id);
+        }
       }
     }
     return idList.toSet().toList();

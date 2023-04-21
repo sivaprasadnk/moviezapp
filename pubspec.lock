@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  animate_on_hover:
+    dependency: "direct main"
+    description:
+      name: animate_on_hover
+      sha256: "4f109b35c56e5ca315f75004068c5452da98adb08707b43ace32bc4d75b8a7cc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   archive:
     dependency: transitive
     description:

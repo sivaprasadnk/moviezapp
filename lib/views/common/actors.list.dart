@@ -1,9 +1,9 @@
+import 'package:animate_on_hover/animate_on_hover.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
 
@@ -49,14 +49,17 @@ class ActorsList extends StatelessWidget {
                                         context, actor!, size);
                                   });
                                 },
-                                child: CustomCacheImage(
-                                  imageUrl: actor.profilePath,
-                                  borderRadius: size - 10,
-                                  height: size - 10,
-                                  width: size - 10,
-                                  cacheKey: 'actor${actor.id}${actor.name}',
+                                child: Hero(
+                                  tag: actor.id,
+                                  child: CustomCacheImage(
+                                    imageUrl: actor.profilePath,
+                                    borderRadius: size - 10,
+                                    height: size - 10,
+                                    width: size - 10,
+                                    cacheKey: 'actor${actor.id}${actor.name}',
+                                  ),
                                 ),
-                              ).withHoverIncreaseSize(1.3)
+                              ).increaseSizeOnHover(1.3)
                             : Container(
                                 height: size - 10,
                                 width: size - 10,

@@ -118,41 +118,40 @@ class MoviePosterImage extends StatelessWidget {
 }
 
 // Container(
-                  //   width: snapshot.data!.width,
-                  //   height: 45,
-                  //   decoration: const BoxDecoration(
-                  //     color: Colors.black,
-                  //     borderRadius: BorderRadius.only(
-                  //       bottomLeft: Radius.circular(10),
-                  //       bottomRight: Radius.circular(10),
-                  //     ),
-                  //   ),
-                  //   child: Center(
-                  //     child: Consumer<MoviesProvider>(
-                  //       builder: (_, provider, __) {
-                  //         var trailerVideo = "";
-                  //         if (provider.videoList.isNotEmpty &&
-                  //             provider.videoList.trailer.isNotEmpty) {
-                  //           trailerVideo = provider.videoList.trailer;
-                  //         }
-                  //         return trailerVideo.isNotEmpty
-                  //             ? GestureDetector(
-                  //                 onTap: () {
-                  //                   // playVideo(trailerVideo, context);
-                  //                 },
-                  //                 child: const SizedBox(
-                  //                   child: Text(
-                  //                     'Play Trailer',
-                  //                     style: TextStyle(
-                  //                       color: Colors.white,
-                  //                       fontSize: 18,
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ).addMousePointer
-                  //             : const SizedBox.shrink();
-                  //       },
-                  //     ),
-                  //   ),
-                  // )
-
+//   width: snapshot.data!.width,
+//   height: 45,
+//   decoration: const BoxDecoration(
+//     color: Colors.black,
+//     borderRadius: BorderRadius.only(
+//       bottomLeft: Radius.circular(10),
+//       bottomRight: Radius.circular(10),
+//     ),
+//   ),
+//   child: Center(
+//     child: Consumer<MoviesProvider>(
+//       builder: (_, provider, __) {
+//         var trailerVideo = "";
+//         if (provider.videoList.isNotEmpty &&
+//             provider.videoList.trailer.isNotEmpty) {
+//           trailerVideo = provider.videoList.trailer;
+//         }
+//         return trailerVideo.isNotEmpty
+//             ? GestureDetector(
+//                 onTap: () {
+//                   // playVideo(trailerVideo, context);
+//                 },
+//                 child: const SizedBox(
+//                   child: Text(
+//                     'Play Trailer',
+//                     style: TextStyle(
+//                       color: Colors.white,
+//                       fontSize: 18,
+//                     ),
+//                   ),
+//                 ),
+//               ).addMousePointer
+//             : const SizedBox.shrink();
+//       },
+//     ),
+//   ),
+// )

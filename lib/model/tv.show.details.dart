@@ -76,11 +76,9 @@ class TvShowDetails {
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
       releaseDate: json['first_air_date'],
-
       overview: json['overview'],
       networks: networksList,
       networkPath: networkPath,
-      
     );
   }
 

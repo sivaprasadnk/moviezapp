@@ -671,212 +671,507 @@ class Dialogs {
     );
   }
 
-  // static promptToRateOnStore(BuildContext context, int currentRating) async {
-  //   await showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       int newRating = currentRating;
-  //       return AlertDialog(
-  //         title: const SectionTitle(
-  //           title: 'Opening PlayStore to rate !',
-  //         ),
-  //         content: StatefulBuilder(builder: (context, setState) {
-  //           return SizedBox(
-  //             width: context.width * 0.19,
-  //             child: Column(
-  //               mainAxisSize: MainAxisSize.min,
-  //               children: [
-  //                 const SizedBox(height: 12),
-  //                 RatingBar.builder(
-  //                   initialRating: currentRating.toDouble(),
-  //                   itemCount: 5,
-  //                   itemBuilder: (context, _) => const Icon(
-  //                     Icons.star,
-  //                     color: Colors.amber,
-  //                   ),
-  //                   onRatingUpdate: (rating) {
-  //                     context.userProvider.updateRating(rating.toInt());
-  //                     if (rating > 3) {
-  //                       if (context.isMobileApp) {
-  //                         StoreRedirect.redirect(
-  //                           androidAppId: 'com.spverse.moviezapp',
-  //                         );
-  //                       }
-  //                     }
-  //                     newRating = rating.toInt();
-  //                     setState(() {});
-  //                   },
-  //                 ),
-
-  //                 // if(newRating>3)
-  //               ],
-  //             ),
-  //           );
-  //         }),
-  //         actions: [
-  //           Padding(
-  //             padding: const EdgeInsets.all(12.0),
-  //             child: GestureDetector(
-  //               onTap: () {
-  //                 context.pop();
-  //                 if(newRating>3 && context.isMobileApp){
-
-  //                 }
-  //               },
-  //               child: const Text(
-  //                 'Close',
-  //                 style: TextStyle(
-  //                   color: Colors.black,
-  //                 ),
-  //               ),
-  //             ).addMousePointer,
-  //           ),
-  //           // Padding(
-  //           //   padding: const EdgeInsets.all(12.0),
-  //           //   child: GestureDetector(
-  //           //     onTap: () {
-  //           //       context.pop();
-  //           //     },
-  //           //     child: const Text(
-  //           //       'Update',
-  //           //       style: TextStyle(
-  //           //         color: Colors.black,
-  //           //       ),
-  //           //     ),
-  //           //   ).addMousePointer,
-  //           // ),
-  //           const SizedBox(width: 10),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   static showActorDetailsDialog(
     BuildContext context,
     ActorDetailsModel actor,
     double size,
   ) async {
-    await showDialog(
-      context: context,
-      barrierColor: Colors.black87,
-      builder: (_) {
-        return AlertDialog(
-          insetPadding: EdgeInsets.zero,
-          backgroundColor: context.bgColor,
-          title: Column(
-            children: [
-              SectionTitle(
-                title: actor.name!,
-              ),
-              const Divider(
-                indent: 0,
-                endIndent: 0,
-                color: Colors.black,
-              ),
-            ],
-          ),
-          content: Container(
-            width: context.width * 0.5,
-            color: context.bgColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        fullscreenDialog: false,
+        barrierColor: Colors.black54,
+        barrierDismissible: true,
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return AlertDialog(
+            insetPadding: EdgeInsets.zero,
+            backgroundColor: context.bgColor,
+            title: Column(
               children: [
-                Row(
-                  children: [
-                    CustomCacheImage(
-                      imageUrl: actor.profilePath!,
-                      borderRadius: size - 10,
-                      height: size - 10,
-                      width: size - 10,
-                      cacheKey: 'actor${actor.id}${actor.name}',
-                    ),
-                    const SizedBox(width: 20),
-                    if (actor.biography!.isNotEmpty)
-                      SizedBox(
-                        width: context.width * 0.33,
-                        child: Text(
-                          actor.biography!,
-                          maxLines: 8,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                  ],
+                SectionTitle(
+                  title: actor.name!,
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    if (actor.bday!.isNotEmpty)
-                      RichText(
-                        text: TextSpan(
-                          text: "Birthday : ",
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: actor.bday!.formatedDateString,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: context.primaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    if (actor.homepage!.isNotEmpty)
-                      RichText(
-                        text: TextSpan(
-                          text: "  Website : ",
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: actor.homepage!,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  launchUrl(Uri.parse(actor.homepage!));
-                                },
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: context.primaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ).addMousePointer,
-                  ],
+                const Divider(
+                  indent: 0,
+                  endIndent: 0,
+                  color: Colors.black,
                 ),
               ],
             ),
-          ),
-          actions: [
-            const SizedBox(width: 10),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: GestureDetector(
-                onTap: () {
-                  context.pop();
-                },
-                child: Text(
-                  'Close',
-                  style: TextStyle(
-                    color: context.highlightColor,
+            content: Container(
+              width: context.width * 0.75,
+              color: context.bgColor,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: actor.biography!.isNotEmpty
+                        ? MainAxisAlignment.start
+                        : MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (actor.profileUrl != null &&
+                          actor.profileUrl!.isNotEmpty)
+                        Hero(
+                          tag: actor.id!,
+                          child: CustomCacheImage(
+                            imageUrl: actor.profilePath!,
+                            borderRadius: size - 10,
+                            height: size - 10,
+                            width: size - 10,
+                            cacheKey: 'actor${actor.id}${actor.name}',
+                          ),
+                        )
+                      else
+                        Container(
+                          height: size - 10,
+                          width: size - 10,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.person,
+                              size: size - 90,
+                            ),
+                          ),
+                        ),
+                      const SizedBox(width: 20),
+                      if (actor.biography!.isNotEmpty)
+                        SizedBox(
+                          width: context.width * 0.53,
+                          child: Text(
+                            actor.biography!,
+                            maxLines: 13,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                            ),
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              if (actor.bday!.isNotEmpty)
+                                RichText(
+                                  text: TextSpan(
+                                    text: "Birthday : ",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: actor.bday!.formatedDateString,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: context.primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              if (actor.homepage!.isNotEmpty)
+                                RichText(
+                                  text: TextSpan(
+                                    text: "\tWebsite : ",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: actor.homepage!,
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            launchUrl(
+                                                Uri.parse(actor.homepage!));
+                                          },
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: context.primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ).addMousePointer,
+                              if (actor.placeOfBirth!.isNotEmpty)
+                                RichText(
+                                  text: TextSpan(
+                                    text: "\tResidence : ",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: actor.placeOfBirth!,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: context.primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ).addMousePointer
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  if (actor.biography!.isNotEmpty)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        if (actor.bday!.isNotEmpty)
+                          RichText(
+                            text: TextSpan(
+                              text: "Birthday : ",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: actor.bday!.formatedDateString,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: context.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (actor.homepage!.isNotEmpty)
+                          RichText(
+                            text: TextSpan(
+                              text: "\tWebsite : ",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: actor.homepage!,
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      launchUrl(Uri.parse(actor.homepage!));
+                                    },
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: context.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ).addMousePointer,
+                        if (actor.placeOfBirth!.isNotEmpty)
+                          RichText(
+                            text: TextSpan(
+                              text: "\tResidence : ",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: actor.placeOfBirth!,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: context.primaryColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ).addMousePointer
+                      ],
+                    ),
+                ],
+              ),
+            ),
+            actions: [
+              const SizedBox(width: 10),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: GestureDetector(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Text(
+                    'Close',
+                    style: TextStyle(
+                      color: context.highlightColor,
+                    ),
                   ),
                 ),
-              ),
-            ).addMousePointer
-          ],
-        );
-      },
+              ).addMousePointer
+            ],
+          );
+          // return Dialog(
+          //   child: Column(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(8.0),
+          //         child: SizedBox(
+          //           width: context.width * 0.5,
+          //           child: SectionTitle(
+          //             title: actor.name!,
+          //           ),
+          //         ),
+          //       ),
+          //       Container(
+          //         color: context.bgColor,
+          //         width: context.width * 0.5,
+          //         padding: const EdgeInsets.all(16.0),
+          //         child: const Divider(
+          //           indent: 0,
+          //           endIndent: 0,
+          //           color: Colors.black,
+          //         ),
+          //       ),
+          //       Container(
+          //         width: context.width * 0.5,
+          //         color: context.bgColor,
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: [
+          //             Row(
+          //               children: [
+          //                 Hero(
+          //                   tag: actor.id!,
+          //                   child: CustomCacheImage(
+          //                     imageUrl: actor.profilePath!,
+          //                     borderRadius: size - 10,
+          //                     height: size - 10,
+          //                     width: size - 10,
+          //                     cacheKey: 'actor${actor.id}${actor.name}',
+          //                   ),
+          //                 ),
+          //                 const SizedBox(width: 20),
+          //                 if (actor.biography!.isNotEmpty)
+          //                   SizedBox(
+          //                     width: context.width * 0.33,
+          //                     child: Material(
+          //                       child: Text(
+          //                         actor.biography!,
+          //                         maxLines: 8,
+          //                         overflow: TextOverflow.ellipsis,
+          //                         style: const TextStyle(
+          //                           fontWeight: FontWeight.w400,
+          //                           fontSize: 15,
+          //                         ),
+          //                       ),
+          //                     ),
+          //                   ),
+          //               ],
+          //             ),
+          //             const SizedBox(height: 20),
+          //             Row(
+          //               children: [
+          //                 if (actor.bday!.isNotEmpty)
+          //                   RichText(
+          //                     text: TextSpan(
+          //                       text: "Birthday : ",
+          //                       style: const TextStyle(
+          //                         color: Colors.grey,
+          //                         fontWeight: FontWeight.normal,
+          //                       ),
+          //                       children: <TextSpan>[
+          //                         TextSpan(
+          //                           text: actor.bday!.formatedDateString,
+          //                           style: TextStyle(
+          //                             fontWeight: FontWeight.bold,
+          //                             color: context.primaryColor,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 if (actor.homepage!.isNotEmpty)
+          //                   RichText(
+          //                     text: TextSpan(
+          //                       text: "  Website : ",
+          //                       style: const TextStyle(
+          //                         color: Colors.grey,
+          //                         fontWeight: FontWeight.normal,
+          //                       ),
+          //                       children: <TextSpan>[
+          //                         TextSpan(
+          //                           text: actor.homepage!,
+          //                           recognizer: TapGestureRecognizer()
+          //                             ..onTap = () {
+          //                               launchUrl(Uri.parse(actor.homepage!));
+          //                             },
+          //                           style: TextStyle(
+          //                             fontWeight: FontWeight.bold,
+          //                             color: context.primaryColor,
+          //                           ),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ).addMousePointer,
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           context.pop();
+          //         },
+          //         child: Container(
+          //           width: context.width * 0.5,
+          //           color: context.bgColor,
+          //           child: Material(
+          //             child: Align(
+          //               alignment: Alignment.centerRight,
+          //               child: Text(
+          //                 'Close',
+          //                 style: TextStyle(
+          //                   color: context.highlightColor,
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ).addMousePointer
+          //     ],
+          //   ),
+          // );
+        },
+      ),
     );
+    // await showDialog(
+    //   context: context,
+    //   barrierColor: Colors.black87,
+    //   builder: (_) {
+    //     return AlertDialog(
+    //       insetPadding: EdgeInsets.zero,
+    //       backgroundColor: context.bgColor,
+    //       title:
+    // Column(
+    //         children: [
+    //           SectionTitle(
+    //             title: actor.name!,
+    //           ),
+    //           const Divider(
+    //             indent: 0,
+    //             endIndent: 0,
+    //             color: Colors.black,
+    //           ),
+    //         ],
+    //       ),
+    //       content:
+    // Container(
+    //         width: context.width * 0.5,
+    //         color: context.bgColor,
+    //         child: Column(
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             Row(
+    //               children: [
+    //                 CustomCacheImage(
+    //                   imageUrl: actor.profilePath!,
+    //                   borderRadius: size - 10,
+    //                   height: size - 10,
+    //                   width: size - 10,
+    //                   cacheKey: 'actor${actor.id}${actor.name}',
+    //                 ),
+    //                 const SizedBox(width: 20),
+    //                 if (actor.biography!.isNotEmpty)
+    //                   SizedBox(
+    //                     width: context.width * 0.33,
+    //                     child: Text(
+    //                       actor.biography!,
+    //                       maxLines: 8,
+    //                       overflow: TextOverflow.ellipsis,
+    //                       style: const TextStyle(
+    //                         fontWeight: FontWeight.w400,
+    //                         fontSize: 15,
+    //                       ),
+    //                     ),
+    //                   ),
+    //               ],
+    //             ),
+    //             const SizedBox(height: 20),
+    //             Row(
+    //               children: [
+    //                 if (actor.bday!.isNotEmpty)
+    //                   RichText(
+    //                     text: TextSpan(
+    //                       text: "Birthday : ",
+    //                       style: const TextStyle(
+    //                         color: Colors.grey,
+    //                         fontWeight: FontWeight.normal,
+    //                       ),
+    //                       children: <TextSpan>[
+    //                         TextSpan(
+    //                           text: actor.bday!.formatedDateString,
+    //                           style: TextStyle(
+    //                             fontWeight: FontWeight.bold,
+    //                             color: context.primaryColor,
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 if (actor.homepage!.isNotEmpty)
+    //                   RichText(
+    //                     text: TextSpan(
+    //                       text: "  Website : ",
+    //                       style: const TextStyle(
+    //                         color: Colors.grey,
+    //                         fontWeight: FontWeight.normal,
+    //                       ),
+    //                       children: <TextSpan>[
+    //                         TextSpan(
+    //                           text: actor.homepage!,
+    //                           recognizer: TapGestureRecognizer()
+    //                             ..onTap = () {
+    //                               launchUrl(Uri.parse(actor.homepage!));
+    //                             },
+    //                           style: TextStyle(
+    //                             fontWeight: FontWeight.bold,
+    //                             color: context.primaryColor,
+    //                           ),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ).addMousePointer,
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       actions: [
+    //         const SizedBox(width: 10),
+    //         Padding(
+    //           padding: const EdgeInsets.all(12.0),
+    //           child: GestureDetector(
+    //             onTap: () {
+    //               context.pop();
+    //             },
+    //             child: Text(
+    //               'Close',
+    //               style: TextStyle(
+    //                 color: context.highlightColor,
+    //               ),
+    //             ),
+    //           ),
+    //         ).addMousePointer
+    //       ],
+    //     );
+    //   },
+    // );
   }
 }

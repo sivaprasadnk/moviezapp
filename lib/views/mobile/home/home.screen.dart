@@ -33,15 +33,14 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   checkNetwork() {
     InternetConnectionChecker().onStatusChange.listen((status) {
       if (mounted) {
-        
-      switch (status) {
-        case InternetConnectionStatus.connected:
-          updateData();
-          break;
-        case InternetConnectionStatus.disconnected:
-          noNetworkDialog();
-          break;
-      }
+        switch (status) {
+          case InternetConnectionStatus.connected:
+            updateData();
+            break;
+          case InternetConnectionStatus.disconnected:
+            noNetworkDialog();
+            break;
+        }
       }
     });
   }

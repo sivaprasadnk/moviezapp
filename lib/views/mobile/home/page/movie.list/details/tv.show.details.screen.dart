@@ -48,7 +48,6 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
       onWillPop: () async {
         context.moviesProvider.updateCarousalIndex(0);

@@ -41,7 +41,6 @@ class MovieSectionMobile extends StatelessWidget {
             movieType: MovieType.nowPlaying,
           ),
           const SizedBox(height: 20),
-
           SectionTitle(
             title: 'Upcoming',
             withSeeMore: provider.moviesList.upcomingMovies(6).length > 5,

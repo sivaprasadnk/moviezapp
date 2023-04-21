@@ -182,7 +182,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
             else
               const Center(
                 child: EmptyBookmarkListContainer(),
-                )
+              )
           ],
         ),
       );

@@ -5,6 +5,7 @@ class ActorDetailsModel {
   String? bday;
   String? homepage;
   String? profilePath;
+  String? profileUrl;
   String? placeOfBirth;
   String? knownAs;
   String? name;
@@ -14,6 +15,7 @@ class ActorDetailsModel {
     this.bday,
     this.homepage,
     this.profilePath,
+    this.profileUrl,
     this.placeOfBirth,
     this.knownAs,
     this.name,
@@ -21,13 +23,16 @@ class ActorDetailsModel {
   });
 
   factory ActorDetailsModel.fromJson(Map<String, dynamic> json) {
+    String? url = json['profile_path'];
+    url ??= "";
     return ActorDetailsModel(
       bday: json['birthday'] ?? "",
       biography: json['biography'] ?? "",
       homepage: json['homepage'] ?? "",
       knownAs: json['known_for_department'] ?? "",
       placeOfBirth: json['place_of_birth'] ?? "",
-      profilePath: kImageBaseUrl + json['profile_path'],
+      profileUrl: url,
+      profilePath: kImageBaseUrl + url,
       name: json['name'] ?? "",
       id: json['id'] ?? 0,
     );
