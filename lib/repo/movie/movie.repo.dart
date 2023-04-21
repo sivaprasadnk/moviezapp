@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:moviezapp/model/actor.details.model.dart';
 import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.dart';
@@ -385,5 +386,24 @@ class MovieRepo {
     var url = "${kBaseUrl}search/tv?api_key=$apiKey&query=$query";
 
     return await getTvShowsResultsList(url, TvShowType.search);
+  }
+
+  static Future<ActorDetailsModel?> getActorDetails(int id) async {
+    var url = "${kBaseUrl}person/$id?api_key=$apiKey";
+    ActorDetailsModel? actor;
+    debugPrint(url);
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final item = json.decode(response.body) as Map<String, dynamic>;
+      actor = ActorDetailsModel.fromJson(item);
+      return actor;
+    }
+    return actor;
   }
 }

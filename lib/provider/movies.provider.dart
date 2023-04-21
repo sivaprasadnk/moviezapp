@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/model/actor.details.model.dart';
 import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.dart';
@@ -219,7 +220,7 @@ class MoviesProvider extends ChangeNotifier {
           _filteredSearchMoviesList = genre.getFilteredList(_searchMoviesList);
         }
       }
-    notifyListeners();
+      notifyListeners();
     });
   }
 
@@ -442,5 +443,9 @@ class MoviesProvider extends ChangeNotifier {
     _videoList = await MovieRepo.getRelatedVideos(id, show);
     _videosLoading = false;
     notifyListeners();
+  }
+
+  Future<ActorDetailsModel?> getActorDetails(int id) async {
+    return await MovieRepo.getActorDetails(id);
   }
 }

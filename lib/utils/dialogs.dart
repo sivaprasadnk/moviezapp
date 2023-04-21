@@ -1,15 +1,20 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:moviezapp/model/actor.details.model.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/utils/string.constants.dart';
+import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
 import 'package:store_redirect/store_redirect.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
   static void showLoader({required BuildContext context}) async {
@@ -543,8 +548,7 @@ class Dialogs {
                     await InAppUpdate.checkForUpdate().then((value) async {
                       if (value.updateAvailability ==
                           UpdateAvailability.updateAvailable) {
-                        await InAppUpdate.performImmediateUpdate()
-                            .then((value) {});
+                        await InAppUpdate.performImmediateUpdate();
                         // await StoreRedirect.redirect();
                       } else {
                         context.scaffoldMessenger.showSnackBar(
@@ -747,4 +751,132 @@ class Dialogs {
   //     },
   //   );
   // }
+
+  static showActorDetailsDialog(
+    BuildContext context,
+    ActorDetailsModel actor,
+    double size,
+  ) async {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: context.bgColor,
+          title: Column(
+            children: [
+              SectionTitle(
+                title: actor.name!,
+              ),
+              const Divider(
+                indent: 0,
+                endIndent: 0,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          content: Container(
+            width: context.width * 0.5,
+            color: context.bgColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    CustomCacheImage(
+                      imageUrl: actor.profilePath!,
+                      borderRadius: size - 10,
+                      height: size - 10,
+                      width: size - 10,
+                      cacheKey: 'actor${actor.id}${actor.name}',
+                    ),
+                    const SizedBox(width: 20),
+                    if (actor.biography!.isNotEmpty)
+                      SizedBox(
+                        width: context.width * 0.33,
+                        child: Text(
+                          actor.biography!,
+                          maxLines: 8,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    if (actor.bday!.isNotEmpty)
+                      RichText(
+                        text: TextSpan(
+                          text: "Birthday : ",
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: actor.bday!.formatedDateString,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: context.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (actor.homepage!.isNotEmpty)
+                      RichText(
+                        text: TextSpan(
+                          text: "  Website : ",
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: actor.homepage!,
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  launchUrl(Uri.parse(actor.homepage!));
+                                },
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: context.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ).addMousePointer,
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: Text(
+                  'Close',
+                  style: TextStyle(
+                    color: context.highlightColor,
+                  ),
+                ),
+              ),
+            ).addMousePointer
+          ],
+        );
+      },
+    );
+  }
 }

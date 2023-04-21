@@ -192,8 +192,15 @@ class MovieDetailsLarge extends StatelessWidget {
                   const SizedBox(height: 40),
                   if (!provider.actorsListLoading)
                     if (provider.actorsList.isNotEmpty)
-                      const SectionTitle(title: 'Cast'),
-                  const SizedBox(height: 20),
+                      Text(
+                        'Cast',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 15,
+                          color: context.primaryColor,
+                        ),
+                      ),
+                  // const SizedBox(height: 20),
                   AnimatedSwitcher(
                     duration: const Duration(
                       seconds: 1,

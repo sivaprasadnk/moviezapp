@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
+import 'package:moviezapp/utils/dialogs.dart';
+import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +29,7 @@ class ActorsList extends StatelessWidget {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   separatorBuilder: (context, index) {
-                    return const SizedBox(width: 20);
+                    return const SizedBox(width: 30);
                   },
                   itemCount: provider.actorsList.getList.length,
                   itemBuilder: (context, index) {
@@ -35,13 +38,25 @@ class ActorsList extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         actor.profileUrl.isNotEmpty
-                            ? CustomCacheImage(
-                                imageUrl: actor.profilePath,
-                                borderRadius: size - 10,
-                                height: size - 10,
-                                width: size - 10,
-                                cacheKey: 'actor${actor.id}${actor.name}',
-                              )
+                            ? GestureDetector(
+                                onTap: () {
+                                  Dialogs.showLoader(context: context);
+                                  provider
+                                      .getActorDetails(actor.id)
+                                      .then((actor) {
+                                    context.pop();
+                                    Dialogs.showActorDetailsDialog(
+                                        context, actor!, size);
+                                  });
+                                },
+                                child: CustomCacheImage(
+                                  imageUrl: actor.profilePath,
+                                  borderRadius: size - 10,
+                                  height: size - 10,
+                                  width: size - 10,
+                                  cacheKey: 'actor${actor.id}${actor.name}',
+                                ),
+                              ).withHoverIncreaseSize(1.3)
                             : Container(
                                 height: size - 10,
                                 width: size - 10,

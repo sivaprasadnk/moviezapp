@@ -91,16 +91,18 @@ class WebApp extends StatelessWidget {
                 if (widget is Scaffold) {
                   error = MaterialApp(
                     builder: (context, child) {
-                      return Scaffold(
-                        body: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(30.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.error_outlined, size: 50),
-                                error,
-                              ],
+                      return Material(
+                        child: Scaffold(
+                          body: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Icons.error_outlined, size: 50),
+                                  error,
+                                ],
+                              ),
                             ),
                           ),
                         ),
