@@ -13,7 +13,6 @@ import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
-// import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
@@ -173,9 +172,7 @@ class Dialogs {
                   onTap: () {
                     Dialogs.showLoader(context: context);
                     context.appProvider.updatedSelectedIndex(0);
-
                     context.authProvider.signInWithGoogle(context);
-                    // Navigator.pushNamed(context, SignInScreen.routeName);
                   },
                   child: Container(
                     height: 75,
@@ -206,7 +203,7 @@ class Dialogs {
                               ),
                             ),
                             Text(
-                              ' Sign in with your gmail address',
+                              ' Sign in with your Gmail address',
                               style: TextStyle(
                                 fontWeight: FontWeight.w200,
                                 color: Colors.white,
@@ -214,7 +211,6 @@ class Dialogs {
                             ),
                           ],
                         ),
-                        // const SizedBox(width: 10),
                         const Spacer(),
                         const Icon(
                           Icons.arrow_forward_ios,
@@ -699,8 +695,11 @@ class Dialogs {
             backgroundColor: context.bgColor,
             title: Column(
               children: [
-                SectionTitle(
-                  title: actor.name!,
+                Hero(
+                  tag: actor.name!,
+                  child: SectionTitle(
+                    title: actor.name!,
+                  ),
                 ),
                 const Divider(
                   indent: 0,
@@ -732,33 +731,24 @@ class Dialogs {
                             width: size - 10,
                             cacheKey: 'actor${actor.id}${actor.name}',
                           ),
-                        )
-                      else
-                        Container(
-                          height: size - 10,
-                          width: size - 10,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.person,
-                              size: size - 90,
-                            ),
-                          ),
                         ),
                       const SizedBox(width: 20),
                       if (actor.biography!.isNotEmpty)
-                        SizedBox(
+                        Container(
                           width: context.width * 0.53,
-                          child: Text(
-                            actor.biography!,
-                            maxLines: 13,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 15,
+                          // height: context.height * 0.4,
+                          constraints: BoxConstraints(
+                            maxHeight: context.height * 0.4,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Text(
+                              actor.biography!,
+                              maxLines: 53,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         )
@@ -810,25 +800,25 @@ class Dialogs {
                                     ],
                                   ),
                                 ).addMousePointer,
-                              if (actor.placeOfBirth!.isNotEmpty)
-                                RichText(
-                                  text: TextSpan(
-                                    text: "\tResidence : ",
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: actor.placeOfBirth!,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: context.primaryColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ).addMousePointer
+                              // if (actor.placeOfBirth!.isNotEmpty)
+                              //   RichText(
+                              //     text: TextSpan(
+                              //       text: "\tResidence : ",
+                              //       style: const TextStyle(
+                              //         color: Colors.grey,
+                              //         fontWeight: FontWeight.normal,
+                              //       ),
+                              //       children: <TextSpan>[
+                              //         TextSpan(
+                              //           text: actor.placeOfBirth!,
+                              //           style: TextStyle(
+                              //             fontWeight: FontWeight.bold,
+                              //             color: context.primaryColor,
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ).addMousePointer
                             ],
                           ),
                         ),

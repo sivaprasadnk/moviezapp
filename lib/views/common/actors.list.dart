@@ -82,14 +82,17 @@ class ActorsList extends StatelessWidget {
                         const SizedBox(height: 8),
                         SizedBox(
                           width: size - 20,
-                          child: Text(
-                            actor.name,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                          child: Hero(
+                            tag: actor.name,
+                            child: Text(
+                              actor.name,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),
