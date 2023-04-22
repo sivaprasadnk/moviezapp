@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 
@@ -30,7 +31,7 @@ class SectionTitle extends StatelessWidget {
             fontSize: 15,
             color: context.primaryColor,
           ),
-        ),
+        ).animate().fadeIn().slide(),
         const Spacer(),
         if (withSeeMore)
           GestureDetector(
