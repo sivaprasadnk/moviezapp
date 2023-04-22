@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
@@ -24,21 +23,21 @@ class SocialMediaIcon extends StatelessWidget {
     double size = 25;
     return GestureDetector(
       onTap: () async {
-        if (kIsWeb) {
-          context.openInNewTab(link);
-        } else {
-          try {
-            if (await canLaunchUrl(Uri.parse(link))) {
-              await launchUrl(Uri.parse(link));
-            } else {
-              if (context.mounted) {
-                context.showSnackbar("Failed to launch $link");
-              }
+        // if (kIsWeb) {
+        //   context.openInNewTab(link);
+        // } else {
+        try {
+          if (await canLaunchUrl(Uri.parse(link))) {
+            await launchUrl(Uri.parse(link));
+          } else {
+            if (context.mounted) {
+              context.showSnackbar("Failed to launch $link");
             }
-          } catch (err) {
-            context.showSnackbar("Failed to launch $link");
           }
+        } catch (err) {
+          context.showSnackbar("Failed to launch $link");
         }
+        // }
       },
       child: Icon(
         icon,

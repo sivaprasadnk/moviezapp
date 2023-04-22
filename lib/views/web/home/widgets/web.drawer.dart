@@ -10,6 +10,7 @@ import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebDrawer extends StatelessWidget {
   const WebDrawer({super.key});
@@ -136,7 +137,8 @@ class WebDrawer extends StatelessWidget {
               icon: Icons.policy,
               isImplemented: true,
               onTap: () {
-                context.openInNewTab(kPrivacyPolicyUrl);
+                launchUrl(Uri.parse(kPrivacyPolicyUrl));
+                // context.openInNewTab(kPrivacyPolicyUrl);
               },
             ),
             const Spacer(),
@@ -202,7 +204,9 @@ class WebDrawer extends StatelessWidget {
                 const SizedBox(height: 12),
                 GestureDetector(
                   onTap: () {
-                    context.openInNewTab(kPlayStoreLink);
+                    launchUrl(Uri.parse(kPlayStoreLink));
+
+                    // context.openInNewTab(kPlayStoreLink);
                   },
                   child: Container(
                     padding: const EdgeInsets.all(6),

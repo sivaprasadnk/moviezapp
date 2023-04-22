@@ -13,7 +13,7 @@ import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
-import 'package:store_redirect/store_redirect.dart';
+// import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
@@ -548,7 +548,17 @@ class Dialogs {
                     await InAppUpdate.checkForUpdate().then((value) async {
                       if (value.updateAvailability ==
                           UpdateAvailability.updateAvailable) {
-                        await InAppUpdate.performImmediateUpdate();
+                        context.scaffoldMessenger.showSnackBar(
+                          SnackBar(
+                            content: const Text("Update available !"),
+                            action: SnackBarAction(
+                              label: 'Update',
+                              onPressed: () async {
+                                await InAppUpdate.performImmediateUpdate();
+                              },
+                            ),
+                          ),
+                        );
                         // await StoreRedirect.redirect();
                       } else {
                         context.scaffoldMessenger.showSnackBar(
@@ -619,9 +629,9 @@ class Dialogs {
                       context.userProvider.updateRating(rating.toInt());
                       if (rating > 3) {
                         if (context.isMobileApp) {
-                          StoreRedirect.redirect(
-                            androidAppId: kPackageName,
-                          );
+                          // StoreRedirect.redirect(
+                          //   androidAppId: kPackageName,
+                          // );
                         }
                       }
                       newRating = rating.toInt();

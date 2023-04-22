@@ -8,7 +8,7 @@ import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
-import 'package:universal_html/html.dart' as html;
+// import 'package:universal_html/html.dart' as html;
 
 extension ContextExtensions on BuildContext {
   Size get size => MediaQuery.of(this).size;
@@ -115,10 +115,10 @@ extension ContextExtensions on BuildContext {
     FocusScope.of(this).unfocus();
   }
 
-  void openInNewTab(String url) {
-    html.window.open(
-      url,
-      'new tab',
-    );
-  }
+  // void openInNewTab(String url) {
+  //   html.window.open(
+  //     url,
+  //     'new tab',
+  //   );
+  // }
 }
