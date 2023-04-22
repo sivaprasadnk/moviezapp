@@ -32,11 +32,14 @@ class MoviePosterImage extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: AspectRatio(
           aspectRatio: 0.667,
-          child: CustomCacheImageWithoutSize(
-            imageUrl: movie.posterPath,
-            borderRadius: 10,
-            cacheKey: cacheKey1,
-            aspectRatio: 0.667,
+          child: Hero(
+            tag: cacheKey1,
+            child: CustomCacheImageWithoutSize(
+              imageUrl: movie.posterPath,
+              borderRadius: 10,
+              cacheKey: cacheKey1,
+              aspectRatio: 0.667,
+            ),
           ),
         ),
       ),

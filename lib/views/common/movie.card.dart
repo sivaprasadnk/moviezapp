@@ -61,7 +61,7 @@ class _MovieCardState extends State<MovieCard> {
 
   @override
   Widget build(BuildContext context) {
-    var cacheKey = "movie${widget.id}${widget.name}";
+    var cacheKey = "movie_${widget.id}poster";
     if (!widget.isMovie) {
       cacheKey = "tvshow${widget.id}${widget.name}";
     }
@@ -139,12 +139,15 @@ class _MovieCardState extends State<MovieCard> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 8, bottom: 8),
-                          child: CustomCacheImage(
-                            borderRadius: 8,
-                            height: widget.imageHeight,
-                            width: widget.imageWidth,
-                            imageUrl: widget.poster,
-                            cacheKey: cacheKey,
+                          child: Hero(
+                            tag: cacheKey,
+                            child: CustomCacheImage(
+                              borderRadius: 8,
+                              height: widget.imageHeight,
+                              width: widget.imageWidth,
+                              imageUrl: widget.poster,
+                              cacheKey: cacheKey,
+                            ),
                           ),
                         ),
                         Positioned.fill(

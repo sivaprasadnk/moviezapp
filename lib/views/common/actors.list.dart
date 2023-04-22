@@ -45,8 +45,13 @@ class ActorsList extends StatelessWidget {
                                       .getActorDetails(actor.id)
                                       .then((actor) {
                                     context.pop();
-                                    Dialogs.showActorDetailsDialog(
-                                        context, actor!, size);
+                                    if (!context.isMobileApp) {
+                                      Dialogs.showActorDetailsDialog(
+                                          context, actor!, size);
+                                    } else {
+                                      Dialogs.showActorDetailsDialogForApp(
+                                          context, actor!, size);
+                                    }
                                   });
                                 },
                                 child: Hero(
