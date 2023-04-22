@@ -6,6 +6,7 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/common.button.dart';
+import 'package:moviezapp/views/common/google.playstore.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
@@ -202,52 +203,10 @@ class WebDrawer extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                GestureDetector(
+                GooglePlaystoreButton(
                   onTap: () {
                     launchUrl(Uri.parse(kPlayStoreLink));
-
-                    // context.openInNewTab(kPlayStoreLink);
                   },
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          'assets/google-play.png',
-                          height: 40,
-                        ),
-                        const SizedBox(width: 5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
-                              "GET IT ON",
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(height: 1),
-                            Text(
-                              "Google Play",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(width: 5),
-                      ],
-                    ),
-                  ),
                 ).addMousePointer
               ],
             ),

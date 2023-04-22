@@ -25,7 +25,6 @@ class AllMoviesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: context.bgColor,
           elevation: 0,

@@ -121,59 +121,6 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                             },
                           ),
 
-                        // SizedBox(
-                        //   height: 200,
-                        //   width: double.infinity,
-                        //   child: ListView.separated(
-                        //     scrollDirection: Axis.horizontal,
-                        //     separatorBuilder: (context, index) {
-                        //       return const SizedBox(width: 15);
-                        //     },
-                        //     shrinkWrap: true,
-                        //     itemCount: shows.length,
-                        //     itemBuilder: (context, index) {
-                        //       var movie = shows[index];
-                        //       return MovieCard(
-                        //         poster: movie.posterPath,
-                        //         name: movie.name,
-                        //         vote: movie.voteAverage,
-                        //         id: movie.id,
-                        //         isMovie: false,
-                        //         withSize: false,
-                        //         releaseDate: movie.releaseDate,
-                        //       );
-                        //     },
-                        //   ),
-                        // )
-                        // SizedBox(
-                        //   height: 210,
-                        //   width: double.infinity,
-                        //   child: ListView.separated(
-                        //     separatorBuilder: (context, index) {
-                        //       return const SizedBox(width: 10);
-                        //     },
-                        //     scrollDirection: Axis.horizontal,
-                        //     shrinkWrap: true,
-                        //     itemCount: shows.length,
-                        //     itemBuilder: (context, index) {
-                        //       var show = shows[index];
-                        //       return Padding(
-                        //         padding:
-                        //             EdgeInsets.only(right: index == 4 ? 20 : 0),
-                        //         child: MovieCard(
-                        //           name: show.name,
-                        //           poster: show.posterPath,
-                        //           vote: show.voteAverage,
-                        //           id: show.id,
-                        //           imageHeight: 180,
-                        //           imageWidth: 120,
-                        //           withSize: true,
-                        //           releaseDate: show.releaseDate,
-                        //         ),
-                        //       );
-                        //     },
-                        //   ),
-                        // )
                       ],
                     ),
                   )

@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/firebase_options.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/providers.dart';
+import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/routes.dart';
+import 'package:moviezapp/views/common/google.playstore.button.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
 
@@ -68,55 +71,107 @@ class WebApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: providers,
-      child: Consumer<AppProvider>(
-        builder: (_, provider, __) {
-          return MaterialApp(
+    return !isMobileWeb
+        ? MultiProvider(
+            providers: providers,
+            child: Consumer<AppProvider>(
+              builder: (_, provider, __) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'MoviezApp',
+                  routes: routes,
+                  theme: ThemeData(
+                    primaryColor: Colors.red,
+                    brightness: provider.selectedBrightness,
+                  ),
+                  builder: (context, widget) {
+                    ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+                      String message = kDebugMode
+                          ? "${errorDetails.summary}"
+                          : "Something went wrong !";
+
+                      Widget error = Text(message);
+                      debugPrint('error : ${errorDetails.summary}');
+                      if (widget is Scaffold) {
+                        error = MaterialApp(
+                          builder: (context, child) {
+                            return Material(
+                              child: Scaffold(
+                                body: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(30.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.error_outlined,
+                                            size: 50),
+                                        error,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return error;
+                    };
+                    return widget!;
+                  },
+                  home: HomeScreenWeb(isMobileWeb: isMobileWeb),
+                );
+              },
+            ),
+          )
+        : MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'MoviezApp',
             routes: routes,
             theme: ThemeData(
               primaryColor: Colors.red,
-              brightness: provider.selectedBrightness,
             ),
-            builder: (context, widget) {
-              ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-                String message = kDebugMode
-                    ? "${errorDetails.summary}"
-                    : "Something went wrong !";
-
-                Widget error = Text(message);
-                debugPrint('error : ${errorDetails.summary}');
-                if (widget is Scaffold) {
-                  error = MaterialApp(
-                    builder: (context, child) {
-                      return Material(
-                        child: Scaffold(
-                          body: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(30.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.error_outlined, size: 50),
-                                  error,
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }
-                return error;
-              };
-              return widget!;
+            builder: (context, child) {
+              return const MobileWebScreen();
             },
-            home: HomeScreenWeb(isMobileWeb: isMobileWeb),
-          );
-        },
+            home: const MobileWebScreen());
+  }
+}
+
+class MobileWebScreen extends StatelessWidget {
+  const MobileWebScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(
+            child: Text('Use the mobile app to continue'),
+          ),
+          const SizedBox(height: 50),
+          Center(
+            child: GooglePlaystoreButton(
+              onTap: () async {
+                var link = 'https://spverse.page.link/TG78';
+                debugPrint('link : $link');
+
+                try {
+                  launchUrl(
+                    Uri.parse(link),
+                    mode: LaunchMode.externalNonBrowserApplication,
+                  );
+                } catch (err) {
+                  if (context.mounted) {
+                    context.showSnackbar('Cannot launch url $link');
+                  }
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
