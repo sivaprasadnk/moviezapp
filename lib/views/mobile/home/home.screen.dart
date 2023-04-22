@@ -90,7 +90,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
     String version = packageInfo.version;
     String buildNumber = packageInfo.buildNumber;
     if (context.mounted) {
-      context.appProvider.updateVersion('v$version.$buildNumber');
+      context.appProvider.updateVersion('$version.$buildNumber');
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
@@ -82,7 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               },
             ),
             const SizedBox(height: 15),
-
             ProfileMenuCard(
               title: 'Privacy Policy & Terms',
               icon: Icons.policy,
@@ -96,21 +96,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 );
               },
             ),
-            // const SizedBox(height: 15),
-            // ProfileMenuCard(
-            //   title: 'Visit website',
-            //   icon: Icons.bookmark,
-            //   isImplemented: true,
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (_) => const WebViewScreen(
-            //             url: "https://moviezapp-spverse.web.app/#/"),
-            //       ),
-            //     );
-            //   },
-            // ),
             const SizedBox(height: 15),
             ProfileMenuCard(
               title: 'Credits',
@@ -122,14 +107,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 15),
             ProfileMenuCard(
-              title: 'About',
-              icon: Icons.info,
+              title: 'Check for update',
+              icon: Icons.update,
               isImplemented: true,
-              onTap: () {
-                Dialogs.showVersionDialog(context);
+              onTap: () async {
+                await InAppUpdate.checkForUpdate().then((value) async {
+                  if (value.updateAvailability ==
+                      UpdateAvailability.updateAvailable) {
+                    context.scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: const Text("Update available !"),
+                        action: SnackBarAction(
+                          label: 'Update',
+                          onPressed: () async {
+                            await InAppUpdate.performImmediateUpdate();
+                          },
+                        ),
+                      ),
+                    );
+                    // await StoreRedirect.redirect();
+                  } else {
+                    context.scaffoldMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text("No update available!"),
+                      ),
+                    );
+                  }
+                });
+                // Dialogs.showVersionDialog(context);
               },
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 15),
+            Center(
+              child: Text(
+                "Version : ${context.appProvider.version}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
             !isGuest
                 ? CommonButton(
                     callback: () {
