@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/genre.model.dart';
-import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
@@ -14,20 +13,46 @@ import 'package:moviezapp/views/web/details/large/widgets/play.trailer.text.butt
 import 'package:moviezapp/views/web/home/widgets/grid/movie.grid.dart';
 import 'package:provider/provider.dart';
 
-class TvShowDetailsLarge extends StatelessWidget {
+class TvShowDetailsLarge extends StatefulWidget {
   const TvShowDetailsLarge({
     super.key,
-    required this.show,
-    required this.isBookmarked,
   });
 
-  final TvShowDetails show;
-  final bool isBookmarked;
+
+  @override
+  State<TvShowDetailsLarge> createState() => _TvShowDetailsLargeState();
+}
+
+class _TvShowDetailsLargeState extends State<TvShowDetailsLarge> {
+  bool isBookmarked = false;
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      if (context.isGuestUser) {
+        _isVisible = true;
+        setState(() {});
+      } else {
+        await context.userProvider
+            .checkIfMovieBookmarked(context.movieId)
+            .then((value) {
+          isBookmarked = value;
+          _isVisible = true;
+          setState(() {});
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    var show = context.moviesProvider.selectedShow!;
+
     var cacheKey = 'movie_${show.id}details';
     var cacheKey1 = 'movie_${show.id}poster';
+
 
     return Column(
       children: [
@@ -108,100 +133,6 @@ class TvShowDetailsLarge extends StatelessWidget {
                 ),
               ),
             ),
-            // Positioned.fill(
-            //   left: context.width * 0.1 + 350,
-            //   top: 50,
-            //   bottom: 20,
-            //   child: Align(
-            //     alignment: Alignment.topLeft,
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       mainAxisSize: MainAxisSize.min,
-            //       children: [
-            //         Text(
-            //           show.name,
-            //           style: const TextStyle(
-            //             fontWeight: FontWeight.w700,
-            //             fontSize: 20,
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //         const SizedBox(height: 20),
-            //         Row(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Text(
-            //               show.genreList.stringText,
-            //               style: const TextStyle(
-            //                 fontWeight: FontWeight.w600,
-            //                 fontSize: 15,
-            //                 color: Colors.white,
-            //               ),
-            //             ),
-            //             const SizedBox(width: 8),
-            //             Container(
-            //               height: 5,
-            //               width: 5,
-            //               decoration: const BoxDecoration(
-            //                 shape: BoxShape.circle,
-            //                 color: Colors.white,
-            //               ),
-            //             ),
-            //             const SizedBox(width: 8),
-            //           ],
-            //         ),
-            //         const SizedBox(height: 20),
-            //         Row(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Icon(
-            //               Icons.star_rounded,
-            //               color: Colors.red.shade500,
-            //               size: 40,
-            //             ),
-            //             const SizedBox(width: 5),
-            //             Row(
-            //               crossAxisAlignment: CrossAxisAlignment.end,
-            //               mainAxisSize: MainAxisSize.min,
-            //               children: [
-            //                 Text(
-            //                   "${show.voteAverage}/ 10",
-            //                   style: const TextStyle(
-            //                     fontWeight: FontWeight.w500,
-            //                     fontSize: 20,
-            //                     color: Colors.white,
-            //                   ),
-            //                 ),
-            //                 const SizedBox(width: 5),
-            //                 Text(
-            //                   "${show.voteCount} votes",
-            //                   style: TextStyle(
-            //                     fontWeight: FontWeight.w500,
-            //                     fontSize: 14,
-            //                     color: Colors.white.withOpacity(0.6),
-            //                   ),
-            //                 )
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //         const SizedBox(height: 20),
-            //         const PlayTrailerTextButton(
-            //           isMobile: false,
-            //         ),
-            //         const SizedBox(height: 20),
-            //         Consumer<MoviesProvider>(
-            //           builder: (_, provider, __) {
-            //             var social = provider.socialMediaModel;
-            //             return social.isLoading
-            //                 ? const SizedBox.shrink()
-            //                 : SocialMediaLinks(model: social);
-            //           },
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // )
             Positioned.fill(
               left: context.width * 0.1 + 335,
               top: 50,
@@ -304,31 +235,33 @@ class TvShowDetailsLarge extends StatelessWidget {
                 left: context.width * 0.1 + 335,
                 top: 250,
                 child: Align(
-                    alignment: Alignment.topLeft,
-                    child: SizedBox(
-                      height: 100,
-                      child: CustomCacheImageWithoutSize(
-                        imageUrl: show.networkPath,
-                        loadingHeight: 100,
-                        // height: 70,
-                        // width: 100,
-                        cacheKey: 'show_${show.id}network',
-                        borderRadius: 8,
-                        showPlaceHolder: false,
-                      ),
-                    )),
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    height: 100,
+                    child: CustomCacheImageWithoutSize(
+                      imageUrl: show.networkPath,
+                      loadingHeight: 100,
+                      cacheKey: 'show_${show.id}network',
+                      borderRadius: 8,
+                      showPlaceHolder: false,
+                    ),
+                  ),
+                ),
               ),
             Positioned.fill(
               left: context.width * 0.1 + 335,
               bottom: 40,
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: BookMarkButton(
-                  // movie: movie,
-                  isMovie: false,
-                  tvShow: show,
-                  width: 300,
-                  isBookmarked: isBookmarked,
+                child: AnimatedOpacity(
+                  duration: const Duration(seconds: 1),
+                  opacity: _isVisible ? 1 : 0,
+                  child: BookMarkButton(
+                    tvShow: show,
+                    isMovie: false,
+                    width: context.width * 0.2,
+                    isBookmarked: isBookmarked,
+                  ),
                 ),
               ),
             ),

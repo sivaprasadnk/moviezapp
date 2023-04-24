@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +18,6 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Connectivity().onConnectivityChanged.listen((event) {});
       context.appProvider.updateMobileApp(true);
       context.appProvider.updateMobileWeb(false);
       context.moviesProvider.updateDataStatus(true);

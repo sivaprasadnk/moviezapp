@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/repo/app/app.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
 import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
@@ -8,7 +9,9 @@ import 'package:moviezapp/views/web/home/widgets/section/movie.section.web.dart'
 import 'package:moviezapp/views/web/home/widgets/section/search.container.dart';
 import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_html/html.dart';
 
 import '../../../provider/movies.provider.dart';
 
@@ -28,20 +31,37 @@ class HomeScreenWeb extends StatefulWidget {
 class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       context.appProvider.updateMobileApp(false);
+
       Future.wait([
         context.moviesProvider.getMovieGenres(),
         context.moviesProvider.getTVGenres(),
         context.moviesProvider.getMoviesList(),
-        context.moviesProvider.getTvShowsList()
+        context.moviesProvider.getTvShowsList(),
       ]);
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
       context.authProvider
           .updateGuestUser(FirebaseAuth.instance.currentUser == null);
+      checkAndUpdate();
     });
     super.initState();
+  }
+
+  checkAndUpdate() async {
+    PackageInfo.fromPlatform().then((packageInfo) {
+      var currentVersion = int.parse(packageInfo.buildNumber);
+      if (context.mounted) {
+        AppRepo.getVersionFromDb().then((version) {
+          var versionFromWeb = int.parse(version);
+          if (versionFromWeb > currentVersion) {
+            window.location.reload();
+            context.showSnackbar('New version available !');
+          }
+        });
+      }
+    });
   }
 
   @override

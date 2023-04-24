@@ -115,6 +115,8 @@ extension ContextExtensions on BuildContext {
     FocusScope.of(this).unfocus();
   }
 
+  bool get isDialogOpen => ModalRoute.of(this)?.isCurrent != true;
+
   // void openInNewTab(String url) {
   //   html.window.open(
   //     url,

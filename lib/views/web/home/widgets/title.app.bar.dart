@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
@@ -13,7 +12,8 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     var isMobileWeb = context.isMobileApp;
-    var user = FirebaseAuth.instance.currentUser;
+    // var user = FirebaseAuth.instance.currentUser;
+    // var user = FirebaseAuth.instance.currentUser;
     return AppBar(
       elevation: 0,
       backgroundColor: context.primaryColor,
@@ -42,7 +42,7 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
             )
           : const SizedBox.shrink(),
       actions: [
-        if (user == null)
+        if (context.isGuestUser)
           const Center(
             child: SigninButton(),
           )

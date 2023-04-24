@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class GooglePlaystoreButton extends StatelessWidget {
+class GooglePlaystoreButton extends StatefulWidget {
   const GooglePlaystoreButton({
     super.key,
     required this.onTap,
@@ -9,10 +9,33 @@ class GooglePlaystoreButton extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
+  State<GooglePlaystoreButton> createState() => _GooglePlaystoreButtonState();
+}
+
+class _GooglePlaystoreButtonState extends State<GooglePlaystoreButton> {
+  late Image image1;
+
+  @override
+  void initState() {
+    super.initState();
+    image1 = Image.asset(
+      "assets/google-play.png",
+      height: 40,
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    precacheImage(image1.image, context);
+    super.didChangeDependencies();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap.call();
+        widget.onTap.call();
       },
       child: Container(
         padding: const EdgeInsets.all(6),
@@ -23,10 +46,7 @@ class GooglePlaystoreButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/google-play.png',
-              height: 40,
-            ),
+            image1,
             const SizedBox(width: 5),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

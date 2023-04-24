@@ -11,7 +11,6 @@ class MovieDetailsScreenWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isBookmarked = ModalRoute.of(context)!.settings.arguments as bool;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -19,8 +18,7 @@ class MovieDetailsScreenWeb extends StatelessWidget {
       child: WebScaffold(
         body: SingleChildScrollView(
           child: context.width > 700
-              ? MovieDetailsLarge(
-                  isBookmarked: isBookmarked,
+              ? const MovieDetailsLarge(
                 )
               : const MovieDetailsSmall(),
         ),

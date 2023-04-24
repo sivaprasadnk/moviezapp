@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/firebase_options.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/providers.dart';
-import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/routes.dart';
-import 'package:moviezapp/views/common/google.playstore.button.dart';
+import 'package:moviezapp/views/mobile.web.screen.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 //  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
 
 //  flutter build web --web-renderer html --release
@@ -24,6 +21,7 @@ void main() async {
     name: 'moviezapp',
     options: DefaultFirebaseOptions.currentPlatform,
   );
+ 
   if (defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS) {
     if (kIsWeb) {
@@ -139,40 +137,3 @@ class WebApp extends StatelessWidget {
   }
 }
 
-class MobileWebScreen extends StatelessWidget {
-  const MobileWebScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Center(
-            child: Text('Use the mobile app to continue'),
-          ),
-          const SizedBox(height: 50),
-          Center(
-            child: GooglePlaystoreButton(
-              onTap: () async {
-                var link = 'https://spverse.page.link/TG78';
-                debugPrint('link : $link');
-
-                try {
-                  launchUrl(
-                    Uri.parse(link),
-                    mode: LaunchMode.externalNonBrowserApplication,
-                  );
-                } catch (err) {
-                  if (context.mounted) {
-                    context.showSnackbar('Cannot launch url $link');
-                  }
-                }
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

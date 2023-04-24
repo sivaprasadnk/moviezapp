@@ -24,7 +24,13 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   var isDeviceConnected = false;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.appProvider.getVersionFromDb().then((versionFromWeb) {
+        context.showSnackbar('versionFromWeb : $versionFromWeb');
+        // if (versionFromWeb > 1) {
+        // html.window.location.reload();
+        // }
+      });
       checkNetwork();
     });
     super.initState();

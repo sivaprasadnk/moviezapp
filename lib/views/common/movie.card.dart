@@ -96,36 +96,20 @@ class _MovieCardState extends State<MovieCard> {
               if (widget.isMovie) {
                 debugPrint('id :: ${widget.id}');
                 await provider.getMovieDetails(widget.id).then((value) async {
-                  var isbookmarked = false;
-                  if (!context.isGuestUser) {
-                    isbookmarked = await context.userProvider
-                        .checkIfMovieBookmarked(widget.id);
-                  }
-                  if (context.mounted) {
-                    context.pop();
-                    Navigator.pushNamed(
-                      context,
-                      MovieDetailsScreenWeb.routeName,
-                      arguments: isbookmarked,
-                    );
-                  }
+                  context.pop();
+                  Navigator.pushNamed(
+                    context,
+                    MovieDetailsScreenWeb.routeName,
+                  );
                 });
               } else {
                 provider.getTvShowDetails(widget.id).then((value) async {
-                  var isbookmarked = false;
-                  if (!context.isGuestUser) {
-                    isbookmarked = await context.userProvider
-                        .checkIfTvShowBookmarked(widget.id);
-                  }
-                  if (context.mounted) {
-                    context.pop();
+                  context.pop();
 
-                    Navigator.pushNamed(
-                      context,
-                      TvShowDetailsScreenWeb.routeName,
-                      arguments: isbookmarked,
-                    );
-                  }
+                  Navigator.pushNamed(
+                    context,
+                    TvShowDetailsScreenWeb.routeName,
+                  );
                 });
               }
             }

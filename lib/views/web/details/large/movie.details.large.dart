@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/genre.model.dart';
+import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
@@ -14,14 +15,38 @@ import 'package:moviezapp/views/web/details/large/widgets/poster.image.dart';
 import 'package:moviezapp/views/web/home/widgets/grid/movie.grid.dart';
 import 'package:provider/provider.dart';
 
-class MovieDetailsLarge extends StatelessWidget {
+class MovieDetailsLarge extends StatefulWidget {
   const MovieDetailsLarge({
     super.key,
-    this.isBookmarked = false,
   });
 
-  final bool isBookmarked;
 
+  @override
+  State<MovieDetailsLarge> createState() => _MovieDetailsLargeState();
+}
+
+class _MovieDetailsLargeState extends State<MovieDetailsLarge> {
+  bool isBookmarked = false;
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      if (context.isGuestUser) {
+        _isVisible = true;
+        setState(() {});
+      } else {
+        await context.userProvider
+            .checkIfMovieBookmarked(context.movieId)
+            .then((value) {
+          isBookmarked = value;
+          _isVisible = true;
+          setState(() {});
+        });
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(builder: (_, provider, __) {
@@ -169,10 +194,14 @@ class MovieDetailsLarge extends StatelessWidget {
                 bottom: 40,
                 child: Align(
                   alignment: Alignment.bottomLeft,
-                  child: BookMarkButton(
-                    movie: movie,
-                    width: context.width * 0.2,
-                    isBookmarked: isBookmarked,
+                  child: AnimatedOpacity(
+                    duration: const Duration(seconds: 1),
+                    opacity: _isVisible ? 1 : 0,
+                    child: BookMarkButton(
+                      movie: movie,
+                      width: context.width * 0.2,
+                      isBookmarked: isBookmarked,
+                    ),
                   ),
                 ),
               ),
@@ -240,7 +269,9 @@ class MovieDetailsLarge extends StatelessWidget {
                         isLoading: provider.similarMovieListLoading,
                         movieGrid: provider.similarMovieList,
                         isWeb: true,
-                        limit: context.gridCrossAxisCount,
+                        limit: provider.similarMovieList
+                            .filteredList(context.gridCrossAxisCount)
+                            .length,
                       ),
                 ],
               );
@@ -250,17 +281,4 @@ class MovieDetailsLarge extends StatelessWidget {
       );
     });
   }
-
-  // Future<Size> _getImageSize(String imageUrl) {
-  //   Completer<Size> completer = Completer();
-  //   NetworkImage(imageUrl).resolve(const ImageConfiguration()).addListener(
-  //     ImageStreamListener(
-  //       (ImageInfo info, bool _) {
-  //         completer.complete(
-  //             Size(info.image.width.toDouble(), info.image.height.toDouble()));
-  //       },
-  //     ),
-  //   );
-  //   return completer.future;
-  // }
 }

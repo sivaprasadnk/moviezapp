@@ -19,3 +19,5 @@ const String kPackageName = "com.spverse.moviezapp";
 
 const String kPlayStoreLink =
     'https://play.google.com/store/apps/details?id=com.spverse.moviezapp';
+
+const String kVersionDocId = 'vwsYwXjqKPHqus7VKTgZ';
