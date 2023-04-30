@@ -10,6 +10,7 @@ class CustomCacheImage extends StatelessWidget {
     required this.width,
     required this.cacheKey,
     required this.borderRadius,
+    this.showLoading = true,
   });
 
   final String imageUrl;
@@ -17,6 +18,7 @@ class CustomCacheImage extends StatelessWidget {
   final double width;
   final String cacheKey;
   final double borderRadius;
+  final bool showLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +33,21 @@ class CustomCacheImage extends StatelessWidget {
         width: width,
         fit: BoxFit.cover,
         placeholder: (context, url) {
-          return LoadingShimmer(
-            child: AspectRatio(
-              aspectRatio: 0.667,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(borderRadius),
+          return showLoading
+              ? LoadingShimmer(
+                  child: AspectRatio(
+                    aspectRatio: 0.667,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(borderRadius),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-          );
+                )
+              : const SizedBox.shrink();
         },
         errorWidget: (context, url, error) {
           return SizedBox(

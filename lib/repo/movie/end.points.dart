@@ -4,14 +4,14 @@ String kBaseUrl = "https://api.themoviedb.org/3/";
 String kImageBaseUrl = "https://image.tmdb.org/t/p/w500/";
 String kOriginalImageBaseUrl = "https://image.tmdb.org/t/p/original";
 
-String kTrendingMoviesUrl = "${kBaseUrl}trending/movie/week?api_key=$apiKey";
+String kTrendingMoviesUrl = "${kBaseUrl}trending/movie/day?api_key=$apiKey";
 
 String kNowPlayingMoviesUrl = "${kBaseUrl}movie/now_playing?api_key=$apiKey";
 
 String kTopRatedMoviesUrl = "${kBaseUrl}movie/top_rated?api_key=$apiKey";
 String kUpcomingMoviesUrl = "${kBaseUrl}movie/upcoming?api_key=$apiKey";
 
-String kTrendingTvShowsUrl = "${kBaseUrl}trending/tv/week?api_key=$apiKey";
+String kTrendingTvShowsUrl = "${kBaseUrl}trending/tv/day?api_key=$apiKey";
 
 String kAiringTodayTvShowsUrl = "${kBaseUrl}tv/airing_today?api_key=$apiKey";
 

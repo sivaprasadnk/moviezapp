@@ -16,7 +16,7 @@ class MovieDetails {
   String overview;
   String language;
   String homepage;
-  List<Actors>? actorsList;
+  List<Actor>? actorsList;
   MovieDetails({
     required this.title,
     required this.id,

@@ -77,7 +77,7 @@ class MovieDetailsSmall extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                movie.genreList.stringText,
+                movie.genreList.displayText,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 15,

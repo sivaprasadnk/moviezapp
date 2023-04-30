@@ -19,6 +19,7 @@ class Movie {
   double voteAverage;
   MovieType movieType;
   String releaseDate;
+  String? character;
   Movie({
     required this.title,
     required this.id,
@@ -28,6 +29,7 @@ class Movie {
     required this.voteAverage,
     required this.movieType,
     required this.releaseDate,
+    this.character,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json, MovieType type) {
@@ -66,6 +68,7 @@ class Movie {
       voteAverage: vote,
       movieType: type,
       releaseDate: json['release_date'] ?? "",
+      character: json['character'] ?? "",
     );
   }
 

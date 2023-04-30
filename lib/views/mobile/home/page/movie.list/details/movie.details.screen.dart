@@ -125,7 +125,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           ),
                           GenreDetails(
                             duration: movie.runtime.durationInHrs,
-                            genreList: movie.genreList.stringText,
+                            genreList: movie.genreList.displayText,
                             releaseDate: movie.releaseDate.split('-').first,
                           ),
                           MovieRatingDetailsMobile(

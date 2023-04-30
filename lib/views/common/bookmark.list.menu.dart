@@ -31,7 +31,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
   @override
   Widget build(BuildContext context) {
     return ProfileMenuCard(
-      title: 'Bookmark List',
+      title: 'Favourites List',
       icon: Icons.bookmark,
       isCountItem: true,
       count: context.isGuestUser ? 0 : count,
@@ -55,7 +55,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
             });
           });
         } else {
-          context.showErrorToast('Login to add / view bookmarks !');
+          context.showErrorToast('Login to add / view favourites !');
         }
       },
     );

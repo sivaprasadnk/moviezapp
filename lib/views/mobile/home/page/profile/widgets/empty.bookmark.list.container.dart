@@ -20,7 +20,7 @@ class EmptyBookmarkListContainer extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           const Text(
-            'Bookmark List is empty',
+            'Favourites list is empty',
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 19,
@@ -28,7 +28,7 @@ class EmptyBookmarkListContainer extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           const Text(
-            'After bookmarking movies and series, they are diaplayed here',
+            'After favouriting movies and series, they are displayed here',
             style: TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 14,

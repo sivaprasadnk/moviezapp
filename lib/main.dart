@@ -15,13 +15,17 @@ import 'package:provider/provider.dart';
 
 //  https://moviezapp-spverse.web.app/
 
+/*
+https://api.themoviedb.org/3/person/22226/movie_credits?api_key=8d5a3dfeea83619117402fc317d79d25
+*/
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     name: 'moviezapp',
     options: DefaultFirebaseOptions.currentPlatform,
   );
- 
+
   if (defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS) {
     if (kIsWeb) {
@@ -78,6 +82,15 @@ class WebApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   title: 'MoviezApp',
                   routes: routes,
+                  onGenerateTitle: (context) {
+                    return "MoviezApp";
+                  },
+                  initialRoute: HomeScreenWeb.routeName,
+                  onUnknownRoute: (settings) {
+                    return MaterialPageRoute(builder: (_) {
+                      return const HomeScreenWeb();
+                    });
+                  },
                   theme: ThemeData(
                     primaryColor: Colors.red,
                     brightness: provider.selectedBrightness,
@@ -136,4 +149,3 @@ class WebApp extends StatelessWidget {
             home: const MobileWebScreen());
   }
 }
-

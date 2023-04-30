@@ -6,8 +6,8 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
 
-class ActorsList extends StatelessWidget {
-  const ActorsList({
+class CrewList extends StatelessWidget {
+  const CrewList({
     Key? key,
     this.size = 180,
     this.height = 260,
@@ -20,7 +20,7 @@ class ActorsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return provider.actorsList.isNotEmpty
+        return provider.crewList.isNotEmpty
             ? SizedBox(
                 height: height + 10,
                 width: double.infinity,
@@ -30,27 +30,26 @@ class ActorsList extends StatelessWidget {
                   separatorBuilder: (context, index) {
                     return const SizedBox(width: 30);
                   },
-                  itemCount: provider.actorsList.length,
+                  itemCount: provider.crewList.length,
                   itemBuilder: (context, index) {
-                    var actor = provider.actorsList[index];
-                    var imageTag =
-                        "actorimage_${actor.name}_${actor.character}";
-                    var nameTag = "actorname_${actor.name}_${actor.character}";
+                    var crew = provider.crewList[index];
+                    var imageTag = "crewimage_${crew.name}_${crew.job}";
+                    var nameTag = "crewname_${crew.name}_${crew.job}";
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        actor.profileUrl.isNotEmpty
+                        crew.profileUrl.isNotEmpty
                             ? GestureDetector(
                                 onTap: () {
                                   Dialogs.showLoader(context: context);
                                   provider
-                                      .getActorDetails(actor.id)
-                                      .then((actorDetails) {
+                                      .getActorDetails(crew.id)
+                                      .then((actor) {
                                     context.pop();
                                     if (!context.isMobileApp) {
                                       Dialogs.showActorDetailsDialog(
                                         context,
-                                        actorDetails!,
+                                        actor!,
                                         size,
                                         imageTag: imageTag,
                                         nameTag: nameTag,
@@ -58,7 +57,7 @@ class ActorsList extends StatelessWidget {
                                     } else {
                                       Dialogs.showActorDetailsDialogForApp(
                                         context,
-                                        actorDetails!,
+                                        actor!,
                                         size,
                                         imageTag: imageTag,
                                         nameTag: nameTag,
@@ -69,11 +68,11 @@ class ActorsList extends StatelessWidget {
                                 child: Hero(
                                   tag: imageTag,
                                   child: CustomCacheImage(
-                                    imageUrl: actor.profilePath,
+                                    imageUrl: crew.profilePath,
                                     borderRadius: size - 10,
                                     height: size - 10,
                                     width: size - 10,
-                                    cacheKey: 'actor${actor.id}${actor.name}',
+                                    cacheKey: 'crew_${crew.id}${crew.name}',
                                   ),
                                 ),
                               ).increaseSizeOnHover(1.3)
@@ -97,7 +96,7 @@ class ActorsList extends StatelessWidget {
                           child: Hero(
                             tag: nameTag,
                             child: Text(
-                              actor.name,
+                              crew.name,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
@@ -112,7 +111,7 @@ class ActorsList extends StatelessWidget {
                         SizedBox(
                           width: 80,
                           child: Text(
-                            actor.character,
+                            crew.job,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,

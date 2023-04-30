@@ -27,9 +27,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.appProvider.getVersionFromDb().then((versionFromWeb) {
         context.showSnackbar('versionFromWeb : $versionFromWeb');
-        // if (versionFromWeb > 1) {
-        // html.window.location.reload();
-        // }
       });
       checkNetwork();
     });

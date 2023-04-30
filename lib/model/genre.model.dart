@@ -27,7 +27,7 @@ class Genre {
 }
 
 extension GenreExt on List<Genre> {
-  String get stringText {
+  String get displayText {
     String list = "";
     var count = 0;
     var limit = length > 3 ? 3 : length;

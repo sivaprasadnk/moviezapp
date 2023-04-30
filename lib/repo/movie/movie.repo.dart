@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:moviezapp/model/actor.details.model.dart';
 import 'package:moviezapp/model/actors.model.dart';
+import 'package:moviezapp/model/credits.model.dart';
+import 'package:moviezapp/model/crew.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/movie.details.dart';
@@ -24,7 +26,7 @@ class MovieRepo {
     try {
       String kGenreUrl = "${kBaseUrl}genre/$show/list?api_key=$apiKey";
 
-      debugPrint(kGenreUrl);
+      // debugPrint(kGenreUrl);
 
       final response = await http.get(
         Uri.parse(kGenreUrl),
@@ -55,7 +57,7 @@ class MovieRepo {
   static Future getMovieResultsList(String url, MovieType type) async {
     List<Movie> list = [];
     try {
-      debugPrint(url);
+      // debugPrint(url);
 
       final response = await http.get(
         Uri.parse(url),
@@ -116,7 +118,7 @@ class MovieRepo {
     MovieDetails? movie;
     try {
       var url = "${kBaseUrl}movie/$id?api_key=$apiKey";
-      debugPrint(url);
+      // debugPrint(url);
 
       final response = await http.get(
         Uri.parse(url),
@@ -142,7 +144,7 @@ class MovieRepo {
   static Future getTvShowsResultsList(String url, TvShowType type) async {
     List<TvShows> list = [];
     try {
-      debugPrint(url);
+      // debugPrint(url);
 
       final response = await http.get(
         Uri.parse(url),
@@ -225,7 +227,7 @@ class MovieRepo {
     TvShowDetails? show;
     try {
       var url = "${kBaseUrl}tv/$id?api_key=$apiKey";
-      debugPrint(url);
+      // debugPrint(url);
 
       final response = await http.get(
         Uri.parse(url),
@@ -244,12 +246,13 @@ class MovieRepo {
     return show;
   }
 
-  static Future<List<Actors>> getActorsList(int id, String show) async {
-    List<Actors> actorsList = [];
+  static Future<CreditsModel> getCreditsList(int id, String show) async {
+    List<Actor> actorsList = [];
+    List<Crew> crewList = [];
 
     try {
       var url = "$kBaseUrl$show/$id/credits?api_key=$apiKey";
-      debugPrint(url);
+      // debugPrint(url);
 
       final response = await http.get(
         Uri.parse(url),
@@ -263,21 +266,27 @@ class MovieRepo {
         var castList = item['cast'] as List;
         if (castList.isNotEmpty) {
           for (var i in castList) {
-            actorsList.add(Actors.fromJson(i));
+            actorsList.add(Actor.fromJson(i));
+          }
+        }
+        var crewsList = item['crew'] as List;
+        if (crewsList.isNotEmpty) {
+          for (var i in crewsList) {
+            crewList.add(Crew.fromJson(i));
           }
         }
       }
     } catch (err) {
       debugPrint(err.toString());
     }
-    return actorsList;
+    return CreditsModel(actors: actorsList, crew: crewList);
   }
 
   static Future<List<RelatedVideoModel>> getRelatedVideos(
       int movieId, String show) async {
     List<RelatedVideoModel> videoList = [];
     var url = "$kBaseUrl$show/$movieId/videos?api_key=$apiKey";
-    debugPrint(url);
+    // debugPrint(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -301,7 +310,7 @@ class MovieRepo {
   static Future<SocialMediaModel> getSocialMedia(int id, String show) async {
     SocialMediaModel socialMediaModel;
     var url = "$kBaseUrl$show/$id/external_ids?api_key=$apiKey";
-    debugPrint(url);
+    // debugPrint(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -391,7 +400,27 @@ class MovieRepo {
   static Future<ActorDetailsModel?> getActorDetails(int id) async {
     var url = "${kBaseUrl}person/$id?api_key=$apiKey";
     ActorDetailsModel? actor;
-    debugPrint(url);
+    // debugPrint(url);
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final item = json.decode(response.body) as Map<String, dynamic>;
+      actor = ActorDetailsModel.fromJson(item);
+      return actor;
+    }
+    return actor;
+  }
+
+  static Future<ActorDetailsModel?> getActorFilms(int id) async {
+    var url = '${kBaseUrl}person/$id/movie_credits?api_key=$apiKey';
+
+    ActorDetailsModel? actor;
+    // debugPrint(url);
     final response = await http.get(
       Uri.parse(url),
       headers: {

@@ -16,7 +16,7 @@ class SigninButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Dialogs.showLoader(context: context);
+        // Dialogs.showLoader(context: context);
         context.authProvider.signInWithGoogle(context).then((value) {
           // context.pop();
         });

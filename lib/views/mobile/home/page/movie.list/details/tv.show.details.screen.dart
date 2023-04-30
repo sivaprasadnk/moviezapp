@@ -105,7 +105,7 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                           MovieName(name: show.name),
                           GenreDetails(
                             releaseDate: show.releaseDate.formatedDateString,
-                            genreList: show.genreList.stringText,
+                            genreList: show.genreList.displayText,
                             duration: '',
                           ),
                           MovieRatingDetailsMobile(

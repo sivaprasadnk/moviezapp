@@ -50,6 +50,8 @@ class _TvShowCarousalWebState extends State<TvShowCarousalWeb> {
                             provider.clearDetails();
 
                             provider.getTvShowDetails(show.id).then((value) {
+                              context.pop();
+
                               Navigator.pushNamed(
                                   context, TvShowDetailsScreenWeb.routeName);
                             });

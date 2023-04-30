@@ -45,9 +45,9 @@ class BookMarkButton extends StatelessWidget {
                     child: authProvider.isGuestUser
                         ? CommonButton(
                             callback: () {
-                              context.showErrorToast('Login to Bookmark !');
+                              context.showErrorToast('Login to Favourite !');
                             },
-                            title: 'Bookmark ')
+                            title: 'Add to Favourites ')
                         : !isBookmarked
                             ? CommonButton(
                                 callback: () {
@@ -67,7 +67,7 @@ class BookMarkButton extends StatelessWidget {
                                     });
                                   }
                                 },
-                                title: 'Add to Bookmarks ')
+                                title: 'Add to Favourites ')
                             : CommonButton(
                                 callback: () {
                                   if (isMovie) {
@@ -88,7 +88,7 @@ class BookMarkButton extends StatelessWidget {
                                     });
                                   }
                                 },
-                                title: 'Remove from Bookmarks '),
+                                title: 'Remove from Favourites '),
                   ),
                   if (!context.isMobileApp && isMovie)
                     const SizedBox(width: 15),
@@ -117,7 +117,6 @@ class BookMarkButton extends StatelessWidget {
       builder: (_) {
         return AlertDialog(
           insetPadding: EdgeInsets.zero,
-          // backgroundColor: context.bgColor,
           title: Column(
             children: const [
               SectionTitle(

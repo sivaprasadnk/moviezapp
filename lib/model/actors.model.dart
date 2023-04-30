@@ -1,13 +1,13 @@
 import 'package:moviezapp/repo/movie/end.points.dart';
 
-class Actors {
+class Actor {
   int id;
   String name;
   String profilePath;
   String profileUrl;
   int order;
   String character;
-  Actors({
+  Actor({
     required this.id,
     required this.name,
     required this.profilePath,
@@ -15,8 +15,8 @@ class Actors {
     required this.order,
     required this.character,
   });
-  factory Actors.fromJson(Map<String, dynamic> json) {
-    return Actors(
+  factory Actor.fromJson(Map<String, dynamic> json) {
+    return Actor(
       id: json['id'] ?? 0,
       name: json['name'] ?? "",
       order: json['order'] ?? 0,
@@ -27,16 +27,16 @@ class Actors {
   }
 }
 
-extension ActorsExt on List<Actors> {
-  List<Actors> get getList {
-    List<Actors> list = [];
+// extension ActorExt on List<Actor> {
+//   List<Actor> get getList {
+//     List<Actor> list = [];
 
-    for (var actor in this) {
-      list.add(actor);
-      // if (actor.profileUrl.isNotEmpty) {
-      // }
-    }
+//     for (var actor in this) {
+//       list.add(actor);
+//       // if (actor.profileUrl.isNotEmpty) {
+//       // }
+//     }
 
-    return list;
-  }
-}
+//     return list;
+//   }
+// }

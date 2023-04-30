@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class BookmarkScreenWeb extends StatefulWidget {
   const BookmarkScreenWeb({super.key});
 
-  static const routeName = '/bookmarks';
+  static const routeName = '/favourites';
 
   @override
   State<BookmarkScreenWeb> createState() => _BookmarkScreenWebState();
@@ -31,7 +31,7 @@ class _BookmarkScreenWebState extends State<BookmarkScreenWeb> {
             children: [
               const SizedBox(height: 20),
               SectionTitle(
-                title: 'Bookmarks',
+                title: 'Favourites',
                 withSeeMore: false,
                 withSettings: true,
                 settingsCallBack: () {

@@ -13,6 +13,7 @@ import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_html/html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
@@ -680,8 +681,10 @@ class Dialogs {
   static showActorDetailsDialog(
     BuildContext context,
     ActorDetailsModel actor,
-    double size,
-  ) async {
+    double size, {
+    required String imageTag,
+    required String nameTag,
+  }) async {
     Navigator.push(
       context,
       PageRouteBuilder(
@@ -696,7 +699,7 @@ class Dialogs {
             title: Column(
               children: [
                 Hero(
-                  tag: actor.name!,
+                  tag: nameTag,
                   child: SectionTitle(
                     title: actor.name!,
                   ),
@@ -723,7 +726,7 @@ class Dialogs {
                       if (actor.profileUrl != null &&
                           actor.profileUrl!.isNotEmpty)
                         Hero(
-                          tag: actor.id!,
+                          tag: imageTag,
                           child: CustomCacheImage(
                             imageUrl: actor.profilePath!,
                             borderRadius: size - 10,
@@ -921,8 +924,10 @@ class Dialogs {
   static showActorDetailsDialogForApp(
     BuildContext context,
     ActorDetailsModel actor,
-    double size,
-  ) async {
+    double size, {
+    required String imageTag,
+    required String nameTag,
+  }) async {
     Navigator.push(
       context,
       PageRouteBuilder(
@@ -954,7 +959,7 @@ class Dialogs {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Hero(
-                    tag: actor.id!,
+                    tag: imageTag,
                     child: CustomCacheImage(
                       imageUrl: actor.profilePath!,
                       borderRadius: size - 10,
@@ -1065,6 +1070,62 @@ class Dialogs {
           );
         },
       ),
+    );
+  }
+
+  static showUpdateAvailableDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: context.bgColor,
+          title: Column(
+            children: const [
+              SectionTitle(
+                title: 'Alert !',
+              ),
+              Divider(
+                indent: 0,
+                endIndent: 0,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          content: Container(
+            width: context.width * 0.2,
+            color: context.bgColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                SizedBox(height: 20),
+                Text('New update available !'),
+              ],
+            ),
+          ),
+          actions: [
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                  window.location.reload();
+                },
+                child: Text(
+                  'Update Now',
+                  style: TextStyle(
+                    color: context.highlightColor,
+                  ),
+                ),
+              ).addMousePointer,
+            )
+          ],
+        );
+      },
     );
   }
 }

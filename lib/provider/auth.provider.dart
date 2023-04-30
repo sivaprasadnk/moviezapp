@@ -265,23 +265,58 @@ class AuthProvider extends ChangeNotifier {
               (route) => false,
             );
           } else {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              HomeScreenWeb.routeName,
-              (route) => false,
-            );
+            context.showInfoToast('Logged in successfully !');
+            // context.pop();
+            // Navigator.pushNamedAndRemoveUntil(
+            //   context,
+            //   HomeScreenWeb.routeName,
+            //   (route) => false,
+            // );
           }
         }
       } else {
         if (context.mounted) {
-          context.pop();
+          // context.pop();
         }
       }
     } catch (err) {
-      if (context.mounted) {
-        context.pop();
-      }
       debugPrint('errorrrrrrrr');
+    }
+  }
+
+  Future signInWithFb(BuildContext context) async {
+    try {
+      User? user = await AuthRepo.signInWithFacebook(context: context);
+      if (user != null) {
+        updateGuestUser(false);
+        if (context.mounted) {
+          context.authProvider.updateGuestUser(false);
+          context.moviesProvider.updateDataStatus(true);
+          context.appProvider.updatedSelectedIndex(0);
+          if (context.isMobileApp) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomeScreenMobile.routeName,
+              (route) => false,
+            );
+          } else {
+            context.showInfoToast('Logged in successfully !');
+            // context.pop();
+            // Navigator.pushNamedAndRemoveUntil(
+            //   context,
+            //   HomeScreenWeb.routeName,
+            //   (route) => false,
+            // );
+          }
+        }
+      } else {
+        if (context.mounted) {
+          // context.pop();
+        }
+      }
+    } catch (err) {
+      debugPrint('errorrrrrrrr');
+      debugPrint(err.toString());
     }
   }
 }

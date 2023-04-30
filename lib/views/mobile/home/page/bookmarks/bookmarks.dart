@@ -26,7 +26,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         child: Column(
           children: [
             const PageTitle(
-              title: 'Bookmark List',
+              title: 'Favourites',
               showLeadingIcon: false,
             ),
             if (!context.isGuestUser)

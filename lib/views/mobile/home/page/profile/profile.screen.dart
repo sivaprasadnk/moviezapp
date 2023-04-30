@@ -7,7 +7,7 @@ import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/common/page.title.dart';
 import 'package:moviezapp/views/common/webview.screen.dart';
-import 'package:moviezapp/views/mobile/home/page/profile/widgets/bookmark.list.menu.dart';
+import 'package:moviezapp/views/common/bookmark.list.menu.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.details.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.section.title.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/actor.details.model.dart';
 import 'package:moviezapp/model/actors.model.dart';
+import 'package:moviezapp/model/crew.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/movie.details.dart';
@@ -402,8 +403,11 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Actors> _actorsList = [];
-  List<Actors> get actorsList => _actorsList;
+  List<Actor> _actorsList = [];
+  List<Actor> get actorsList => _actorsList;
+
+  List<Crew> _crewList = [];
+  List<Crew> get crewList => _crewList;
 
   List<RelatedVideoModel> _videoList = [];
   List<RelatedVideoModel> get videoList => _videoList;
@@ -421,9 +425,10 @@ class MoviesProvider extends ChangeNotifier {
 
   void clearDetails() {
     _actorsList.clear();
+    _crewList.clear();
     _videoList.clear();
-    _actorsListLoading = true;
     _similarMovieList.clear();
+    _actorsListLoading = true;
     _videosLoading = true;
     _similarMovieListLoading = true;
   }
@@ -431,7 +436,11 @@ class MoviesProvider extends ChangeNotifier {
   Future getActorsList(int id, String show) async {
     _actorsListLoading = true;
     _actorsList = [];
-    _actorsList = await MovieRepo.getActorsList(id, show);
+    _crewList = [];
+    var credits = await MovieRepo.getCreditsList(id, show);
+    _actorsList = credits.actors;
+    _crewList = credits.crew;
+    _crewList.sort((a, b) => a.order.compareTo(b.order));
 
     _actorsListLoading = false;
     notifyListeners();
@@ -447,5 +456,9 @@ class MoviesProvider extends ChangeNotifier {
 
   Future<ActorDetailsModel?> getActorDetails(int id) async {
     return await MovieRepo.getActorDetails(id);
+  }
+
+  Future<ActorDetailsModel?> getActorFilms(int id) async {
+    return await MovieRepo.getActorFilms(id);
   }
 }

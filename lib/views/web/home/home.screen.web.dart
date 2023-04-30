@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:moviezapp/repo/app/app.repo.dart';
+import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
 import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
@@ -11,7 +12,6 @@ import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dar
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:universal_html/html.dart';
 
 import '../../../provider/movies.provider.dart';
 
@@ -42,10 +42,13 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       ]);
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
-      context.authProvider
-          .updateGuestUser(FirebaseAuth.instance.currentUser == null);
+
       checkAndUpdate();
     });
+    WebAppReloadDetector.onReload(() {
+      context.goWebHome();
+    });
+
     super.initState();
   }
 
@@ -56,8 +59,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
         AppRepo.getVersionFromDb().then((version) {
           var versionFromWeb = int.parse(version);
           if (versionFromWeb > currentVersion) {
-            window.location.reload();
-            context.showSnackbar('New version available !');
+            Dialogs.showUpdateAvailableDialog(context);
+            // window.location.reload();
+            // context.showSnackbar('New version available !');
           }
         });
       }

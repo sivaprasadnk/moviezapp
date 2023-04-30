@@ -116,6 +116,7 @@ extension ContextExtensions on BuildContext {
   }
 
   bool get isDialogOpen => ModalRoute.of(this)?.isCurrent != true;
+  // bool get isDialogOpen => Navigator.of(this).canPop();
 
   // void openInNewTab(String url) {
   //   html.window.open(

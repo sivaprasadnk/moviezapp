@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 
-class MoviePosterImage extends StatelessWidget {
-  const MoviePosterImage({super.key, required this.movie});
+class PosterImage extends StatelessWidget {
+  const PosterImage({
+    super.key,
+    required this.id,
+    this.isMovie = true,
+    required this.posterPath,
+  });
 
-  final MovieDetails movie;
+  final int id;
+  final bool isMovie;
+  final String posterPath;
 
   // Future<Size> _getImageSize(String imageUrl) {
   //   Completer<Size> completer = Completer();
@@ -23,7 +29,12 @@ class MoviePosterImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cacheKey1 = 'movie_${movie.id}poster';
+    var cacheKey = 'movie_';
+    if (!isMovie) {
+      cacheKey = "show_";
+    }
+    cacheKey += '${id}poster';
+
     return Positioned.fill(
       left: context.width * 0.1,
       top: 20,
@@ -32,14 +43,11 @@ class MoviePosterImage extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: AspectRatio(
           aspectRatio: 0.667,
-          child: Hero(
-            tag: cacheKey1,
-            child: CustomCacheImageWithoutSize(
-              imageUrl: movie.posterPath,
-              borderRadius: 10,
-              cacheKey: cacheKey1,
-              aspectRatio: 0.667,
-            ),
+          child: CustomCacheImageWithoutSize(
+            imageUrl: posterPath,
+            borderRadius: 10,
+            cacheKey: cacheKey,
+            aspectRatio: 0.667,
           ),
         ),
       ),

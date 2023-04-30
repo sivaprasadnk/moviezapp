@@ -47,11 +47,8 @@ class UserProvider extends ChangeNotifier {
   Future<bool> checkIfMovieBookmarked(int id) async {
     var savedIds = await UserRepo.getBookmarkMovieIds();
     if (savedIds.contains(id)) {
-      debugPrint('movie bookmarked!');
       return true;
     }
-    debugPrint('movie not  bookmarked!');
-
     return false;
   }
 
@@ -67,12 +64,12 @@ class UserProvider extends ChangeNotifier {
     var savedIds = await UserRepo.getBookmarkMovieIds();
     if (savedIds.contains(movie.id)) {
       if (context.mounted) {
-        context.showInfoToast("Already Bookmarked !");
+        context.showInfoToast("Already in Favourites !");
       }
     } else {
       await UserRepo.addMovieToBookmarks(movie);
       if (context.mounted) {
-        context.showInfoToast("${movie.title}  added to Bookmarks !");
+        context.showInfoToast("${movie.title} added to Favourites !");
         Future.delayed(const Duration(seconds: 2)).then((value) {
           if (context.isMobileApp) {
             Navigator.pushNamedAndRemoveUntil(
@@ -90,7 +87,7 @@ class UserProvider extends ChangeNotifier {
       MovieDetails movie, BuildContext context) async {
     await UserRepo.removeMovieFromBookmarks(movie);
     if (context.mounted) {
-      context.showInfoToast("${movie.title}  removed from Bookmarks !");
+      context.showInfoToast("${movie.title} removed from Favourites !");
       Future.delayed(const Duration(seconds: 2)).then((value) {
         if (context.isMobileApp) {
           Navigator.pushNamedAndRemoveUntil(
@@ -107,7 +104,7 @@ class UserProvider extends ChangeNotifier {
       TvShowDetails show, BuildContext context) async {
     await UserRepo.removeTvShowFromBookmarks(show);
     if (context.mounted) {
-      context.showInfoToast("${show.name} removed from Bookmarks !");
+      context.showInfoToast("${show.name} removed from Favourites !");
       Future.delayed(const Duration(seconds: 2)).then((value) {
         if (context.isMobileApp) {
           Navigator.pushNamedAndRemoveUntil(
@@ -124,12 +121,12 @@ class UserProvider extends ChangeNotifier {
     var savedIds = await UserRepo.getBookmarkShowIds();
     if (savedIds.contains(show.id)) {
       if (context.mounted) {
-        context.showInfoToast("Already Bookmarked !");
+        context.showInfoToast("Already in Favourites !");
       }
     } else {
       await UserRepo.addShowToBookmarks(show);
       if (context.mounted) {
-        context.showInfoToast("${show.name}  added to Bookmarks !");
+        context.showInfoToast("${show.name} added to Favourites !");
         Future.delayed(const Duration(milliseconds: 1500)).then((value) {
           if (context.isMobileApp) {
             Navigator.pushNamedAndRemoveUntil(

@@ -54,18 +54,10 @@ class _MovieCarousalWebState extends State<MovieCarousalWeb> {
                                 .getMovieDetails(movie.id)
                                 .then((value) async {
                               context.pop();
-                              var isbookmarked = false;
-                              if (!context.isGuestUser) {
-                                isbookmarked = await context.userProvider
-                                    .checkIfMovieBookmarked(movie.id);
-                              }
-                              if (context.mounted) {
-                                Navigator.pushNamed(
+                              Navigator.pushNamed(
                                   context,
-                                  MovieDetailsScreenWeb.routeName,
-                                  arguments: isbookmarked,
-                                );
-                              }
+                                MovieDetailsScreenWeb.routeName,
+                              );
                             });
                           },
                           child: CarousalMovieItem(

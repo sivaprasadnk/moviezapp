@@ -7,11 +7,12 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 
 class AuthRepo {
+  static final auth = FirebaseAuth.instance;
+
   /// register
   static Future<void> register(
       String emailAddress, String password, String userName) async {
-    var userDetails =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    var userDetails = await auth.createUserWithEmailAndPassword(
       email: emailAddress,
       password: password,
     );
@@ -22,12 +23,16 @@ class AuthRepo {
 
   static Future logout() async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await auth.signOut();
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
       if (await googleSignIn.isSignedIn()) {
         await googleSignIn.signOut();
-      } else {}
+      }
+      // final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
+      // if (accessToken != null) {
+      //   await FacebookAuth.instance.logOut();
+      // }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -37,7 +42,7 @@ class AuthRepo {
   static Future<UserCredential?> signIn(
       String emailAddress, String password) async {
     UserCredential? user;
-    user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    user = await auth.signInWithEmailAndPassword(
       email: emailAddress,
       password: password,
     );
@@ -55,78 +60,111 @@ class AuthRepo {
   }
 
   static Future resetPassword(String emailAddress) async {
-    await FirebaseAuth.instance.sendPasswordResetEmail(
+    await auth.sendPasswordResetEmail(
       email: emailAddress,
     );
     return;
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    final GoogleSignIn googleSignIn = GoogleSignIn.standard(
-      scopes: [
-        'email',
-        // 'https://www.googleapis.com/auth/drive.metadata.readonly',
-        // oath.Oauth2Api.userinfoEmailScope,
-      ],
-    );
-
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn.standard(
+        scopes: [
+          'email',
+        ],
       );
 
-      try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
-        var user = userCredential.user!;
-        if (userCredential.additionalUserInfo != null &&
-            userCredential.additionalUserInfo!.isNewUser) {
-          await user.updateDisplayName(user.displayName);
-
-          await userColllection.doc(user.uid).set({
-            kEmail: user.email,
-            kRating: 0,
-            kDisplayName: user.displayName,
-            kBookMarkedMovieIdList: [],
-            kAccountType: AccountType.googleSignIn.value,
-            kBookMarkedShowIdList: [],
-            kCreatedDateTime: DateTime.now(),
-          });
-        } else {
-          await userColllection.doc(user.uid).update({
-            kAccountType: AccountType.googleSignIn.value,
-          });
-        }
-        return user;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          if (context.mounted) {
-            context.showSnackbar(
-                'The account already exists with a different credential');
-          }
-        } else if (e.code == 'invalid-credential') {
-          if (context.mounted) {
-            context.showSnackbar(
-                'Error occurred while accessing credentials. Try again.');
-          }
-        }
-        return null;
-      } catch (e) {
-        if (context.mounted) {
-          context
-              .showSnackbar('Error occurred using Google Sign In. Try again.');
-        }
+        return await signInAndUpdateData(userCredential);
+      } else {
         return null;
       }
-    } else {
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        if (context.mounted) {
+          context.showSnackbar(
+              'The account already exists with a different credential');
+        }
+      } else if (e.code == 'invalid-credential') {
+        if (context.mounted) {
+          context.showSnackbar(
+              'Error occurred while accessing credentials. Try again.');
+        }
+      }
+    } catch (err) {
+      if (context.mounted) {
+        context.showSnackbar('Error occurred using Google Sign In. Try again.');
+      }
+    }
+    return null;
+  }
+
+  static Future<User?> signInWithFacebook({
+    required BuildContext context,
+  }) async {
+    try {
+      FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+
+      facebookProvider.addScope('email');
+      facebookProvider.setCustomParameters({
+        'display': 'popup',
+        "consent": "select_account",
+      });
+
+      // Once signed in, return the UserCredential
+      final UserCredential userCredential =
+          await auth.signInWithPopup(facebookProvider);
+      // final LoginResult result = await FacebookAuth.instance.login();
+      // if (result.status == LoginStatus.success) {
+      //   final AccessToken accessToken = result.accessToken!;
+      //   final AuthCredential credential =
+      //       FacebookAuthProvider.credential(accessToken.token);
+      //   final UserCredential userCredential =
+      //       await FirebaseAuth.instance.signInWithCredential(credential);
+      return await signInAndUpdateData(userCredential);
+      // } else {}
+    } on FirebaseAuthException catch (e) {
+      debugPrint('FirebaseAuthException :');
+      debugPrint(e.message);
+      return null;
+    } catch (e) {
+      if (context.mounted) {
+        context.showSnackbar('Error occurred using Fb Sign In. Try again.');
+      }
+      debugPrint('error :');
+      debugPrint(e.toString());
       return null;
     }
+  }
+
+  static Future<User?> signInAndUpdateData(
+      UserCredential userCredential) async {
+    var user = userCredential.user!;
+    if (userCredential.additionalUserInfo != null &&
+        userCredential.additionalUserInfo!.isNewUser) {
+      await user.updateDisplayName(user.displayName);
+
+      await userColllection.doc(user.uid).set({
+        kEmail: user.email,
+        kRating: 0,
+        kDisplayName: user.displayName,
+        kBookMarkedMovieIdList: [],
+        kAccountType: AccountType.googleSignIn.value,
+        kBookMarkedShowIdList: [],
+        kCreatedDateTime: DateTime.now(),
+      });
+    }
+    return user;
   }
 }
