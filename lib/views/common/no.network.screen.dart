@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moviezapp/utils/routes.dart';
+import 'package:moviezapp/config/routes.dart';
 
 class NoNetworkScreen extends StatelessWidget {
   const NoNetworkScreen({super.key});

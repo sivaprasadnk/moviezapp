@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/config/error.details.widget.dart';
+import 'package:moviezapp/config/routes.dart';
 import 'package:moviezapp/firebase_options.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/providers.dart';
-import 'package:moviezapp/utils/routes.dart';
 import 'package:moviezapp/views/mobile.web.screen.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
@@ -55,6 +56,15 @@ class MobileApp extends StatelessWidget {
               primaryColor: Colors.red,
               brightness: provider.selectedBrightness,
             ),
+            builder: (context, widget) {
+              ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+                return ErrorDetailsWidget(
+                  errorDetails: errorDetails,
+                  widget: widget!,
+                );
+              };
+              return widget!;
+            },
             home: const SplashScreenMobile(),
           );
         },
@@ -97,37 +107,10 @@ class WebApp extends StatelessWidget {
                   ),
                   builder: (context, widget) {
                     ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
-                      String message = kDebugMode
-                          ? "${errorDetails.summary}"
-                          : "Something went wrong !";
-
-                      Widget error = Text(message);
-                      debugPrint('error : ${errorDetails.summary}');
-                      if (widget is Scaffold) {
-                        error = MaterialApp(
-                          builder: (context, child) {
-                            return Material(
-                              child: Scaffold(
-                                body: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(30.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(Icons.error_outlined,
-                                            size: 50),
-                                        error,
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                      return error;
+                      return ErrorDetailsWidget(
+                        errorDetails: errorDetails,
+                        widget: widget!,
+                      );
                     };
                     return widget!;
                   },
@@ -146,6 +129,7 @@ class WebApp extends StatelessWidget {
             builder: (context, child) {
               return const MobileWebScreen();
             },
-            home: const MobileWebScreen());
+            home: const MobileWebScreen(),
+          );
   }
 }
