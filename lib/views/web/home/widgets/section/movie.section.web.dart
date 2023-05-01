@@ -20,109 +20,108 @@ class MovieSectionWeb extends StatelessWidget {
         left: context.width * 0.1,
         right: context.width * 0.1,
       ),
-      child: Consumer<MoviesProvider>(builder: (_, provider, __) {
-        return Column(
-          children: [
-            const SizedBox(height: 20),
-            SectionTitle(
-              title: 'Now Playing',
-              withSeeMore:
-                  context.moviesProvider.moviesList.popularMovies(10).length >
-                      context.gridCrossAxisCount,
-              seeMoreCallBack: () {
-                context.moviesProvider.updateMovieGenre(
-                  Genre(id: 0, name: 'All'),
-                  MovieType.nowPlaying,
-                );
+      child: Consumer<MoviesProvider>(
+        builder: (_, provider, __) {
+          return Column(
+            children: [
+              const SizedBox(height: 20),
+              SectionTitle(
+                title: 'Now Playing',
+                withSeeMore: context.moviesList.popularMovies(10).length >
+                    context.gridCrossAxisCount,
+                seeMoreCallBack: () {
+                  context.moviesProvider.updateMovieGenre(
+                    Genre(id: 0, name: 'All'),
+                    MovieType.nowPlaying,
+                  );
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return MovieListScreenWeb(
-                        isMobileWeb: isMobileWeb,
-                        title: 'Now Playing',
-                        genreList: context.moviesProvider.movieGenreList
-                            .movieGenres(context.moviesProvider.moviesList
-                                .nowPlayingMovies(20)),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            const MovieListWeb(
-              type: MovieType.nowPlaying,
-            ),
-            const SizedBox(height: 20),
-            SectionTitle(
-              title: 'Upcoming',
-              withSeeMore:
-                  context.moviesProvider.moviesList.upcomingMovies(10).length >
-                      context.gridCrossAxisCount,
-              seeMoreCallBack: () {
-                context.moviesProvider.updateMovieGenre(
-                  Genre(id: 0, name: 'All'),
-                  MovieType.upcoming,
-                );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) {
+                        return MovieListScreenWeb(
+                          isMobileWeb: isMobileWeb,
+                          title: 'Now Playing',
+                          genreList: context.moviesProvider.movieGenreList
+                              .movieGenres(
+                                  context.moviesList.nowPlayingMovies(20)),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              const MovieListWeb(
+                type: MovieType.nowPlaying,
+              ),
+              const SizedBox(height: 20),
+              SectionTitle(
+                title: 'Upcoming',
+                withSeeMore: context.moviesList.upcomingMovies(10).length >
+                    context.gridCrossAxisCount,
+                seeMoreCallBack: () {
+                  context.moviesProvider.updateMovieGenre(
+                    Genre(id: 0, name: 'All'),
+                    MovieType.upcoming,
+                  );
 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return MovieListScreenWeb(
-                        isMobileWeb: isMobileWeb,
-                        title: 'Upcoming',
-                        movieType: MovieType.upcoming,
-                        genreList: context.moviesProvider.movieGenreList
-                            .movieGenres(context.moviesProvider.moviesList
-                                .upcomingMovies(20)),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            const MovieListWeb(
-              type: MovieType.upcoming,
-            ),
-            const SizedBox(height: 20),
-            SectionTitle(
-              title: 'Top Rated',
-              withSeeMore:
-                  context.moviesProvider.moviesList.popularMovies(10).length >
-                      context.gridCrossAxisCount,
-              seeMoreCallBack: () {
-                context.moviesProvider.updateMovieGenre(
-                  Genre(id: 0, name: 'All'),
-                  MovieType.topRated,
-                );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return MovieListScreenWeb(
-                        isMobileWeb: isMobileWeb,
-                        movieType: MovieType.topRated,
-                        title: 'Top Rated Movies',
-                        genreList: context.moviesProvider.movieGenreList
-                            .movieGenres(context.moviesProvider.moviesList
-                                .popularMovies(20)),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            const MovieListWeb(
-              type: MovieType.topRated,
-            ),
-          ],
-        );
-      }),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) {
+                        return MovieListScreenWeb(
+                          isMobileWeb: isMobileWeb,
+                          title: 'Upcoming',
+                          movieType: MovieType.upcoming,
+                          genreList: context.moviesProvider.movieGenreList
+                              .movieGenres(
+                                  context.moviesList.upcomingMovies(20)),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              const MovieListWeb(
+                type: MovieType.upcoming,
+              ),
+              const SizedBox(height: 20),
+              SectionTitle(
+                title: 'Top Rated',
+                withSeeMore: context.moviesList.popularMovies(10).length >
+                    context.gridCrossAxisCount,
+                seeMoreCallBack: () {
+                  context.moviesProvider.updateMovieGenre(
+                    Genre(id: 0, name: 'All'),
+                    MovieType.topRated,
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) {
+                        return MovieListScreenWeb(
+                          isMobileWeb: isMobileWeb,
+                          movieType: MovieType.topRated,
+                          title: 'Top Rated Movies',
+                          genreList: context.moviesProvider.movieGenreList
+                              .movieGenres(
+                                  context.moviesList.popularMovies(20)),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              const MovieListWeb(
+                type: MovieType.topRated,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

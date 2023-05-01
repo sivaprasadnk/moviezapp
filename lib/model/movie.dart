@@ -8,6 +8,7 @@ enum MovieType {
   similar,
   search,
   bookmarks,
+  filmography,
 }
 
 class Movie {
@@ -174,6 +175,22 @@ extension MovieExtension on List<Movie> {
     List<Movie> list = [];
     for (var movie in this) {
       if (movie.movieType == MovieType.upcoming) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(movie);
+          }
+        } else {
+          list.add(movie);
+        }
+      }
+    }
+    return list;
+  }
+
+  List<Movie> filmographyMovies([int limit = 0]) {
+    List<Movie> list = [];
+    for (var movie in this) {
+      if (movie.movieType == MovieType.filmography) {
         if (limit != 0) {
           if (list.length < limit) {
             list.add(movie);

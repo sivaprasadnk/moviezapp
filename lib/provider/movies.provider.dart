@@ -164,17 +164,10 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
-    // Future.wait([
-    //   getActorsList(id, 'movie'),
-    //   getVideoList(id, "movie"),
-    //   getSocialMediaLinks(id, "movie"),
-    //   getSimilarMoviesList(id),
-    // ]);
     getActorsList(id, 'movie');
     getVideoList(id, "movie");
     getSocialMediaLinks(id, "movie");
     getSimilarMoviesList(id);
-    // debugPrint('_videoList length@2 : ${_videoList.length}');
     notifyListeners();
   }
 
@@ -184,15 +177,23 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _filteredMoviesList = [];
   List<Movie> get filteredMoviesList => _filteredMoviesList;
 
+  List<Movie> _filmographyMoviesList = [];
+  List<Movie> get filmographyMoviesList => _filmographyMoviesList;
+
   void updateFilteredMoviesList(List<Movie> list) {
     _filteredMoviesList = list;
+    notifyListeners();
+  }
+
+  void updateFilmographyMoviesList(List<Movie> list) {
+    _filmographyMoviesList = list;
     notifyListeners();
   }
 
   Genre? _selectedMovieGenre;
   Genre get selectedMovieGenre => _selectedMovieGenre!;
 
-  void updateMovieGenre(Genre genre, MovieType type) {
+  void updateMovieGenre(Genre genre, MovieType type, {List<Movie>? movies}) {
     _selectedMovieGenre = genre;
     _filteredMoviesList = [];
     notifyListeners();
@@ -204,6 +205,8 @@ class MoviesProvider extends ChangeNotifier {
           _filteredMoviesList = _moviesList.popularMovies(20);
         } else if (type == MovieType.upcoming) {
           _filteredMoviesList = _moviesList.upcomingMovies(20);
+        } else if (type == MovieType.filmography) {
+          _filteredMoviesList = _filmographyMoviesList;
         } else {
           _filteredSearchMoviesList = _searchMoviesList;
         }
@@ -217,6 +220,8 @@ class MoviesProvider extends ChangeNotifier {
         } else if (type == MovieType.upcoming) {
           _filteredMoviesList =
               genre.getFilteredList(_moviesList.upcomingMovies(20));
+        } else if (type == MovieType.filmography) {
+          _filteredMoviesList = genre.getFilteredList(_filmographyMoviesList);
         } else {
           _filteredSearchMoviesList = genre.getFilteredList(_searchMoviesList);
         }
@@ -458,7 +463,7 @@ class MoviesProvider extends ChangeNotifier {
     return await MovieRepo.getActorDetails(id);
   }
 
-  Future<ActorDetailsModel?> getActorFilms(int id) async {
+  Future<List<Movie>> getActorFilms(int id) async {
     return await MovieRepo.getActorFilms(id);
   }
 }

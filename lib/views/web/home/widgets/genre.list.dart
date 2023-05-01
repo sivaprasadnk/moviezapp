@@ -36,7 +36,6 @@ class GenreOptionsList extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   if (isMovie) {
-                    // provider.updateFilteredMoviesList([]);
                     provider.updateMovieGenre(genre, movieType);
                   } else {
                     provider.updateTvShowGenre(genre, tvShowType);

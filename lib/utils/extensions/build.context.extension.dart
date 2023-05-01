@@ -1,6 +1,7 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
@@ -89,6 +90,7 @@ extension ContextExtensions on BuildContext {
 
   int get movieId => moviesProvider.selectedMovie!.id;
   int get tvShowId => moviesProvider.selectedShow!.id;
+  List<Movie> get moviesList => moviesProvider.moviesList;
 
   ThemeData get theme => Theme.of(this);
 
@@ -114,6 +116,8 @@ extension ContextExtensions on BuildContext {
   void unfocus() {
     FocusScope.of(this).unfocus();
   }
+
+  Object? get arguments => ModalRoute.of(this)!.settings.arguments;
 
   bool get isDialogOpen => ModalRoute.of(this)?.isCurrent != true;
   // bool get isDialogOpen => Navigator.of(this).canPop();

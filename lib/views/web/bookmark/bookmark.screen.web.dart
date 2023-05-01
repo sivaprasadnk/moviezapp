@@ -30,16 +30,10 @@ class _BookmarkScreenWebState extends State<BookmarkScreenWeb> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              SectionTitle(
+              const SectionTitle(
                 title: 'Favourites',
                 withSeeMore: false,
-                withSettings: true,
-                settingsCallBack: () {
-                  // Dialogs.showSortByDialog(
-                  //   context,
-                  //   context.moviesProvider.selectedSort,
-                  // );
-                },
+               
               ),
               const SizedBox(height: 20),
               Consumer<UserProvider>(

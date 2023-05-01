@@ -25,7 +25,9 @@ class MovieListWeb extends StatelessWidget {
                   ? provider.moviesList.nowPlayingMovies(10)
                   : type == MovieType.upcoming
                       ? provider.moviesList.upcomingMovies(10)
-                      : provider.searchMoviesList,
+                      : type == MovieType.filmography
+                          ? provider.moviesList.filmographyMovies(100)
+                          : provider.searchMoviesList,
           isWeb: true,
           limit: type == MovieType.topRated
               ? provider.moviesList
@@ -39,7 +41,9 @@ class MovieListWeb extends StatelessWidget {
                       ? provider.moviesList
                           .upcomingMovies(context.gridCrossAxisCount)
                           .length
-                      : provider.searchMoviesList.length,
+                      : type == MovieType.filmography
+                          ? provider.moviesList.filmographyMovies(0).length
+                          : provider.searchMoviesList.length,
         );
       },
     );

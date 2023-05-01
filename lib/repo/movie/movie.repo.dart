@@ -416,10 +416,10 @@ class MovieRepo {
     return actor;
   }
 
-  static Future<ActorDetailsModel?> getActorFilms(int id) async {
+  static Future<List<Movie>> getActorFilms(int id) async {
     var url = '${kBaseUrl}person/$id/movie_credits?api_key=$apiKey';
 
-    ActorDetailsModel? actor;
+    List<Movie> list = [];
     // debugPrint(url);
     final response = await http.get(
       Uri.parse(url),
@@ -429,10 +429,29 @@ class MovieRepo {
     );
 
     if (response.statusCode == 200) {
-      final item = json.decode(response.body) as Map<String, dynamic>;
-      actor = ActorDetailsModel.fromJson(item);
-      return actor;
+      final item = json.decode(response.body);
+      var movieList = item['cast'] as List;
+      if (movieList.isNotEmpty) {
+        for (var i in movieList) {
+          if (i['backdrop_path'] != null &&
+              i['poster_path'] != null &&
+              i['genre_ids'] != null) {
+            list.add(Movie.fromJson(i, MovieType.filmography));
+          }
+        }
+      }
+      movieList = item['crew'] as List;
+      if (movieList.isNotEmpty) {
+        for (var i in movieList) {
+          if (i['backdrop_path'] != null &&
+              i['poster_path'] != null &&
+              i['genre_ids'] != null) {
+            list.add(Movie.fromJson(i, MovieType.filmography));
+          }
+        }
+      }
     }
-    return actor;
+
+    return list;
   }
 }

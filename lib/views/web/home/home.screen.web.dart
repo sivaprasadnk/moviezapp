@@ -60,8 +60,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
           var versionFromWeb = int.parse(version);
           if (versionFromWeb > currentVersion) {
             Dialogs.showUpdateAvailableDialog(context);
-            // window.location.reload();
-            // context.showSnackbar('New version available !');
           }
         });
       }

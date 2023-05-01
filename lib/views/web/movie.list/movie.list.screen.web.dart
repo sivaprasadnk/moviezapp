@@ -54,14 +54,17 @@ class MovieListScreenWeb extends StatelessWidget {
                 movieType: movieType,
               ),
               const SizedBox(height: 20),
-              Consumer<MoviesProvider>(builder: (_, provider, __) {
-                return MovieGrid(
-                  isLoading: false,
-                  movieGrid: provider.filteredMoviesList,
-                  isWeb: true,
-                  limit: provider.filteredMoviesList.length,
-                );
-              }),
+              Consumer<MoviesProvider>(
+                builder: (_, provider, __) {
+                  var list = provider.filteredMoviesList;
+                  return MovieGrid(
+                    isLoading: false,
+                    movieGrid: list,
+                    isWeb: true,
+                    limit: list.length,
+                  );
+                },
+              ),
             ],
           ),
         ),
