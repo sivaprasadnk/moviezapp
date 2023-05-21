@@ -11,6 +11,7 @@ import 'package:moviezapp/model/related.video.model.dart';
 import 'package:moviezapp/model/social.media.model.dart';
 import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/model/tv.shows.dart';
+import 'package:moviezapp/model/tvshow.complete.details.model.dart';
 import 'package:moviezapp/repo/movie/movie.repo.dart';
 import 'package:moviezapp/repo/movie/region.list.dart';
 import 'package:moviezapp/repo/user/user.repo.dart';
@@ -171,12 +172,6 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> get similarMovieList => _similarMovieList;
 
   Future<List<Movie>> getSimilarMoviesList(int id) async {
-    // _similarMovieListLoading = true;
-    // _similarMovieList = [];
-    // notifyListeners();
-
-    // _similarMovieListLoading = false;
-    // notifyListeners();
     _similarMovieList = await MovieRepo.getSimilarMoviesList(id);
     return _similarMovieList;
   }
@@ -285,17 +280,25 @@ class MoviesProvider extends ChangeNotifier {
   ///  tvshows
   ///
 
+  TvShow? _selectedTvShow;
+  TvShow get selectedTvShow => _selectedTvShow!;
+
+  void updateSelectedTvShow(TvShow show) {
+    _selectedTvShow = show;
+    notifyListeners();
+  }
+
   Future getTVGenres() async {
     _tvGenreList = await MovieRepo.getGenreList('tv');
     _selectedTvGenre = _tvGenreList[0];
     notifyListeners();
   }
 
-  List<TvShows> _searchTvShowList = [];
-  List<TvShows> get searchTvShowList => _searchTvShowList;
+  List<TvShow> _searchTvShowList = [];
+  List<TvShow> get searchTvShowList => _searchTvShowList;
 
-  List<TvShows> _filteredSearchTvShowList = [];
-  List<TvShows> get filteredSearchTvShowList => _filteredSearchTvShowList;
+  List<TvShow> _filteredSearchTvShowList = [];
+  List<TvShow> get filteredSearchTvShowList => _filteredSearchTvShowList;
 
   Future searchTvShow(String query) async {
     _searchTvShowList = await MovieRepo.searchTvShow(query);
@@ -322,22 +325,42 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateFilteredTvShowsList(List<TvShows> list) {
+  Future<TvShowCompleteDetailsModel> getCompleteTvShowDetails(int id) async {
+    _selectedShowDetails = await MovieRepo.getTvShowDetails(id);
+
+    var credits = await getActorsList(id, 'tv');
+
+    var videos = await getVideoList(id, "tv");
+
+    // var similar = await getSimilarTvShowsList(id);
+    var isFav = false;
+    return TvShowCompleteDetailsModel(
+      tvShow: _selectedShowDetails!,
+      actorsList: credits.actors,
+      crewList: credits.crew,
+      isFavourite: isFav,
+      overview: _selectedShowDetails!.overview,
+      similarTvShowsList: [],
+      videoList: videos,
+    );
+  }
+
+  void updateFilteredTvShowsList(List<TvShow> list) {
     _filteredTvShowsList = list;
     notifyListeners();
   }
 
-  TvShowDetails? _selectedShow;
-  TvShowDetails? get selectedShow => _selectedShow;
+  TvShowDetails? _selectedShowDetails;
+  TvShowDetails? get selectedShowDetails => _selectedShowDetails;
 
-  List<TvShows> _similarTvShowList = [];
-  List<TvShows> get similarTvShowList => _similarTvShowList;
+  List<TvShow> _similarTvShowList = [];
+  List<TvShow> get similarTvShowList => _similarTvShowList;
 
-  List<TvShows> _filteredTvShowsList = [];
-  List<TvShows> get filteredTvShowsList => _filteredTvShowsList;
+  List<TvShow> _filteredTvShowsList = [];
+  List<TvShow> get filteredTvShowsList => _filteredTvShowsList;
 
-  List<TvShows> _tvShowsList = [];
-  List<TvShows> get tvShowsList => _tvShowsList;
+  List<TvShow> _tvShowsList = [];
+  List<TvShow> get tvShowsList => _tvShowsList;
 
   void updateTvShowGenre(Genre genre, TvShowType type) {
     _selectedTvGenre = genre;
@@ -383,7 +406,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future getTvShowDetails(int id) async {
-    _selectedShow = await MovieRepo.getTvShowDetails(id);
+    _selectedShowDetails = await MovieRepo.getTvShowDetails(id);
     getActorsList(id, 'tv');
     getVideoList(id, "tv");
     getSocialMediaLinks(id, "tv");
@@ -482,15 +505,6 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<CreditsModel> getActorsList(int id, String show) async {
-    // _actorsListLoading = true;
-    // _actorsList = [];
-    // _crewList = [];
-    // _actorsList = credits.actors;
-    // _crewList = credits.crew;
-
-    // _actorsListLoading = false;
-
-    // notifyListeners();
     var credits = await MovieRepo.getCreditsList(id, show);
     _crewList.sort((a, b) => a.order.compareTo(b.order));
     return credits;

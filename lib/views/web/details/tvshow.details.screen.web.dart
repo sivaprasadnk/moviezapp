@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:moviezapp/model/movie.complete.details.model.dart';
+import 'package:moviezapp/model/tvshow.complete.details.model.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/uri.extensions.dart';
-import 'package:moviezapp/views/web/details/large/movie.details.large.new.dart';
-import 'package:moviezapp/views/web/details/large/widgets/loading/loading.movie.details.dart';
+import 'package:moviezapp/views/web/details/large/widgets/loading/loading.tvshow.details.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 
-class TvShowDetailsScreenWeb extends StatefulWidget {
-  static const routeName = "/movie/";
+import 'large/tvshow.details.large.dart';
 
-  const TvShowDetailsScreenWeb({
-    Key? key,
-  }) : super(key: key);
+class TvShowDetailsScreenWeb extends StatefulWidget {
+  static const routeName = "/tvshow/";
+
+  const TvShowDetailsScreenWeb({Key? key}) : super(key: key);
+  
   @override
   State<TvShowDetailsScreenWeb> createState() => _TvShowDetailsScreenWebState();
 }
 
 class _TvShowDetailsScreenWebState extends State<TvShowDetailsScreenWeb> {
   bool isLoading = true;
-  MovieCompleteDetailsModel? movie;
+  TvShowCompleteDetailsModel? show;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.moviesProvider
-          .getCompleteMovieDetails(Uri.base.id)
+          .getCompleteTvShowDetails(Uri.base.id)
           .then((value) {
-        movie = value;
+        show = value;
         isLoading = false;
         setState(() {});
       });
@@ -35,15 +35,14 @@ class _TvShowDetailsScreenWebState extends State<TvShowDetailsScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-
     return WebScaffold(
       body: !isLoading
           ? SingleChildScrollView(
-              child: MovieDetailsLargeNew(
-                movieDetails: movie!,
+              child: TvShowDetailsLarge(
+                tvShowDetails: show!,
               ),
             )
-          : const LoadingMovieDetails(),
+          : const LoadingTvShowDetails(),
     );
   }
 }

@@ -143,7 +143,7 @@ class MovieRepo {
   ///
 
   static Future getTvShowsResultsList(String url, TvShowType type) async {
-    List<TvShows> list = [];
+    List<TvShow> list = [];
     try {
       // debugPrint(url);
 
@@ -158,16 +158,15 @@ class MovieRepo {
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
-
             if (i['backdrop_path'] != null && i['poster_path'] != null) {
-              list.add(TvShows.fromJson(i, type));
+              list.add(TvShow.fromJson(i, type));
             }
           }
         }
       }
     } catch (err) {
       debugPrint(err.toString());
-      return <TvShows>[];
+      return <TvShow>[];
     }
     list = list.toSet().toList();
     return list;
@@ -363,7 +362,7 @@ class MovieRepo {
   }
 
   static Future getTvShowsList(String region) async {
-    List<TvShows> finalList = [];
+    List<TvShow> finalList = [];
     var trendingList = await getTrendingTvShowList(region);
     var airingTodayList = await getAiringTodayTvShowList(region);
     var popularList = await getPopularTvShowList(region);
@@ -455,9 +454,10 @@ class MovieRepo {
       }
     }
 
-
     return list.uniqueList(MovieType.filmography);
   }
 
-
+  // static Future getWatchProviders(int id) {
+  //   return ;
+  // }
 }

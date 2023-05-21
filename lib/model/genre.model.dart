@@ -62,7 +62,7 @@ extension GenreExt on List<Genre> {
     return list;
   }
 
-  List<Genre> tvGenres(List<TvShows> movieList) {
+  List<Genre> tvGenres(List<TvShow> movieList) {
     var list = <Genre>[];
     var idList = <int>[];
 
@@ -95,8 +95,8 @@ extension GenreExts on Genre {
     return list;
   }
 
-  List<TvShows> getFilteredTvShowsList(List<TvShows> movieList) {
-    var list = <TvShows>[];
+  List<TvShow> getFilteredTvShowsList(List<TvShow> movieList) {
+    var list = <TvShow>[];
 
     for (var movie in movieList) {
       if (movie.genreIdList.contains(id)) {

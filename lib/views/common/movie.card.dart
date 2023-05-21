@@ -40,7 +40,7 @@ class MovieCard extends StatefulWidget {
   final double imageHeight;
   final double imageWidth;
   final Movie? movie;
-  final TvShows? tvShow;
+  final TvShow? tvShow;
   final bool withSize;
 
   @override
@@ -98,24 +98,29 @@ class _MovieCardState extends State<MovieCard> {
                 });
               }
             } else {
-              if (widget.isMovie) {
                 debugPrint('id :: ${widget.id}');
-                
+              if (widget.isMovie) {
+
                 provider.updateMovie(widget.movie!);
                 Navigator.pushNamed(
                   context,
                   MovieDetailsScreenWeb.routeName.getRouteWithId(widget.id),
                 );
               } else {
-                provider.getTvShowDetails(widget.id).then((value) async {
-                  // context.pop();
-                  Navigator.pop(context);
+                provider.updateSelectedTvShow(widget.tvShow!);
+                Navigator.pushNamed(
+                  context,
+                  TvShowDetailsScreenWeb.routeName.getRouteWithId(widget.id),
+                );
+                // provider.getTvShowDetails(widget.id).then((value) async {
+                //   // context.pop();
+                //   Navigator.pop(context);
 
-                  Navigator.pushNamed(
-                    context,
-                    TvShowDetailsScreenWeb.routeName,
-                  );
-                });
+                //   Navigator.pushNamed(
+                //     context,
+                //     TvShowDetailsScreenWeb.routeName,
+                //   );
+                // });
               }
             }
           },

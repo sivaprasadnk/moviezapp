@@ -29,6 +29,8 @@ class UserProvider extends ChangeNotifier {
   List<MovieDetails> _bookMarkMoviesList = [];
   List<MovieDetails> get bookMarkMoviesList => _bookMarkMoviesList;
 
+  
+
   List<TvShowDetails> _bookMarkShowsList = [];
   List<TvShowDetails> get bookMarkShowsList => _bookMarkShowsList;
 

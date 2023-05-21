@@ -16,7 +16,7 @@ class TvShowGridWeb extends StatelessWidget {
     this.isSearch = false,
   }) : super(key: key);
   final int limit;
-  final List<TvShows> showList;
+  final List<TvShow> showList;
   final bool isSearch;
 
   @override

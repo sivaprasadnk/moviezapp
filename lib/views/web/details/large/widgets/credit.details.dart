@@ -21,27 +21,28 @@ class CreditDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (actorsList.isNotEmpty) const SectionTitle(title: 'Cast'),
-        const SizedBox(height: 20),
-        AnimatedSwitcher(
-          duration: const Duration(
-            seconds: 1,
+        if (actorsList.isNotEmpty) const SizedBox(height: 20),
+        if (actorsList.isNotEmpty)
+          AnimatedSwitcher(
+            duration: const Duration(
+              seconds: 1,
+            ),
+            child: ActorsList(
+              actorsList: actorsList,
+            ),
           ),
-          child: ActorsList(
-            actorsList: actorsList,
-          ),
-        ),
         if (crewList.isNotEmpty) const SectionTitle(title: 'Crew'),
-        const SizedBox(height: 20),
-        AnimatedSwitcher(
-          duration: const Duration(
-            seconds: 1,
+        if (crewList.isNotEmpty) const SizedBox(height: 20),
+        if (crewList.isNotEmpty)
+          AnimatedSwitcher(
+            duration: const Duration(
+              seconds: 1,
+            ),
+            child: CrewList(
+              crewList: crewList,
+            ),
           ),
-          child: CrewList(
-            crewList: crewList,
-          ),
-        ),
       ],
     );
-    
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
@@ -67,7 +68,7 @@ class _BookmarkScreenWebState extends State<BookmarkScreenWeb> {
                                 right: 10,
                               ),
                               child: MovieCard(
-                                isMovie: true,
+                                movie: movie.convertedDetails,
                                 name: movie.title,
                                 poster: movie.posterPath,
                                 vote: movie.voteAverage,

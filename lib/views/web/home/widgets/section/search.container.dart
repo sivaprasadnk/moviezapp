@@ -7,21 +7,17 @@ class SearchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var label = ' Search movies/ tv shows here ..';
+    var label = ' Search movies here ..';
     if (context.width < 935) {
-      label = "Search here ..";
+      label = "Search here ...";
     }
     debugPrint('width : ${context.width}');
     return GestureDetector(
       onTap: () {
         context.moviesProvider.clearSearchList();
-        Navigator.pushReplacement(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (_) {
-              return const SearchScreenWeb();
-            },
-          ),
+          SearchScreenWeb.routeName,
         );
       },
       child: Container(

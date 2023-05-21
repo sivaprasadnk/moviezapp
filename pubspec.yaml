@@ -48,7 +48,7 @@ dependencies:
   flutter_login_facebook: ^1.7.0
   flutter_rating_bar: ^4.0.1
   flutter_svg: ^2.0.4
-  flutterwebapp_reload_detector: ^0.0.1
+  # flutterwebapp_reload_detector: ^0.0.1
   get_it: ^7.6.0
   google_sign_in: ^6.0.2
   google_sign_in_web: ^0.12.0

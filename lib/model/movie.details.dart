@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
+import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
 
 class MovieDetails {
@@ -144,4 +145,18 @@ class MovieDetails {
 
     return result;
   }
+}
+
+extension MOvieDetailsExt on MovieDetails {
+  Movie get convertedDetails => Movie(
+        backdropPath: backdropPath,
+        genreIdList: [],
+        id: id,
+        movieType: MovieType.bookmarks,
+        posterPath: posterPath,
+        releaseDate: releaseDate,
+        title: title,
+        voteAverage: voteAverage,
+        character: "",
+      );
 }

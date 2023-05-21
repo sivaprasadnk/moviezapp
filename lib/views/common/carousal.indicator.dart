@@ -15,7 +15,7 @@ class CarousalIndicator extends StatelessWidget {
 
   final int carousalIndex;
   final List<Movie> movieList;
-  final List<TvShows> showList;
+  final List<TvShow> showList;
   final bool isWeb;
   final bool isMovie;
 

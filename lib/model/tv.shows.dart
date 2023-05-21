@@ -2,7 +2,7 @@ import 'package:moviezapp/repo/movie/end.points.dart';
 
 enum TvShowType { trending, popular, airingToday, similar, topRated, search }
 
-class TvShows {
+class TvShow {
   String name;
   int id;
   String backdropPath;
@@ -10,7 +10,7 @@ class TvShows {
   List<int> genreIdList;
   double voteAverage;
   TvShowType tvShowType;
-  TvShows({
+  TvShow({
     required this.name,
     required this.id,
     required this.backdropPath,
@@ -20,12 +20,12 @@ class TvShows {
     required this.tvShowType,
   });
 
-  factory TvShows.fromJson(Map<String, dynamic> json, TvShowType type) {
+  factory TvShow.fromJson(Map<String, dynamic> json, TvShowType type) {
     var vote = json['vote_average'];
     if (vote.runtimeType == int) {
       vote = (vote as int).toDouble();
     }
-    return TvShows(
+    return TvShow(
       id: json['id'],
       backdropPath: kOriginalImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
@@ -50,9 +50,9 @@ class TvShows {
   }
 }
 
-extension TvShowExtension on List<TvShows> {
-  List<TvShows> homeScreenList(int limit) {
-    List<TvShows> list = [];
+extension TvShowExtension on List<TvShow> {
+  List<TvShow> homeScreenList(int limit) {
+    List<TvShow> list = [];
     for (var show in this) {
       if (list.length < limit) {
         list.add(show);
@@ -71,8 +71,8 @@ extension TvShowExtension on List<TvShows> {
     return idList.toSet().toList();
   }
 
-  List<TvShows> trendingShows([int limit = 0]) {
-    List<TvShows> list = [];
+  List<TvShow> trendingShows([int limit = 0]) {
+    List<TvShow> list = [];
     for (var show in this) {
       if (show.tvShowType == TvShowType.trending) {
         if (limit != 0) {
@@ -87,8 +87,8 @@ extension TvShowExtension on List<TvShows> {
     return list;
   }
 
-  List<TvShows> airingTodayShows([int limit = 0]) {
-    List<TvShows> list = [];
+  List<TvShow> airingTodayShows([int limit = 0]) {
+    List<TvShow> list = [];
     for (var show in this) {
       if (show.tvShowType == TvShowType.airingToday) {
         if (limit != 0) {
@@ -103,8 +103,8 @@ extension TvShowExtension on List<TvShows> {
     return list;
   }
 
-  List<TvShows> popularShows([int limit = 0]) {
-    List<TvShows> list = [];
+  List<TvShow> popularShows([int limit = 0]) {
+    List<TvShow> list = [];
     for (var show in this) {
       if (show.tvShowType == TvShowType.popular) {
         if (limit != 0) {
@@ -119,8 +119,8 @@ extension TvShowExtension on List<TvShows> {
     return list;
   }
 
-  List<TvShows> topRatedShows([int limit = 0]) {
-    List<TvShows> list = [];
+  List<TvShow> topRatedShows([int limit = 0]) {
+    List<TvShow> list = [];
     for (var show in this) {
       if (show.tvShowType == TvShowType.topRated) {
         if (limit != 0) {

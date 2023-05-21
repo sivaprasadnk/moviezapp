@@ -15,6 +15,8 @@ import '../home/widgets/copyright.text.dart';
 class SearchScreenWeb extends StatefulWidget {
   const SearchScreenWeb({super.key});
 
+  static const routeName = '/search';
+
   @override
   State<SearchScreenWeb> createState() => _SearchScreenWebState();
 }
@@ -93,49 +95,6 @@ class _SearchScreenWebState extends State<SearchScreenWeb> {
                     );
                   }),
                   const SizedBox(width: 50),
-                  // const Text(
-                  //   'Search in :',
-                  //   style: TextStyle(
-                  //     fontWeight: FontWeight.w600,
-                  //     fontSize: 13,
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
-                  // const SizedBox(width: 10),
-                  // const ContentSelectionWeb(clearSearch: true),
-                  // const SizedBox(width: 10),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     _formKey.currentState!.save();
-                  //     var query = context.moviesProvider.searchQuery;
-                  //     if (context.moviesProvider.selectedContentType ==
-                  //         Content.movie) {
-                  //       context.moviesProvider.searchMovie(query);
-                  //     } else {
-                  //       context.moviesProvider.searchTvShow(query);
-                  //     }
-                  //   },
-                  //   child: Row(
-                  //     children: const [
-                  //       Text(
-                  //         'Search',
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 18,
-                  //         ),
-                  //       ),
-                  //       SizedBox(width: 10),
-                  //       Icon(
-                  //         Icons.arrow_forward_ios_rounded,
-                  //         color: Colors.white,
-                  //         size: 15,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ).addMousePointer,
-                  // const Spacer(),
-                  // const SizedBox(width: 10),
-                  // const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -182,14 +141,19 @@ class _SearchScreenWebState extends State<SearchScreenWeb> {
                                     ],
                                   )
                                 : const InfoText(message: 'No Tv shows found !')
-                        : const InfoText(
-                            message: 'Please type something to search !');
+                        : SizedBox(
+                            height: context.height * 0.4,
+                            child: const InfoText(
+                                message: 'Please type something to search !'),
+                          );
                   })
                 ],
               ),
             ),
-            const CopyrightText(),
-
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
+              child: const CopyrightText(),
+            ),
           ],
         ),
       ),

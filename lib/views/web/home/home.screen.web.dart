@@ -3,7 +3,6 @@ import 'package:moviezapp/repo/app/app.repo.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
-import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
 import 'package:moviezapp/views/web/home/widgets/copyright.text.dart';
 import 'package:moviezapp/views/web/home/widgets/region.text.dart';
 import 'package:moviezapp/views/web/home/widgets/section/movie.section.web.dart';
@@ -36,18 +35,15 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
 
       Future.wait([
         context.moviesProvider.getMovieGenres(),
-        context.moviesProvider.getTVGenres(),
+        // context.moviesProvider.getTVGenres(),
         context.moviesProvider.getMoviesList(),
-        context.moviesProvider.getTvShowsList(),
+        // context.moviesProvider.getTvShowsList(),
       ]);
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
 
       checkAndUpdate();
     });
-    // WebAppReloadDetector.onReload(() {
-    //   context.goWebHome();
-    // });
 
     super.initState();
   }
@@ -82,7 +78,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               child: Row(
                 children: const [
                   SizedBox(width: 10),
-                  ContentSelectionWeb(),
+                  // ContentSelectionWeb(),
                   SizedBox(width: 10),
                   SearchContainer(),
                   Spacer(),

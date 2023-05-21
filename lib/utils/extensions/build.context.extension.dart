@@ -89,7 +89,7 @@ extension ContextExtensions on BuildContext {
   bool get isGuestUser => authProvider.isGuestUser;
 
   int get movieId => moviesProvider.selectedMovieDetails!.id;
-  int get tvShowId => moviesProvider.selectedShow!.id;
+  int get tvShowId => moviesProvider.selectedShowDetails!.id;
   List<Movie> get moviesList => moviesProvider.moviesList;
 
   ThemeData get theme => Theme.of(this);

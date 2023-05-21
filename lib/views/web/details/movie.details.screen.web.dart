@@ -9,9 +9,8 @@ import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 class MovieDetailsScreenWeb extends StatefulWidget {
   static const routeName = "/movie/";
 
-  const MovieDetailsScreenWeb({
-    Key? key,
-  }) : super(key: key);
+  const MovieDetailsScreenWeb({Key? key}) : super(key: key);
+  
   @override
   State<MovieDetailsScreenWeb> createState() => _MovieDetailsScreenWebState();
 }
@@ -35,7 +34,6 @@ class _MovieDetailsScreenWebState extends State<MovieDetailsScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-
     return WebScaffold(
       body: !isLoading
           ? SingleChildScrollView(

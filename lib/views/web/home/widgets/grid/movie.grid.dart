@@ -20,7 +20,7 @@ class MovieGrid extends StatelessWidget {
 
   final bool isLoading;
   final List<Movie> movieGrid;
-  final List<TvShows> tvShowsList;
+  final List<TvShow> tvShowsList;
   final bool isWeb;
   final int limit;
   final bool isMovie;

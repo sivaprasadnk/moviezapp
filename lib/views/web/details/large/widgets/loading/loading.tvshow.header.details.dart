@@ -4,13 +4,12 @@ import 'package:moviezapp/views/web/details/large/widgets/backdop.image.dart';
 import 'package:moviezapp/views/web/details/large/widgets/bg.gradient.dart';
 import 'package:moviezapp/views/web/details/large/widgets/poster.image.dart';
 
-class LoadingHeaderDetails extends StatelessWidget {
-  const LoadingHeaderDetails({super.key});
+class LoadingTvShowHeaderDetails extends StatelessWidget {
+  const LoadingTvShowHeaderDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var movie = context.moviesProvider.selectedMovie;
-
+    var show = context.moviesProvider.selectedTvShow;
     return Stack(
       children: [
         Container(
@@ -24,8 +23,9 @@ class LoadingHeaderDetails extends StatelessWidget {
             child: Stack(
               children: [
                 BackdropImage(
-                  backdropPath: movie.backdropPath,
-                  id: movie.id,
+                  backdropPath: show.backdropPath,
+                  id: show.id,
+                  isMovie: false,
                 ),
                 const BgGradient(),
               ],
@@ -33,32 +33,17 @@ class LoadingHeaderDetails extends StatelessWidget {
           ),
         ),
         PosterImage(
-          id: movie.id,
-          posterPath: movie.posterPath,
+          id: show.id,
+          posterPath: show.posterPath,
+          isMovie: false,
         ),
-        // Positioned.fill(
-        //   left: context.width * 0.1,
-        //   top: 20,
-        //   bottom: 20,
-        //   child: Align(
-        //     alignment: Alignment.centerLeft,
-        //     child: AspectRatio(
-        //       aspectRatio: 0.667,
-        //       child: Container(
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(10),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
         Positioned.fill(
           left: context.width * 0.1 + 335,
           top: 50,
           child: Align(
             alignment: Alignment.topLeft,
             child: Text(
-              movie.title,
+              show.name,
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 20,

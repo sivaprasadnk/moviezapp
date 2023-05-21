@@ -15,6 +15,7 @@ class VideoDetails extends StatelessWidget {
       children: [
         if (videosList.isNotEmpty) const SectionTitle(title: 'Related Videos'),
         const SizedBox(height: 20),
+        if (videosList.isNotEmpty)
         AnimatedSwitcher(
           duration: const Duration(
             seconds: 1,

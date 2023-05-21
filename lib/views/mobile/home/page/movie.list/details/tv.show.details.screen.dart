@@ -70,7 +70,7 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                   width: context.width * 0.8,
                   isBookmarked: isBookmarked,
                   isMovie: false,
-                  tvShow: context.moviesProvider.selectedShow,
+                  tvShow: context.moviesProvider.selectedShowDetails,
                 ),
               ),
             ),
@@ -90,7 +90,7 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
             child: SingleChildScrollView(
               child: Consumer<MoviesProvider>(
                 builder: (_, provider, __) {
-                  var show = provider.selectedShow!;
+                  var show = provider.selectedShowDetails!;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

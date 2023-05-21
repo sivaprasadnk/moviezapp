@@ -13,7 +13,7 @@ class TvShowList extends StatelessWidget {
   });
 
   final bool isLoading;
-  final List<TvShows> showList;
+  final List<TvShow> showList;
 
   @override
   Widget build(BuildContext context) {
