@@ -31,8 +31,6 @@ class ActorsList extends StatelessWidget {
         itemCount: actorsList.length,
         itemBuilder: (context, index) {
           var actor = actorsList[index];
-          var imageTag = "actorimage_${actor.name}_${actor.character}";
-          var nameTag = "actorname_${actor.name}_${actor.character}";
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -49,28 +47,28 @@ class ActorsList extends StatelessWidget {
                               context,
                               actorDetails!,
                               size,
-                              imageTag: imageTag,
-                              nameTag: nameTag,
+                              imageTag: actor.imageTag,
+                              nameTag: actor.nameTag,
                             );
                           } else {
                             Dialogs.showActorDetailsDialogForApp(
                               context,
                               actorDetails!,
                               size,
-                              imageTag: imageTag,
-                              nameTag: nameTag,
+                              imageTag: actor.imageTag,
+                              nameTag: actor.nameTag,
                             );
                           }
                         });
                       },
                       child: Hero(
-                        tag: imageTag,
+                        tag: actor.imageTag,
                         child: CustomCacheImage(
                           imageUrl: actor.profilePath,
                           borderRadius: size - 10,
                           height: size - 10,
                           width: size - 10,
-                          cacheKey: 'actor${actor.id}${actor.name}',
+                          cacheKey: actor.cacheKey,
                         ),
                       ),
                     ).increaseSizeOnHover(1.3)
@@ -92,7 +90,7 @@ class ActorsList extends StatelessWidget {
               SizedBox(
                 width: size - 20,
                 child: Hero(
-                  tag: nameTag,
+                  tag: actor.nameTag,
                   child: Text(
                     actor.name,
                     maxLines: 3,
@@ -125,6 +123,5 @@ class ActorsList extends StatelessWidget {
         },
       ),
     );
-    
   }
 }

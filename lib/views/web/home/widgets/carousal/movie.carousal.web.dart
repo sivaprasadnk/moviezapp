@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
-import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/carousal.indicator.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
@@ -47,18 +47,13 @@ class _MovieCarousalWebState extends State<MovieCarousalWeb> {
                           provider.moviesList.trendingMovies(10).map((movie) {
                         return GestureDetector(
                           onTap: () {
-                            Dialogs.showLoader(context: context);
                             provider.clearDetails();
-
-                            provider
-                                .getMovieDetails(movie.id)
-                                .then((value) async {
-                              context.pop();
-                              Navigator.pushNamed(
-                                  context,
-                                MovieDetailsScreenWeb.routeName,
-                              );
-                            });
+                            provider.updateMovie(movie);
+                            Navigator.pushNamed(
+                              context,
+                              MovieDetailsScreenWeb.routeName
+                                  .getRouteWithId(movie.id),
+                            );
                           },
                           child: CarousalMovieItem(
                             isWeb: true,

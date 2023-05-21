@@ -11,7 +11,7 @@ import 'package:moviezapp/views/web/home/widgets/grid/movie.grid.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:provider/provider.dart';
 
-class MovieListScreenWeb extends StatelessWidget {
+class MovieListScreenWeb extends StatefulWidget {
   const MovieListScreenWeb({
     Key? key,
     this.isMobileWeb = false,
@@ -26,6 +26,11 @@ class MovieListScreenWeb extends StatelessWidget {
   final List<Genre> genreList;
 
   @override
+  State<MovieListScreenWeb> createState() => _MovieListScreenWebState();
+}
+
+class _MovieListScreenWebState extends State<MovieListScreenWeb> {
+  @override
   Widget build(BuildContext context) {
     return WebScaffold(
       body: SingleChildScrollView(
@@ -39,7 +44,7 @@ class MovieListScreenWeb extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
               SectionTitle(
-                title: title,
+                title: widget.title,
                 withSeeMore: false,
                 withSettings: true,
                 settingsCallBack: () {
@@ -51,8 +56,8 @@ class MovieListScreenWeb extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               GenreOptionsList(
-                genreList: genreList,
-                movieType: movieType,
+                genreList: widget.genreList,
+                movieType: widget.movieType,
               ),
               const SizedBox(height: 20),
               Consumer<MoviesProvider>(

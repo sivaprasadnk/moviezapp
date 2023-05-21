@@ -3,11 +3,11 @@ import 'package:moviezapp/model/movie.complete.details.model.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/uri.extensions.dart';
 import 'package:moviezapp/views/web/details/large/movie.details.large.new.dart';
-import 'package:moviezapp/views/web/details/large/widgets/loading/loading.details.dart';
+import 'package:moviezapp/views/web/details/large/widgets/loading/loading.movie.details.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 
 class MovieDetailsScreenWeb extends StatefulWidget {
-  static const routeName = "/home/movie/";
+  static const routeName = "/movie/";
 
   const MovieDetailsScreenWeb({
     Key? key,

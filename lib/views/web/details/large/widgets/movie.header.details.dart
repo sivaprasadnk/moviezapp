@@ -21,7 +21,26 @@ class MovieHeaderDetails extends StatefulWidget {
 
 class _MovieHeaderDetailsState extends State<MovieHeaderDetails> {
   bool isBookmarked = false;
-  final bool _isVisible = false;
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1)).then((value) async {
+      if (context.isGuestUser) {
+        _isVisible = true;
+        setState(() {});
+      } else {
+        await context.userProvider
+            .checkIfMovieBookmarked(context.movieId)
+            .then((value) {
+          isBookmarked = value;
+          _isVisible = true;
+          setState(() {});
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

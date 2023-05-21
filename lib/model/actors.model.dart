@@ -27,6 +27,12 @@ class Actor {
   }
 }
 
+extension ActorExt on Actor {
+  String get imageTag => "actorimage_${name}_$character";
+  String get nameTag => "actorname_${name}_$character";
+  String get cacheKey => 'actor$id$name';
+}
+
 // extension ActorExt on List<Actor> {
 //   List<Actor> get getList {
 //     List<Actor> list = [];
