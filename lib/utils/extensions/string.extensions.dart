@@ -1,3 +1,5 @@
+import 'package:moviezapp/model/routing.data.dart';
+
 extension StringExt on String {
   String get formatedDateString {
     // "2023-04-07"
@@ -35,5 +37,22 @@ extension StringExt on String {
         return "Dec";
     }
     return "";
+  }
+
+  RoutingData get getRoutingData {
+    var uriData = Uri.parse(this);
+    return RoutingData(
+      queryParameters: uriData.queryParameters,
+      route: uriData.path,
+    );
+  }
+
+  String getRouteWithId(int id) {
+    return Uri(
+      path: this,
+      queryParameters: {
+        'id': id.toString(),
+      },
+    ).toString();
   }
 }

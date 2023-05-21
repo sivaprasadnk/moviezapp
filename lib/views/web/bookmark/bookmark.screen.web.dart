@@ -39,15 +39,15 @@ class _BookmarkScreenWebState extends State<BookmarkScreenWeb> {
               Consumer<UserProvider>(
                 builder: (_, provider, __) {
                   var moviesList = provider.bookMarkMoviesList;
-                  // var shows = provider.bookMarkShowsList;
+                  var shows = provider.bookMarkShowsList;
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (moviesList.isEmpty)
+                      if (moviesList.isEmpty && shows.isEmpty)
                         const Center(
                           child: EmptyBookmarkListContainer(),
-                        )
-                      else
+                        ),
+                      if (moviesList.isNotEmpty)
                         GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:

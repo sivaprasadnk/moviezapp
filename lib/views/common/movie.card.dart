@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/model/movie.dart';
+import 'package:moviezapp/model/tv.shows.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
-import 'package:moviezapp/utils/dialogs.dart';
-import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/common/rating.progress.container.dart';
@@ -20,6 +21,8 @@ class MovieCard extends StatefulWidget {
     required this.id,
     required this.withSize,
     required this.releaseDate,
+    this.movie,
+    this.tvShow,
     this.isMovie = true,
     this.isWeb = false,
     this.imageHeight = 155,
@@ -36,6 +39,8 @@ class MovieCard extends StatefulWidget {
   final bool isWeb;
   final double imageHeight;
   final double imageWidth;
+  final Movie? movie;
+  final TvShows? tvShow;
   final bool withSize;
 
   @override
@@ -44,7 +49,6 @@ class MovieCard extends StatefulWidget {
 
 class _MovieCardState extends State<MovieCard> {
   bool showRating = false;
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -70,12 +74,13 @@ class _MovieCardState extends State<MovieCard> {
       builder: (_, provider, __) {
         return GestureDetector(
           onTap: () async {
-            Dialogs.showLoader(context: context);
-            provider.clearDetails();
+            // Dialogs.showLoader(context: context);
+            // provider.clearDetails();
             if (!widget.isWeb) {
               if (widget.isMovie) {
                 provider.getMovieDetails(widget.id).then((value) async {
-                  context.pop();
+                  // context.pop();
+                  Navigator.pop(context);
 
                   Navigator.pushNamed(
                     context,
@@ -84,7 +89,7 @@ class _MovieCardState extends State<MovieCard> {
                 });
               } else {
                 provider.getTvShowDetails(widget.id).then((value) async {
-                  context.pop();
+                  Navigator.pop(context);
 
                   Navigator.pushNamed(
                     context,
@@ -95,16 +100,16 @@ class _MovieCardState extends State<MovieCard> {
             } else {
               if (widget.isMovie) {
                 debugPrint('id :: ${widget.id}');
-                await provider.getMovieDetails(widget.id).then((value) async {
-                  context.pop();
-                  Navigator.pushNamed(
-                    context,
-                    MovieDetailsScreenWeb.routeName,
-                  );
-                });
+                
+                provider.updateMovie(widget.movie!);
+                Navigator.pushNamed(
+                  context,
+                  MovieDetailsScreenWeb.routeName.getRouteWithId(widget.id),
+                );
               } else {
                 provider.getTvShowDetails(widget.id).then((value) async {
-                  context.pop();
+                  // context.pop();
+                  Navigator.pop(context);
 
                   Navigator.pushNamed(
                     context,

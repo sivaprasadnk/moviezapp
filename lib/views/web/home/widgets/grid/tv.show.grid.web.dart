@@ -73,6 +73,7 @@ class TvShowGridWeb extends StatelessWidget {
                         ),
                         child: MovieCard(
                           name: movie.name,
+                          tvShow: movie,
                           poster: movie.posterPath,
                           vote: movie.voteAverage,
                           id: movie.id,
@@ -114,6 +115,7 @@ class TvShowGridWeb extends StatelessWidget {
                     ),
                     child: MovieCard(
                       name: movie.name,
+                      tvShow: movie,
                       poster: movie.posterPath,
                       vote: movie.voteAverage,
                       id: movie.id,

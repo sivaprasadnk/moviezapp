@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/web/details/large/widgets/credit.details.dart';
 import 'package:moviezapp/views/web/details/large/widgets/similar.show.details.dart';
 import 'package:moviezapp/views/web/details/large/widgets/story.details.dart';
 import 'package:moviezapp/views/web/details/large/widgets/streaming.network.details.dart';
 import 'package:moviezapp/views/web/details/large/widgets/tvshow.header.details.dart';
 import 'package:moviezapp/views/web/details/large/widgets/video.details.dart';
+import 'package:moviezapp/views/web/home/widgets/copyright.text.dart';
 
 class TvShowDetailsLarge extends StatelessWidget {
   const TvShowDetailsLarge({
@@ -38,11 +38,15 @@ class TvShowDetailsLarge extends StatelessWidget {
                 overview: show.overview,
               ),
               const SizedBox(height: 40),
-              const CreditDetails(),
+              // const CreditDetails(),
               const SizedBox(height: 40),
-              const VideoDetails(),
+              const VideoDetails(
+                videosList: [],
+              ),
               const SizedBox(height: 20),
               const SimilarShowDetails(),
+              const CopyrightText(),
+
             ],
           ),
         ),

@@ -82,7 +82,8 @@ class MovieRepo {
       debugPrint(err.toString());
       return <Movie>[];
     }
-    return list;
+
+    return list.uniqueList(type);
   }
 
   /// movies
@@ -157,6 +158,7 @@ class MovieRepo {
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
+
             if (i['backdrop_path'] != null && i['poster_path'] != null) {
               list.add(TvShows.fromJson(i, type));
             }
@@ -167,6 +169,7 @@ class MovieRepo {
       debugPrint(err.toString());
       return <TvShows>[];
     }
+    list = list.toSet().toList();
     return list;
   }
 
@@ -452,6 +455,9 @@ class MovieRepo {
       }
     }
 
-    return list;
+
+    return list.uniqueList(MovieType.filmography);
   }
+
+
 }

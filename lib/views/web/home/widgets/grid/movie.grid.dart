@@ -79,6 +79,8 @@ class MovieGrid extends StatelessWidget {
                       ),
                       child: MovieCard(
                         isMovie: true,
+                        movie: movie,
+
                         name: movie.title,
                         poster: movie.posterPath,
                         vote: movie.voteAverage,
@@ -107,6 +109,7 @@ class MovieGrid extends StatelessWidget {
                       ),
                       child: MovieCard(
                         isMovie: false,
+                        tvShow: show,
                         name: show.name,
                         poster: show.posterPath,
                         vote: show.voteAverage,
@@ -151,6 +154,8 @@ class MovieGrid extends StatelessWidget {
                       ),
                       child: MovieCard(
                         isMovie: true,
+                        movie: movie,
+
                         name: movie.title,
                         poster: movie.posterPath,
                         vote: movie.voteAverage,
@@ -178,6 +183,7 @@ class MovieGrid extends StatelessWidget {
                       ),
                       child: MovieCard(
                         isMovie: false,
+                        tvShow: show,
                         name: show.name,
                         poster: show.posterPath,
                         vote: show.voteAverage,

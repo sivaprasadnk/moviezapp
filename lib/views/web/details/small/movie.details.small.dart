@@ -13,7 +13,7 @@ class MovieDetailsSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var movie = context.moviesProvider.selectedMovie!;
+    var movie = context.moviesProvider.selectedMovieDetails!;
 
     var cacheKey1 = 'movie_${movie.id}poster';
 

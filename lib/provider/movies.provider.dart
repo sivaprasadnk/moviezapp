@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/actor.details.model.dart';
 import 'package:moviezapp/model/actors.model.dart';
+import 'package:moviezapp/model/credits.model.dart';
 import 'package:moviezapp/model/crew.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
+import 'package:moviezapp/model/movie.complete.details.model.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/model/related.video.model.dart';
@@ -11,6 +13,7 @@ import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/repo/movie/movie.repo.dart';
 import 'package:moviezapp/repo/movie/region.list.dart';
+import 'package:moviezapp/repo/user/user.repo.dart';
 
 enum Content { movie, tvShow }
 
@@ -43,6 +46,14 @@ extension SortExt on SortBy {
 }
 
 class MoviesProvider extends ChangeNotifier {
+  MovieCompleteDetailsModel? _movieCompleteDetails;
+  MovieCompleteDetailsModel get movieCompleteDetails => _movieCompleteDetails!;
+
+  // void updateCompleteDetails(MovieCompleteDetailsModel details) {
+  //   _movieCompleteDetails = details;
+  //   notifyListeners();
+  // }
+
   String _searchQuery = "";
   String get searchQuery => _searchQuery;
 
@@ -140,35 +151,63 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  MovieDetails? _selectedMovie;
-  MovieDetails? get selectedMovie => _selectedMovie;
+  Movie? _selectedMovie;
+  Movie get selectedMovie => _selectedMovie!;
+
+  void updateMovie(Movie movie) {
+    _selectedMovie = movie;
+    notifyListeners();
+  }
+
+  MovieDetails? _selectedMovieDetails;
+  MovieDetails? get selectedMovieDetails => _selectedMovieDetails;
 
   void updateSelectedMovie(MovieDetails movie) {
-    _selectedMovie = movie;
+    _selectedMovieDetails = movie;
     notifyListeners();
   }
 
   List<Movie> _similarMovieList = [];
   List<Movie> get similarMovieList => _similarMovieList;
 
-  Future getSimilarMoviesList(int id) async {
-    _similarMovieListLoading = true;
-    _similarMovieList = [];
-    notifyListeners();
+  Future<List<Movie>> getSimilarMoviesList(int id) async {
+    // _similarMovieListLoading = true;
+    // _similarMovieList = [];
+    // notifyListeners();
 
+    // _similarMovieListLoading = false;
+    // notifyListeners();
     _similarMovieList = await MovieRepo.getSimilarMoviesList(id);
-
-    _similarMovieListLoading = false;
-    notifyListeners();
+    return _similarMovieList;
   }
 
   Future getMovieDetails(int id) async {
-    _selectedMovie = await MovieRepo.getMovieDetails(id);
+    _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
     getActorsList(id, 'movie');
-    getVideoList(id, "movie");
-    getSocialMediaLinks(id, "movie");
-    getSimilarMoviesList(id);
+    await getVideoList(id, "movie");
+    // getSocialMediaLinks(id, "movie");
+    await getSimilarMoviesList(id);
+    // var isFav = await checkIfMovieBookmarked(id);
     notifyListeners();
+  }
+
+  Future<MovieCompleteDetailsModel> getCompleteMovieDetails(int id) async {
+    _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
+    var credits = await getActorsList(id, 'movie');
+    var videos = await getVideoList(id, "movie");
+    // getSocialMediaLinks(id, "movie");
+    var similar = await getSimilarMoviesList(id);
+    // var isFav = await checkIfMovieBookmarked(id);
+    var isFav = false;
+    return MovieCompleteDetailsModel(
+      movie: _selectedMovieDetails!,
+      actorsList: credits.actors,
+      crewList: credits.crew,
+      isFavourite: isFav,
+      overview: _selectedMovieDetails!.overview,
+      similarMoviesList: similar,
+      videoList: videos,
+    );
   }
 
   bool _similarMovieListLoading = true;
@@ -196,6 +235,7 @@ class MoviesProvider extends ChangeNotifier {
   void updateMovieGenre(Genre genre, MovieType type, {List<Movie>? movies}) {
     _selectedMovieGenre = genre;
     _filteredMoviesList = [];
+    _selectedSort = SortBy.titleAscending.displayTitle;
     notifyListeners();
     Future.delayed(const Duration(milliseconds: 500)).then((value) {
       if (genre.id == 0) {
@@ -226,6 +266,9 @@ class MoviesProvider extends ChangeNotifier {
           _filteredSearchMoviesList = genre.getFilteredList(_searchMoviesList);
         }
       }
+      _filteredMoviesList.sort((a, b) => a.title.compareTo(b.title));
+      _filteredSearchMoviesList.sort((a, b) => a.title.compareTo(b.title));
+
       notifyListeners();
     });
   }
@@ -408,10 +451,10 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Actor> _actorsList = [];
+  final List<Actor> _actorsList = [];
   List<Actor> get actorsList => _actorsList;
 
-  List<Crew> _crewList = [];
+  final List<Crew> _crewList = [];
   List<Crew> get crewList => _crewList;
 
   List<RelatedVideoModel> _videoList = [];
@@ -438,25 +481,28 @@ class MoviesProvider extends ChangeNotifier {
     _similarMovieListLoading = true;
   }
 
-  Future getActorsList(int id, String show) async {
-    _actorsListLoading = true;
-    _actorsList = [];
-    _crewList = [];
-    var credits = await MovieRepo.getCreditsList(id, show);
-    _actorsList = credits.actors;
-    _crewList = credits.crew;
-    _crewList.sort((a, b) => a.order.compareTo(b.order));
+  Future<CreditsModel> getActorsList(int id, String show) async {
+    // _actorsListLoading = true;
+    // _actorsList = [];
+    // _crewList = [];
+    // _actorsList = credits.actors;
+    // _crewList = credits.crew;
 
-    _actorsListLoading = false;
-    notifyListeners();
+    // _actorsListLoading = false;
+
+    // notifyListeners();
+    var credits = await MovieRepo.getCreditsList(id, show);
+    _crewList.sort((a, b) => a.order.compareTo(b.order));
+    return credits;
   }
 
-  Future getVideoList(int id, String show) async {
+  getVideoList(int id, String show) async {
     _videosLoading = true;
     _videoList = [];
     _videoList = await MovieRepo.getRelatedVideos(id, show);
     _videosLoading = false;
     notifyListeners();
+    return _videoList;
   }
 
   Future<ActorDetailsModel?> getActorDetails(int id) async {
@@ -465,5 +511,21 @@ class MoviesProvider extends ChangeNotifier {
 
   Future<List<Movie>> getActorFilms(int id) async {
     return await MovieRepo.getActorFilms(id);
+  }
+
+  Future<bool> checkIfMovieBookmarked(int id) async {
+    var savedIds = await UserRepo.getBookmarkMovieIds();
+    if (savedIds.contains(id)) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> checkIfTvShowBookmarked(int id) async {
+    var savedIds = await UserRepo.getBookmarkShowIds();
+    if (savedIds.contains(id)) {
+      return true;
+    }
+    return false;
   }
 }

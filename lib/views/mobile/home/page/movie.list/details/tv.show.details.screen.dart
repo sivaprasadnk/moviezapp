@@ -139,9 +139,10 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                                 seconds: 1,
                               ),
                               child: !provider.actorsListLoading
-                                  ? const ActorsList(
+                                  ? ActorsList(
                                       size: 120,
                                       height: 180,
+                                      actorsList: provider.actorsList,
                                     )
                                   : const SizedBox.shrink(),
                             ),

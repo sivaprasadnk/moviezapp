@@ -5,6 +5,7 @@ import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/section.title.dart';
+import 'package:moviezapp/views/web/home/widgets/copyright.text.dart';
 import 'package:moviezapp/views/web/home/widgets/genre.list.dart';
 import 'package:moviezapp/views/web/home/widgets/grid/movie.grid.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
@@ -57,14 +58,24 @@ class MovieListScreenWeb extends StatelessWidget {
               Consumer<MoviesProvider>(
                 builder: (_, provider, __) {
                   var list = provider.filteredMoviesList;
+                  return list.isEmpty
+                      ? const Text(" ")
+                      : Text('Showing ${list.length} movies.');
+                },
+              ),
+              const SizedBox(height: 20),
+              Consumer<MoviesProvider>(
+                builder: (_, provider, __) {
                   return MovieGrid(
                     isLoading: false,
-                    movieGrid: list,
+                    movieGrid: provider.filteredMoviesList,
                     isWeb: true,
-                    limit: list.length,
+                    limit: provider.filteredMoviesList.length,
                   );
                 },
               ),
+              const CopyrightText(),
+
             ],
           ),
         ),

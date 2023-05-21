@@ -88,7 +88,7 @@ extension ContextExtensions on BuildContext {
 
   bool get isGuestUser => authProvider.isGuestUser;
 
-  int get movieId => moviesProvider.selectedMovie!.id;
+  int get movieId => moviesProvider.selectedMovieDetails!.id;
   int get tvShowId => moviesProvider.selectedShow!.id;
   List<Movie> get moviesList => moviesProvider.moviesList;
 

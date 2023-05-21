@@ -67,6 +67,7 @@ class MovieList extends StatelessWidget {
                         padding: EdgeInsets.only(right: index == 4 ? 20 : 0),
                         child: MovieCard(
                           name: movie.title,
+                          movie: movie,
                           poster: movie.posterPath,
                           vote: movie.voteAverage,
                           id: movie.id,

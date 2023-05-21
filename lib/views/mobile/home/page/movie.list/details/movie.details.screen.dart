@@ -74,7 +74,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 child: BookMarkButton(
                   width: context.width * 0.8,
                   isBookmarked: isBookmarked,
-                  movie: context.moviesProvider.selectedMovie,
+                  movie: context.moviesProvider.selectedMovieDetails,
                 ),
               ),
             ),
@@ -94,7 +94,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             child: SingleChildScrollView(
               child: Consumer<MoviesProvider>(
                 builder: (_, provider, __) {
-                  var movie = provider.selectedMovie!;
+                  var movie = provider.selectedMovieDetails!;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -161,9 +161,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 seconds: 1,
                               ),
                               child: !provider.actorsListLoading
-                                  ? const ActorsList(
+                                  ? ActorsList(
                                       size: 120,
                                       height: 190,
+                                      actorsList: provider.actorsList,
                                     )
                                   : const SizedBox.shrink(),
                             ),
@@ -181,7 +182,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 seconds: 1,
                               ),
                               child: !provider.videosLoading
-                                  ? const VideoList()
+                                  ? VideoList(
+                                      videoList: provider.videoList,
+                                    )
                                   : const SizedBox.shrink(),
                             ),
                             const SizedBox(height: 20),

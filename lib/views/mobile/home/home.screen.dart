@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/common/bottom.nav.bar.dart';
+import 'package:moviezapp/views/mobile/bottom.nav.bar.dart';
 import 'package:moviezapp/views/mobile/home/page/bookmarks/bookmarks.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/movie.list.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/profile.screen.dart';
@@ -25,9 +25,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.appProvider.getVersionFromDb().then((versionFromWeb) {
-        context.showSnackbar('versionFromWeb : $versionFromWeb');
-      });
+      
       checkNetwork();
     });
     super.initState();

@@ -71,6 +71,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                                 ),
                                 child: MovieCard(
                                   isMovie: true,
+                                  // movie: movie,
                                   name: movie.title,
                                   poster: movie.posterPath,
                                   vote: movie.voteAverage,

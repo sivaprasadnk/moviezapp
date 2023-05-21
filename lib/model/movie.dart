@@ -33,6 +33,17 @@ class Movie {
     this.character,
   });
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Movie &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          title == other.title;
+
+  @override
+  int get hashCode => id.hashCode ^ title.hashCode;
+
   factory Movie.fromJson(Map<String, dynamic> json, MovieType type) {
     var vote = json['vote_average'];
     if (vote.runtimeType == int) {
@@ -201,5 +212,21 @@ extension MovieExtension on List<Movie> {
       }
     }
     return list;
+  }
+
+  List<Movie> uniqueList(MovieType type) {
+    final set = <Movie>{};
+    final uniqueList = <Movie>[];
+
+    for (var obj in this) {
+      if (set.add(obj)) {
+        if (obj.movieType == type) {
+          uniqueList.add(obj);
+        }
+      }
+    }
+    uniqueList.sort(((a, b) => a.id.compareTo(b.id)));
+
+    return uniqueList;
   }
 }

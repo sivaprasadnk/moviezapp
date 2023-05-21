@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/common/bottom.nav.bar.item.dart';
+import 'package:moviezapp/views/mobile/bottom.nav.bar.item.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -37,7 +37,7 @@ class BottomNavBar extends StatelessWidget {
             ),
             BottomNavBarItem(
               icon: Icons.favorite,
-              name: 'Bookmarks',
+              name: 'Favourites',
               isSelected: provider.selectedIndex == 2,
               onTap: () async {
                 provider.updatedSelectedIndex(2);

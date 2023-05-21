@@ -10,6 +10,8 @@ import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:moviezapp/views/web/search/info.text.dart';
 import 'package:provider/provider.dart';
 
+import '../home/widgets/copyright.text.dart';
+
 class SearchScreenWeb extends StatefulWidget {
   const SearchScreenWeb({super.key});
 
@@ -186,6 +188,8 @@ class _SearchScreenWebState extends State<SearchScreenWeb> {
                 ],
               ),
             ),
+            const CopyrightText(),
+
           ],
         ),
       ),

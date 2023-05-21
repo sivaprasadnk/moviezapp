@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
 import 'package:moviezapp/repo/app/app.repo.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
 import 'package:moviezapp/views/web/home/widgets/content.selection.dart';
+import 'package:moviezapp/views/web/home/widgets/copyright.text.dart';
 import 'package:moviezapp/views/web/home/widgets/region.text.dart';
 import 'package:moviezapp/views/web/home/widgets/section/movie.section.web.dart';
 import 'package:moviezapp/views/web/home/widgets/section/search.container.dart';
@@ -45,9 +45,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
 
       checkAndUpdate();
     });
-    WebAppReloadDetector.onReload(() {
-      context.goWebHome();
-    });
+    // WebAppReloadDetector.onReload(() {
+    //   context.goWebHome();
+    // });
 
     super.initState();
   }
@@ -105,9 +105,18 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 );
               },
             ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
+              child: const CopyrightText(),
+            ),
           ],
         ),
       ),
     );
   }
 }
+/* The `signIn` method is discouraged on the web because it can't reliably provide an `idToken`.
+Use `signInSilently` and `renderButton` to authenticate your users instead.
+Read more: https://pub.dev/packages/google_sign_in_web
+
+*/

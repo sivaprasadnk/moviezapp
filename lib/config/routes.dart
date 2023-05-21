@@ -6,7 +6,7 @@ import 'package:moviezapp/views/mobile/home/page/movie.list/details/movie.detail
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/tv.show.details.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/bookmark.list.screen.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';
-import 'package:moviezapp/views/web/actor.films/actor.films.screen.dart';
+// import 'package:moviezapp/views/web/actor.films/actor.films.screen.dart';
 import 'package:moviezapp/views/web/bookmark/bookmark.screen.web.dart';
 import 'package:moviezapp/views/web/details/movie.details.screen.web.dart';
 import 'package:moviezapp/views/web/details/tvshow.details.screen.web.dart';
@@ -24,5 +24,5 @@ final routes = <String, WidgetBuilder>{
   TvShowDetailsScreenWeb.routeName: (context) => const TvShowDetailsScreenWeb(),
   BookmarkListScreen.routeName: (context) => const BookmarkListScreen(),
   BookmarkScreenWeb.routeName: (context) => const BookmarkScreenWeb(),
-  ActorFilms.routeName: (context) => const ActorFilms(),
+  // ActorFilmsScreenWeb.routeName: (context) => const ActorFilmsScreenWeb(),
 };

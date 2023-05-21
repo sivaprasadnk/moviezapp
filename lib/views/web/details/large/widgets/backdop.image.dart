@@ -31,7 +31,7 @@ class BackdropImage extends StatelessWidget {
               width: double.infinity,
               cacheKey: cacheKey,
               borderRadius: 0,
-              showLoading: false,
+              showLoading: true,
             )
           : SizedBox(
               height: context.height * 0.6 + 55,

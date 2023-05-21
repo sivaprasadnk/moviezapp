@@ -14,9 +14,10 @@ import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
+import 'package:moviezapp/views/mobile/home/page/movie.list/all.movies/all.movies.screen.dart';
 import 'package:moviezapp/views/web/movie.list/movie.list.screen.web.dart';
 import 'package:provider/provider.dart';
-import 'package:universal_html/html.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 class Dialogs {
@@ -809,39 +810,49 @@ class Dialogs {
                                 ).addMousePointer,
                               GestureDetector(
                                 onTap: () {
-                                  context.moviesProvider
+                                  var provider = context.moviesProvider;
+                                  provider
                                       .getActorFilms(actor.id!)
                                       .then((movies) {
+                                    provider
+                                        .updateFilmographyMoviesList(movies);
+                                    provider.updateMovieGenre(
+                                      Genre(id: 0, name: 'All'),
+                                      MovieType.filmography,
+                                      movies: movies,
+                                    );
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) {
                                           return MovieListScreenWeb(
                                             isMobileWeb: false,
-                                            title:
-                                                '${actor.name} Films (${movies.length})',
-                                            genreList: context
-                                                .moviesProvider.movieGenreList
+                                            movieType: MovieType.filmography,
+                                            title: '${actor.name} Films',
+                                            genreList: provider.movieGenreList
                                                 .movieGenres(movies),
                                           );
                                         },
                                       ),
                                     );
-                                    // Navigator.pushNamed(
-                                    //     context, ActorFilms.routeName,
-                                    //     arguments: {
-                                    //       'moviesList': movies,
-                                    //       'actor': actor.name,
-                                    //     });
                                   });
                                 },
-                                child: Text(
-                                  "View Filmography",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: context.primaryColor,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "View Filmography",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: context.primaryColor,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Icon(
+                                      Icons.arrow_circle_right_outlined,
+                                      color: context.primaryColor,
+                                    )
+                                  ],
                                 ),
                               ).addMousePointer,
                             ],
@@ -915,29 +926,31 @@ class Dialogs {
                                     return MovieListScreenWeb(
                                       isMobileWeb: false,
                                       movieType: MovieType.filmography,
-                                      title:
-                                          '${actor.name} Films (${movies.length})',
+                                      title: '${actor.name} Films',
                                       genreList: provider.movieGenreList
                                           .movieGenres(movies),
                                     );
                                   },
                                 ),
                               );
-
-                              // Navigator.pushNamed(context, ActorFilms.routeName,
-                              //     arguments: {
-                              //       'moviesList': movies,
-                              //       'actor': actor.name,
-                              //     });
                             });
                           },
-                          child: Text(
-                            "View Filmography",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: context.primaryColor,
-                            ),
+                          child: Row(
+                            children: [
+                              Text(
+                                "View Filmography",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: context.primaryColor,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Icon(
+                                Icons.arrow_circle_right_outlined,
+                                color: context.primaryColor,
+                              )
+                            ],
                           ),
                         ).addMousePointer,
                       ],
@@ -1052,6 +1065,7 @@ class Dialogs {
                         ],
                       ),
                     ),
+                  const SizedBox(height: 20),
                   if (actor.homepage!.isNotEmpty)
                     RichText(
                       text: TextSpan(
@@ -1075,25 +1089,49 @@ class Dialogs {
                         ],
                       ),
                     ).addMousePointer,
-                  // if (actor.placeOfBirth!.isNotEmpty)
-                  //   RichText(
-                  //     text: TextSpan(
-                  //       text: "Residence : ",
-                  //       style: const TextStyle(
-                  //         color: Colors.grey,
-                  //         fontWeight: FontWeight.normal,
-                  //       ),
-                  //       children: <TextSpan>[
-                  //         TextSpan(
-                  //           text: actor.placeOfBirth!,
-                  //           style: TextStyle(
-                  //             fontWeight: FontWeight.bold,
-                  //             color: context.primaryColor,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ).addMousePointer
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      var provider = context.moviesProvider;
+                      provider.getActorFilms(actor.id!).then((movies) {
+                        provider.updateFilmographyMoviesList(movies);
+
+                        provider.updateMovieGenre(
+                          Genre(id: 0, name: 'All'),
+                          MovieType.filmography,
+                          movies: movies,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AllMoviesScreen(
+                              title: '${actor.name} Films',
+                              type: MovieType.filmography,
+                              genreList:
+                                  provider.movieGenreList.movieGenres(movies),
+                            ),
+                          ),
+                        );
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          "View Filmography",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: context.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Icon(
+                          Icons.arrow_circle_right_outlined,
+                          color: context.primaryColor,
+                        )
+                      ],
+                    ),
+                  ).addMousePointer
                 ],
               ),
             ),
@@ -1160,7 +1198,7 @@ class Dialogs {
               child: GestureDetector(
                 onTap: () {
                   context.pop();
-                  window.location.reload();
+                  html.window.location.reload();
                 },
                 child: Text(
                   'Update Now',

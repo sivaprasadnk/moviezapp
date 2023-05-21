@@ -68,43 +68,18 @@ class AuthRepo {
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn.standard(
-        scopes: [
-          'email',
-        ],
-      );
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/userinfo.profile');
+      // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+      final UserCredential userCredential =
+          await auth.signInWithPopup(googleProvider);
 
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-
-        final UserCredential userCredential =
-            await auth.signInWithCredential(credential);
-        return await signInAndUpdateData(userCredential);
-      } else {
-        return null;
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'account-exists-with-different-credential') {
-        if (context.mounted) {
-          context.showSnackbar(
-              'The account already exists with a different credential');
-        }
-      } else if (e.code == 'invalid-credential') {
-        if (context.mounted) {
-          context.showSnackbar(
-              'Error occurred while accessing credentials. Try again.');
-        }
-      }
+      return await signInAndUpdateData(userCredential);
     } catch (err) {
       if (context.mounted) {
-        context.showSnackbar('Error occurred using Google Sign In. Try again.');
+        debugPrint('error : $err');
       }
     }
     return null;

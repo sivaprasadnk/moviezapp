@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/repo/app/app.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:universal_html/html.dart';
+import 'package:universal_html/html.dart' as html;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'common/google.playstore.button.dart';
@@ -26,7 +26,7 @@ class _MobileWebScreenState extends State<MobileWebScreen> {
             var versionFromWeb = int.parse(version);
             setState(() {});
             if (versionFromWeb > currentVersion) {
-              window.location.reload();
+              html.window.location.reload();
               context.showSnackbar('new version available !');
             }
           });
