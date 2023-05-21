@@ -3,6 +3,7 @@ import 'package:moviezapp/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:moviezapp/views/common/auth/sign.up/sign.up.screen.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/movie.details.screen.dart';
+import 'package:moviezapp/views/mobile/home/page/movie.list/details/movie.details.screen_old.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/tv.show.details.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/bookmark.list.screen.dart';
 import 'package:moviezapp/views/mobile/splash.screen/splash.screen.dart';

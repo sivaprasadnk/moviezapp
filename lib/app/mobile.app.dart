@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/config/error.details.widget.dart';
+import 'package:moviezapp/config/generate.route.dart';
 import 'package:moviezapp/config/routes.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/providers.dart';
@@ -19,6 +20,7 @@ class MobileApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Movie App',
             routes: routes,
+            onGenerateRoute: generateRoute,
             theme: ThemeData(
               primaryColor: Colors.red,
               brightness: provider.selectedBrightness,

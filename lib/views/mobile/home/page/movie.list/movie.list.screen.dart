@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/section/movie.section.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/section/tvshow.section.mobile.dart';
-import 'package:moviezapp/views/mobile/home/page/movie.list/widgets/content.selection.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/widgets/country.select.container.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/widgets/trending.movie.carousal.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class MovieListScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 20, top: 50),
             child: Row(
               children: const [
-                ContentSelection(),
+                // ContentSelection(),
                 Spacer(),
                 CountrySelectContainer(),
               ],

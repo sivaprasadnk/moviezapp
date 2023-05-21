@@ -3,7 +3,7 @@ import 'package:moviezapp/model/movie.complete.details.model.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/uri.extensions.dart';
 import 'package:moviezapp/views/web/details/large/movie.details.large.new.dart';
-import 'package:moviezapp/views/web/details/large/widgets/loading/loading.movie.details.dart';
+import 'package:moviezapp/views/web/details/large/widgets/loading/loading.movie.details.web.dart';
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 
 class MovieDetailsScreenWeb extends StatefulWidget {
@@ -41,7 +41,7 @@ class _MovieDetailsScreenWebState extends State<MovieDetailsScreenWeb> {
                 movieDetails: movie!,
               ),
             )
-          : const LoadingMovieDetails(),
+          : const LoadingMovieDetailsWeb(),
     );
   }
 }

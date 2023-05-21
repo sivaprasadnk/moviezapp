@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
+import 'package:moviezapp/views/mobile/home/page/movie.list/details/movie.details.screen.dart';
 import 'package:moviezapp/views/web/bookmark/bookmark.screen.web.dart';
 import 'package:moviezapp/views/web/details/movie.details.screen.web.dart';
 import 'package:moviezapp/views/web/details/tvshow.details.screen.web.dart';
@@ -11,15 +12,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (routingData.route) {
     case HomeScreenWeb.routeName:
       return _getPageRoute(const HomeScreenWeb(), settings);
-    case SearchScreenWeb.routeName:
-      return _getPageRoute(const SearchScreenWeb(), settings);
-    case BookmarkScreenWeb.routeName:
-      return _getPageRoute(const BookmarkScreenWeb(), settings);
 
+    case MovieDetailsScreen.routeName:
+      return _getPageRoute(const MovieDetailsScreen(), settings);
     case MovieDetailsScreenWeb.routeName:
       return _getPageRoute(const MovieDetailsScreenWeb(), settings);
     case TvShowDetailsScreenWeb.routeName:
       return _getPageRoute(const TvShowDetailsScreenWeb(), settings);
+    case SearchScreenWeb.routeName:
+      return _getPageRoute(const SearchScreenWeb(), settings);
+    case BookmarkScreenWeb.routeName:
+      return _getPageRoute(const BookmarkScreenWeb(), settings);
     default:
       return _getPageRoute(const HomeScreenWeb(), settings);
   }

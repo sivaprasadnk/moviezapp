@@ -16,7 +16,8 @@ class BackButtonMobile extends StatelessWidget {
             context.moviesProvider.updateCarousalIndex(0);
             context.moviesProvider.updateDataStatus(false);
 
-            context.goHome();
+            // context.goHome();
+            context.pop();
           },
           child: Container(
             height: 50,
