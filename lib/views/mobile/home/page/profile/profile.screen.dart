@@ -6,8 +6,8 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/common/page.title.dart';
+import 'package:moviezapp/views/common/region.select.screen.dart';
 import 'package:moviezapp/views/common/webview.screen.dart';
-import 'package:moviezapp/views/common/bookmark.list.menu.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.details.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.section.title.dart';
@@ -34,9 +34,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 25),
             const ProfileDetails(),
             const SizedBox(height: 30),
-            const ProfileSectionTitle(title: 'Your Activities'),
-            const SizedBox(height: 15),
-            const BookmarkListMenu(),
+            // const ProfileSectionTitle(title: 'Your Activities'),
+            // const SizedBox(height: 15),
+            // const BookmarkListMenu(),
             const SizedBox(height: 25),
             const ProfileSectionTitle(title: 'Theme'),
             const SizedBox(height: 15),
@@ -94,6 +94,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     builder: (_) => const WebViewScreen(url: kPrivacyPolicyUrl),
                   ),
                 );
+              },
+            ),
+            const SizedBox(height: 15),
+            ProfileMenuCard(
+              title: 'Settings',
+              icon: Icons.settings,
+              isImplemented: true,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return const RegionSelectScreenMobile();
+                }));
               },
             ),
             const SizedBox(height: 15),
