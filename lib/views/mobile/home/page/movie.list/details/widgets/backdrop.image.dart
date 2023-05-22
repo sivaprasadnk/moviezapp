@@ -19,13 +19,14 @@ class BackdropImageMobile extends StatelessWidget {
     var cacheKey = isMovie ? "movie_" : "show_";
     cacheKey += "backdrop_$id";
     return SizedBox(
+      width: double.infinity,
+      child: CustomCacheImage(
+        imageUrl: imageUrl,
+        height: context.height * 0.4,
         width: double.infinity,
-        child: CustomCacheImage(
-          imageUrl: imageUrl,
-          height: context.height * 0.4,
-          width: double.infinity,
-          cacheKey: cacheKey,
-          borderRadius: 0,
-        ));
+        cacheKey: cacheKey,
+        borderRadius: 0,
+      ),
+    );
   }
 }

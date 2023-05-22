@@ -188,25 +188,29 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               ),
 
                               const SizedBox(height: 40),
-
-                              const SectionTitle(title: 'Related Videos'),
-
-                              const SizedBox(height: 20),
-                              AnimatedSwitcher(
-                                duration: const Duration(
-                                  seconds: 1,
+                              if (movieDetails!.videoList.isNotEmpty)
+                                const SectionTitle(title: 'Related Videos'),
+                              if (movieDetails!.videoList.isNotEmpty)
+                                const SizedBox(height: 20),
+                              if (movieDetails!.videoList.isNotEmpty)
+                                AnimatedSwitcher(
+                                  duration: const Duration(
+                                    seconds: 1,
+                                  ),
+                                  child: VideoList(
+                                    videoList: movieDetails!.videoList,
+                                  ),
                                 ),
-                                child: VideoList(
-                                  videoList: movieDetails!.videoList,
+                              const SizedBox(height: 20),
+                              if (movieDetails!.similarMoviesList.isNotEmpty)
+                                const SectionTitle(title: 'Similar'),
+                              if (movieDetails!.similarMoviesList.isNotEmpty)
+                                const SizedBox(height: 20),
+                              if (movieDetails!.similarMoviesList.isNotEmpty)
+                                MovieList(
+                                  isLoading: false,
+                                  movieList: movieDetails!.similarMoviesList,
                                 ),
-                              ),
-                              const SizedBox(height: 20),
-                              const SectionTitle(title: 'Similar'),
-                              const SizedBox(height: 20),
-                              MovieList(
-                                isLoading: false,
-                                movieList: movieDetails!.similarMoviesList,
-                              ),
                               const SizedBox(height: 20),
                               // if (!provider.actorsListLoading &&
                               //     !provider.similarMovieListLoading)
@@ -215,7 +219,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               //     movie: movie,
                               //     isBookmarked: isBookmarked,
                               //   ),
-                              const SizedBox(height: 20),
                             ],
                           ),
                         ),
