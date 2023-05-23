@@ -32,19 +32,27 @@ class MovieDetailsLargeNew extends StatelessWidget {
                 children: [
                   const SizedBox(height: 15),
                   OverviewDetails(overview: movieDetails.overview),
-                  const SizedBox(height: 40),
-                  CreditDetails(
-                    actorsList: movieDetails.actorsList,
-                    crewList: movieDetails.crewList,
-                  ),
-                  const SizedBox(height: 40),
-                  VideoDetails(
-                    videosList: movieDetails.videoList,
-                  ),
-                  const SizedBox(height: 40),
-                  SimilarMovieDetails(
-                    movies: movieDetails.similarMoviesList,
-                  ),
+                  if (movieDetails.actorsList.isNotEmpty &&
+                      movieDetails.crewList.isNotEmpty)
+                    const SizedBox(height: 40),
+                  if (movieDetails.actorsList.isNotEmpty &&
+                      movieDetails.crewList.isNotEmpty)
+                    CreditDetails(
+                      actorsList: movieDetails.actorsList,
+                      crewList: movieDetails.crewList,
+                    ),
+                  if (movieDetails.videoList.isNotEmpty)
+                    const SizedBox(height: 40),
+                  if (movieDetails.videoList.isNotEmpty)
+                    VideoDetails(
+                      videosList: movieDetails.videoList,
+                    ),
+                  if (movieDetails.similarMoviesList.isNotEmpty)
+                    const SizedBox(height: 40),
+                  if (movieDetails.similarMoviesList.isNotEmpty)
+                    SimilarMovieDetails(
+                      movies: movieDetails.similarMoviesList,
+                    ),
                   const CopyrightText(),
                 ],
               ),
