@@ -42,25 +42,33 @@ class TrendingMovieCarousal extends StatelessWidget {
                                 .map((movie) {
                               return GestureDetector(
                                 onTap: () {
-                                  Dialogs.showLoader(context: context);
-                                  provider
-                                      .getMovieDetails(movie.id)
-                                      .then((value) async {
-                                    var isbookmarked = false;
-                                    if (!context.isGuestUser) {
-                                      isbookmarked = await context.userProvider
-                                          .checkIfMovieBookmarked(movie.id);
-                                    }
-                                    if (context.mounted) {
-                                      context.pop();
+                                  // Dialogs.showLoader(context: context);
+                                  // provider
+                                  //     .getMovieDetails(movie.id)
+                                  //     .then((value) async {
+                                  //   var isbookmarked = false;
+                                  //   if (!context.isGuestUser) {
+                                  //     isbookmarked = await context.userProvider
+                                  //         .checkIfMovieBookmarked(movie.id);
+                                  //   }
+                                  //   if (context.mounted) {
+                                  //     context.pop();
 
-                                      Navigator.pushNamed(
-                                        context,
-                                        MovieDetailsScreen.routeName,
-                                        arguments: isbookmarked,
-                                      );
-                                    }
-                                  });
+                                  //     Navigator.pushNamed(
+                                  //       context,
+                                  //       MovieDetailsScreen.routeName,
+                                  //       arguments: isbookmarked,
+                                  //     );
+                                  //   }
+                                  // });
+                                  provider.updateMovie(movie);
+                                  debugPrint('@@ 1');
+
+                                  Navigator.pushNamed(
+                                    context,
+                                    MovieDetailsScreen.routeName,
+                                    arguments: movie.id,
+                                  );
                                 },
                                 child: CarousalMovieItem(
                                   backdropImage: movie.backdropPath,
