@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/provider/auth.provider.dart';
+import 'package:moviezapp/repo/movie/region.list.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
@@ -19,6 +20,7 @@ class WebDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const IconData globe = IconData(0xe800, fontFamily: 'world');
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -145,6 +147,25 @@ class WebDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ProfileMenuCard(
+                title: 'Change Country',
+                icon: globe,
+                isImplemented: true,
+                onTap: () {
+                  var provider = context.moviesProvider;
+                  showListDialog(context, provider.selectedRegion)
+                      .then((value) {
+                    if (provider.updateData) {
+                      Future.wait([
+                        provider.getMoviesList(),
+                      ]);
+                      provider.updateDataStatus(false);
+                    }
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+
+              ProfileMenuCard(
                 title: 'Credits',
                 icon: Icons.info,
                 isImplemented: true,
@@ -161,15 +182,15 @@ class WebDrawer extends StatelessWidget {
                   },
                   title: 'Sign Out',
                 ),
-              if (isGuest)
-                CommonButton(
-                  callback: () {
-                    context.pop();
-                    context.authProvider.signInWithFb(context);
-                  },
-                  title: 'Sign In with Facebook',
-                ),
-              const SizedBox(height: 12),
+              // if (isGuest)
+              //   CommonButton(
+              //     callback: () {
+              //       context.pop();
+              //       context.authProvider.signInWithFb(context);
+              //     },
+              //     title: 'Sign In with Facebook',
+              //   ),
+              // const SizedBox(height: 12),
 
               if (isGuest)
                 CommonButton(
@@ -196,6 +217,78 @@ class WebDrawer extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+
+  Future showListDialog(BuildContext context, String currentRegion) async {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) {
+        var selected = currentRegion;
+        return AlertDialog(
+          title: const SectionTitle(title: 'Select Country'),
+          content: StatefulBuilder(builder: (context, setState) {
+            return SizedBox(
+              width: context.width * 0.2,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: regionList.length,
+                    itemBuilder: (context, index) {
+                      var region = regionList[index];
+                      return ListTile(
+                        onTap: () {
+                          setState(() {
+                            selected = region;
+                          });
+                        },
+                        selected: region == selected,
+                        selectedColor: Colors.green,
+                        title: Text(region),
+                        trailing: region == selected
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              )
+                            : null,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            );
+          }),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: const Text('Cancel'),
+              ).addMousePointer,
+            ),
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.moviesProvider.updateRegion(selected);
+                  context.moviesProvider.updateDataStatus(true);
+
+                  context.pop();
+                },
+                child: const Text('OK'),
+              ).addMousePointer,
+            )
+          ],
+        );
+      },
     );
   }
 

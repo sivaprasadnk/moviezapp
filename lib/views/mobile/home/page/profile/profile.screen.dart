@@ -23,6 +23,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    const IconData globe = IconData(0xe800, fontFamily: 'world');
+
     var isGuest = context.isGuestUser;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -98,8 +100,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 15),
             ProfileMenuCard(
-              title: 'Settings',
-              icon: Icons.settings,
+              title: 'Change Country',
+              icon: globe,
               isImplemented: true,
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) {

@@ -4,7 +4,6 @@ import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/carousal.web.dart';
 import 'package:moviezapp/views/web/home/widgets/copyright.text.dart';
-import 'package:moviezapp/views/web/home/widgets/region.text.dart';
 import 'package:moviezapp/views/web/home/widgets/section/movie.section.web.dart';
 import 'package:moviezapp/views/web/home/widgets/section/search.container.dart';
 import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dart';
@@ -82,9 +81,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                   SizedBox(width: 10),
                   SearchContainer(),
                   Spacer(),
-                  SizedBox(width: 10),
-                  RegionText(),
-                  SizedBox(height: 20),
+                  // SizedBox(width: 10),
+                  // RegionText(),
+                  // SizedBox(height: 20),
                 ],
               ),
             ),
