@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:emailjs/emailjs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -156,17 +157,16 @@ class AuthRepo {
           }
         }
       } else {
-      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-      googleProvider
-          .addScope('https://www.googleapis.com/auth/userinfo.profile');
-      // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
-      final UserCredential userCredential =
-          await auth.signInWithPopup(googleProvider);
+        googleProvider
+            .addScope('https://www.googleapis.com/auth/userinfo.profile');
+        // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+        final UserCredential userCredential =
+            await auth.signInWithPopup(googleProvider);
 
         return await signInAndUpdateData(userCredential);
-      } 
-    
+      }
     }
     return null;
   }
@@ -216,6 +216,8 @@ class AuthRepo {
         userCredential.additionalUserInfo!.isNewUser) {
       await user.updateDisplayName(user.displayName);
 
+      await sendWelcomeEmail(user.displayName!);
+
       await userColllection.doc(user.uid).set({
         kEmail: user.email,
         kRating: 0,
@@ -227,5 +229,25 @@ class AuthRepo {
       });
     }
     return user;
+  }
+
+  static Future sendWelcomeEmail(String displayName) async {
+    Map<String, dynamic> templateParams = {
+      'to_name': displayName,
+    };
+    try {
+      await EmailJS.send(
+        'service_mi2e9pc',
+        'template_g91uu7v',
+        templateParams,
+        const Options(
+          publicKey: '1XO7RDB4dwuTLa5gM',
+          privateKey: 'LPGmoWPc-8-U51a0PK-V1',
+        ),
+      );
+      debugPrint('SUCCESS!');
+    } catch (error) {
+      debugPrint("error :$error");
+    }
   }
 }
