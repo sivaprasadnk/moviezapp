@@ -1,5 +1,4 @@
 import 'package:moviezapp/provider/app.provider.dart';
-import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/provider/user.provider.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +11,9 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<AppProvider>(
     create: (_) => AppProvider(),
   ),
-  ChangeNotifierProvider<AuthProvider>(
-    create: (_) => AuthProvider(),
-  ),
+  // ChangeNotifierProvider<AuthProvider>(
+  //   create: (_) => AuthProvider(),
+  // ),
   ChangeNotifierProvider<UserProvider>(
     create: (_) => UserProvider(),
   ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/tvshow.complete.details.model.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/common/bookmark.button.dart';
 import 'package:moviezapp/views/web/details/large/widgets/backdop.image.dart';
 import 'package:moviezapp/views/web/details/large/widgets/bg.gradient.dart';
 import 'package:moviezapp/views/web/details/large/widgets/play.trailer.text.button.dart';
@@ -175,12 +174,7 @@ class _TvShowHeaderDetailsState extends State<TvShowHeaderDetails> {
             child: AnimatedOpacity(
               duration: const Duration(seconds: 1),
               opacity: _isVisible ? 1 : 0,
-              child: BookMarkButton(
-                tvShow: show,
-                isMovie: false,
-                width: context.width * 0.2,
-                isBookmarked: isBookmarked,
-              ),
+                child: const SizedBox.shrink()
             ),
           ),
         ),

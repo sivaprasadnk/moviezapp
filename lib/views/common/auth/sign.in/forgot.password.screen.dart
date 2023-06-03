@@ -91,10 +91,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     _formKey.currentState!.save();
     Dialogs.showLoader(context: context);
 
-    await context.authProvider.resetPassword(
-      email,
-      context,
-      context.isMobileApp,
-    );
+    // await context.authProvider.resetPassword(
+    //   email,
+    //   context,
+    //   context.isMobileApp,
+    // );
   }
 }

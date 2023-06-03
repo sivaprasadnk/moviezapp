@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
-import 'package:moviezapp/views/mobile/home/page/profile/bookmark.list.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
-import 'package:moviezapp/views/web/bookmark/bookmark.screen.web.dart';
 
 class BookmarkListMenu extends StatefulWidget {
   const BookmarkListMenu({super.key});
@@ -18,9 +15,9 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (!context.isGuestUser) {
-        count = (await context.userProvider.getBookmarksCount());
-      }
+      // if (!context.isGuestUser) {
+      //   count = (await context.userProvider.getBookmarksCount());
+      // }
       if (mounted) {
         setState(() {});
       }
@@ -34,29 +31,29 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
       title: 'Favourites List',
       icon: Icons.bookmark,
       isCountItem: true,
-      count: context.isGuestUser ? 0 : count,
+      count: 0,
       isImplemented: true,
       onTap: () async {
-        if (!context.isGuestUser) {
-          context.userProvider.clearList();
-          Dialogs.showLoader(context: context);
-          await context.userProvider
-              .getBookmarkedMovies(context)
-              .then((value) async {
-            await context.userProvider
-                .getBookmarkedShows(context)
-                .then((value) {
-              context.pop();
-              if (context.isMobileApp) {
-                Navigator.pushNamed(context, BookmarkListScreen.routeName);
-              } else {
-                Navigator.pushNamed(context, BookmarkScreenWeb.routeName);
-              }
-            });
-          });
-        } else {
-          context.showErrorToast('Login to add / view favourites !');
-        }
+        // if (!context.isGuestUser) {
+        //   context.userProvider.clearList();
+        //   Dialogs.showLoader(context: context);
+        //   await context.userProvider
+        //       .getBookmarkedMovies(context)
+        //       .then((value) async {
+        //     await context.userProvider
+        //         .getBookmarkedShows(context)
+        //         .then((value) {
+        //       context.pop();
+        //       if (context.isMobileApp) {
+        //         Navigator.pushNamed(context, BookmarkListScreen.routeName);
+        //       } else {
+        //         Navigator.pushNamed(context, BookmarkScreenWeb.routeName);
+        //       }
+        //     });
+        //   });
+        // } else {
+        // }
+        context.showErrorToast('Login to add / view favourites !');
       },
     );
   }

@@ -1,35 +1,25 @@
 {
     "name": "moviezapp",
+    "manifest_version": 3,
+    "version": "1.0.0",
     "short_name": "moviezapp",
-    "start_url": ".",
-    "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
     "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
-    "prefer_related_applications": false,
-    "icons": [
-        {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
+    "host_permissions": [
+        "https://api.themoviedb.org/3/*",
+        "https://www.youtube.com/*",
+        "https://accounts.google.com/gsi/client"
+      ],
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    
+    "background.service_worker": {
+        "scripts": ["background.js"],
+        "persistent": false
+      },
+    "content_security_policy": {
+        "content_security_policy": {
+          "extension_pages": " object-src 'self'"
         }
-    ]
+      }
 }

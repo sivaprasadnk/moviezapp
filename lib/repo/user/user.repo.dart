@@ -1,3 +1,5 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:moviezapp/model/movie.details.dart';
@@ -139,7 +141,7 @@ class UserRepo {
         (await userColllection.doc(userId).collection(kMoviesCollection).get())
             .docs;
     for (var i in list1) {
-      list.add(MovieDetails.fromDoc(i));
+      // list.add(MovieDetails.fromDoc(i));
     }
     // list.sort(((a, b) =>a. ));
     return list;
@@ -152,7 +154,7 @@ class UserRepo {
         (await userColllection.doc(userId).collection(kTvShowsCollection).get())
             .docs;
     for (var i in list1) {
-      list.add(TvShowDetails.fromDoc(i));
+      // list.add(TvShowDetails.fromDoc(i));
     }
     return list;
   }

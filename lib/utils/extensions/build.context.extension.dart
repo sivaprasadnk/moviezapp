@@ -3,7 +3,6 @@ import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/provider/app.provider.dart';
-import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
@@ -43,8 +42,8 @@ extension ContextExtensions on BuildContext {
   MoviesProvider get moviesProvider =>
       Provider.of<MoviesProvider>(this, listen: false);
 
-  AuthProvider get authProvider =>
-      Provider.of<AuthProvider>(this, listen: false);
+  // AuthProvider get authProvider =>
+  //     Provider.of<AuthProvider>(this, listen: false);
 
   UserProvider get userProvider =>
       Provider.of<UserProvider>(this, listen: false);
@@ -86,7 +85,7 @@ extension ContextExtensions on BuildContext {
 
   bool get isMobileApp => appProvider.isMobileApp;
 
-  bool get isGuestUser => authProvider.isGuestUser;
+  bool get isGuestUser => true;
 
   int get movieId => moviesProvider.selectedMovieDetails!.id;
   int get tvShowId => moviesProvider.selectedShowDetails!.id;

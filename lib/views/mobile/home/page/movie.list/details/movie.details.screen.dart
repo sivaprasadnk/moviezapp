@@ -8,7 +8,6 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
-import 'package:moviezapp/views/common/bookmark.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/common/social.media.links.dart';
 import 'package:moviezapp/views/common/video.list.dart';
@@ -88,13 +87,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             child: AnimatedOpacity(
               duration: const Duration(seconds: 1),
               opacity: _isVisible ? 1 : 0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 40, bottom: 10),
-                child: BookMarkButton(
-                  width: context.width * 0.8,
-                  isBookmarked: isBookmarked,
-                  movie: context.moviesProvider.selectedMovieDetails,
-                ),
+              child: const Padding(
+                  padding: EdgeInsets.only(left: 40, bottom: 10),
+                  child: SizedBox.shrink()
               ),
             ),
           ),

@@ -177,7 +177,7 @@ class Dialogs {
                   onTap: () {
                     Dialogs.showLoader(context: context);
                     context.appProvider.updatedSelectedIndex(0);
-                    context.authProvider.signInWithGoogle(context);
+                    // context.authProvider.signInWithGoogle(context);
                   },
                   child: Container(
                     height: 75,
@@ -228,7 +228,7 @@ class Dialogs {
                 const SizedBox(height: 15),
                 InkWell(
                   onTap: () {
-                    context.authProvider.updateGuestUser(true);
+                    // context.authProvider.updateGuestUser(true);
                     context.appProvider.updatedSelectedIndex(0);
 
                     Navigator.pushNamed(context, HomeScreenMobile.routeName);

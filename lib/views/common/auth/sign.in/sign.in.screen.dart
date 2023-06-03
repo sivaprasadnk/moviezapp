@@ -172,14 +172,14 @@ class _SignInScreenState extends State<SignInScreen> {
     _formKey.currentState!.save();
     Dialogs.showLoader(context: context);
 
-    await context.authProvider.signIn(
-      email,
-      password,
-      // 'sp@sp.com',
-      // '1234567890',
-      context,
-      context.isMobileApp,
-    );
+    // await context.authProvider.signIn(
+    //   email,
+    //   password,
+    //   // 'sp@sp.com',
+    //   // '1234567890',
+    //   context,
+    //   context.isMobileApp,
+    // );
 
     // context.authProvider.signInWithMobile(context, email);
   }
@@ -201,6 +201,6 @@ class _SignInScreenState extends State<SignInScreen> {
     // }
     Dialogs.showLoader(context: context);
 
-    context.authProvider.signInWithGoogle(context);
+    // context.authProvider.signInWithGoogle(context);
   }
 }

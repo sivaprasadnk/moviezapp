@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 
 class UserDetailsContainer extends StatelessWidget {
   const UserDetailsContainer({
@@ -9,7 +8,7 @@ class UserDetailsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isGuest = context.authProvider.isGuestUser;
+    var isGuest = true;
     User? user;
     if (!isGuest) {
       user = FirebaseAuth.instance.currentUser!;

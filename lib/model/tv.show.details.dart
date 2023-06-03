@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
 
@@ -53,34 +53,34 @@ class TvShowDetails {
     );
   }
 
-  factory TvShowDetails.fromDoc(
-      QueryDocumentSnapshot<Map<String, dynamic>> json) {
-    var name = "";
-    if (!json.data().containsKey('name')) {
-      name = json['title'];
-    } else {
-      name = json['name'];
-    }
-    var networksList = json['networks'] as List;
-    var networkPath = "";
-    if (networksList.isNotEmpty) {
-      networkPath = kImageBaseUrl + networksList[0]['logo_path'];
-    }
-    return TvShowDetails(
-      id: json['id'],
-      backdropPath: kImageBaseUrl + json['backdrop_path'],
-      posterPath: kImageBaseUrl + json['poster_path'],
-      genreList:
-          (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
-      name: name,
-      voteAverage: json['vote_average'],
-      voteCount: json['vote_count'],
-      releaseDate: json['first_air_date'],
-      overview: json['overview'],
-      networks: networksList,
-      networkPath: networkPath,
-    );
-  }
+  // factory TvShowDetails.fromDoc(
+  //     QueryDocumentSnapshot<Map<String, dynamic>> json) {
+  //   var name = "";
+  //   if (!json.data().containsKey('name')) {
+  //     name = json['title'];
+  //   } else {
+  //     name = json['name'];
+  //   }
+  //   var networksList = json['networks'] as List;
+  //   var networkPath = "";
+  //   if (networksList.isNotEmpty) {
+  //     networkPath = kImageBaseUrl + networksList[0]['logo_path'];
+  //   }
+  //   return TvShowDetails(
+  //     id: json['id'],
+  //     backdropPath: kImageBaseUrl + json['backdrop_path'],
+  //     posterPath: kImageBaseUrl + json['poster_path'],
+  //     genreList:
+  //         (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
+  //     name: name,
+  //     voteAverage: json['vote_average'],
+  //     voteCount: json['vote_count'],
+  //     releaseDate: json['first_air_date'],
+  //     overview: json['overview'],
+  //     networks: networksList,
+  //     networkPath: networkPath,
+  //   );
+  // }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};

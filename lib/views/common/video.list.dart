@@ -4,6 +4,7 @@ import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/video.player.screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class VideoList extends StatelessWidget {
@@ -38,7 +39,9 @@ class VideoList extends StatelessWidget {
               GestureDetector(
                 onTap: () async {
                   if (isWeb) {
-                    playVideo(video.key, video.name, context);
+                    launchUrl(Uri.parse(
+                        'https://www.youtube.com/watch?v=${video.key}'));
+                    // playVideo(video.key, video.name, context);
                   } else {
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
                       return VideoPlayerScreen(videoId: video.key);
@@ -206,9 +209,13 @@ class VideoList extends StatelessWidget {
                 ),
               ),
               Flexible(
-                child: YoutubePlayer(
-                  controller: controller,
-                  // aspectRatio: 4 / 3,
+                child: SizedBox(
+                  height: context.height * 0.8,
+                  width: context.width * .8,
+                  child: YoutubePlayer(
+                    controller: controller,
+                    // aspectRatio: 4 / 3,
+                  ),
                 ),
               ),
             ],

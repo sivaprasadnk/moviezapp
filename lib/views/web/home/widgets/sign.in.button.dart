@@ -17,9 +17,9 @@ class SigninButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Dialogs.showLoader(context: context);
-        context.authProvider.signInWithGoogle(context).then((value) {
-          // context.pop();
-        });
+        // context.authProvider.signInWithGoogle(context).then((value) {
+        //   // context.pop();
+        // });
       },
       child: const Text("Sign In"),
     ).addMousePointer;
@@ -119,12 +119,12 @@ class SigninButton extends StatelessWidget {
                           formKey.currentState!.save();
                           Dialogs.showLoader(context: context);
 
-                          await context.authProvider.signIn(
-                            email,
-                            password,
-                            context,
-                            context.isMobileApp,
-                          );
+                          // await context.authProvider.signIn(
+                          //   email,
+                          //   password,
+                          //   context,
+                          //   context.isMobileApp,
+                          // );
                         },
                         title: 'Sign In',
                       ),
@@ -299,13 +299,13 @@ class SigninButton extends StatelessWidget {
                         callback: () async {
                           formKey.currentState!.save();
                           Dialogs.showLoader(context: context);
-                          await context.authProvider.register(
-                            email,
-                            password,
-                            confirmPassword,
-                            userName,
-                            context,
-                          );
+                          // await context.authProvider.register(
+                          //   email,
+                          //   password,
+                          //   confirmPassword,
+                          //   userName,
+                          //   context,
+                          // );
                         },
                         title: 'Sign Up',
                       ),

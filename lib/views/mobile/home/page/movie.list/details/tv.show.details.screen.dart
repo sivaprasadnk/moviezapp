@@ -5,7 +5,6 @@ import 'package:moviezapp/provider/movies.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/views/common/actors.list.dart';
-import 'package:moviezapp/views/common/bookmark.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/back.button.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/details/widgets/backdrop.image.dart';
@@ -64,14 +63,9 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
             child: AnimatedOpacity(
               duration: const Duration(milliseconds: 500),
               opacity: _isVisible ? 1 : 0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 40, bottom: 10),
-                child: BookMarkButton(
-                  width: context.width * 0.8,
-                  isBookmarked: isBookmarked,
-                  isMovie: false,
-                  tvShow: context.moviesProvider.selectedShowDetails,
-                ),
+              child: const Padding(
+                  padding: EdgeInsets.only(left: 40, bottom: 10),
+                  child: SizedBox.shrink()
               ),
             ),
           ),
