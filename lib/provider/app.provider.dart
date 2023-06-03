@@ -30,6 +30,15 @@ class AppProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isChromeApp = false;
+  bool get isChromeApp => _isChromeApp;
+
+  void updateChromeApp(bool value) {
+    _isChromeApp = value;
+    notifyListeners();
+  }
+
+
   bool _isMobileApp = false;
   bool get isMobileApp => _isMobileApp;
 

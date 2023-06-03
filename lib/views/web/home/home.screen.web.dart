@@ -10,6 +10,7 @@ import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dar
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_html/js.dart' as js;
 
 import '../../../provider/movies.provider.dart';
 
@@ -17,9 +18,11 @@ class HomeScreenWeb extends StatefulWidget {
   const HomeScreenWeb({
     Key? key,
     this.isMobileWeb = false,
+    this.isChromeApp = false,
   }) : super(key: key);
 
   final bool isMobileWeb;
+  final bool isChromeApp;
 
   static const routeName = '/home';
   @override
@@ -40,8 +43,13 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       ]);
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
-
-      // checkAndUpdate();
+      var isChromeExtension = (js.context.hasProperty('chrome') &&
+          js.context['chrome'].hasProperty('extension'));
+      context.showInfoToast(' isChromeApp :$isChromeExtension');
+      context.appProvider.updateChromeApp(isChromeExtension);
+      if (!isChromeExtension) {
+        checkAndUpdate();
+      }
     });
 
     super.initState();
@@ -77,7 +85,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               child: Row(
                 children: const [
                   SizedBox(width: 10),
-                  // ContentSelectionWeb(),
                   SizedBox(width: 10),
                   SearchContainer(),
                   Spacer(),

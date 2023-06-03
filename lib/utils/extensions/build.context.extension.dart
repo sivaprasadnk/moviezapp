@@ -8,6 +8,8 @@ import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
+
+import '../../provider/auth.provider.dart';
 // import 'package:universal_html/html.dart' as html;
 
 extension ContextExtensions on BuildContext {
@@ -42,8 +44,8 @@ extension ContextExtensions on BuildContext {
   MoviesProvider get moviesProvider =>
       Provider.of<MoviesProvider>(this, listen: false);
 
-  // AuthProvider get authProvider =>
-  //     Provider.of<AuthProvider>(this, listen: false);
+  AuthProvider get authProvider =>
+      Provider.of<AuthProvider>(this, listen: false);
 
   UserProvider get userProvider =>
       Provider.of<UserProvider>(this, listen: false);
@@ -86,6 +88,8 @@ extension ContextExtensions on BuildContext {
   bool get isMobileApp => appProvider.isMobileApp;
 
   bool get isGuestUser => true;
+  bool get isChromeApp => appProvider.isChromeApp;
+
 
   int get movieId => moviesProvider.selectedMovieDetails!.id;
   int get tvShowId => moviesProvider.selectedShowDetails!.id;

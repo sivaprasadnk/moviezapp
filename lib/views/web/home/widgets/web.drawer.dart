@@ -1,18 +1,19 @@
-import 'dart:js' as js;
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/provider/app.provider.dart';
+import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/repo/movie/region.list.dart';
 import 'package:moviezapp/utils/dialogs.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/utils/string.constants.dart';
+import 'package:moviezapp/views/common/bookmark.list.menu.dart';
+import 'package:moviezapp/views/common/common.button.dart';
 import 'package:moviezapp/views/common/google.playstore.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../provider/app.provider.dart';
 
 class WebDrawer extends StatelessWidget {
   const WebDrawer({super.key});
@@ -22,8 +23,16 @@ class WebDrawer extends StatelessWidget {
     const IconData globe = IconData(0xe800, fontFamily: 'world');
     return Drawer(
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
+        padding: const EdgeInsets.all(8.0),
+        child: Consumer<AuthProvider>(builder: (_, provider, __) {
+          var isGuest = provider.isGuestUser;
+
+          var name = 'Username';
+          var user = FirebaseAuth.instance.currentUser;
+          if (!isGuest) {
+            name = user!.displayName!;
+          }
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
@@ -36,14 +45,53 @@ class WebDrawer extends StatelessWidget {
                 ),
               ).addMousePointer,
               const SizedBox(height: 10),
-              const Text(
-                'Hi, Guest!',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              !isGuest
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              user!.email!,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (user.photoURL != null && user.photoURL!.isNotEmpty)
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.network(
+                              user.photoURL!,
+                              height: 45,
+                              width: 45,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.error);
+                              },
+                            ),
+                          ),
+                      ],
+                    )
+                  : const Text(
+                      'Hi, Guest!',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
               const SizedBox(height: 38),
+              const BookmarkListMenu(),
               const SizedBox(height: 12),
               Consumer<AppProvider>(builder: (_, provider, __) {
                 var isDark = provider.selectedBrightness == Brightness.dark;
@@ -74,38 +122,17 @@ class WebDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ProfileMenuCard(
-                title: 'Go to website',
-                icon: Icons.launch,
-                isImplemented: true,
-                onTap: () {
-                  launchUrl(Uri.parse(kWebsiteLink));
-                },
-              ),
-              const SizedBox(height: 12),
-              ProfileMenuCard(
                 title: 'Give Feedback',
                 icon: Icons.rate_review,
                 isImplemented: true,
                 onTap: () {
-
-                  // final platform = LocalPlatform();
-                  // final isChromeExtension = platform.;
-                  // if (window.chrome != null && context['chrome'] != null) {
-
-                  // }
-                  if (isChromeExtension()) {
-                    context.showErrorToast(
-                        'Chrome extension! Login via website to give Feedback!');
+                  if (isGuest) {
+                    context.showErrorToast('Login to give Feedback!');
                   } else {
-                  context.showErrorToast('Login to give Feedback!');
-
+                    context.userProvider.getRating().then((value) {
+                      Dialogs.showFeedbackDialog(context, value);
+                    });
                   }
-                  // if (isGuest) {
-                  // } else {
-                  //   context.userProvider.getRating().then((value) {
-                  //     Dialogs.showFeedbackDialog(context, value);
-                  //   });
-                  // }
                 },
               ),
               const SizedBox(height: 12),
@@ -115,7 +142,6 @@ class WebDrawer extends StatelessWidget {
                 isImplemented: true,
                 onTap: () {
                   launchUrl(Uri.parse(kPrivacyPolicyUrl));
-                  // context.openInNewTab(kPrivacyPolicyUrl);
                 },
               ),
               const SizedBox(height: 12),
@@ -147,14 +173,14 @@ class WebDrawer extends StatelessWidget {
                 },
               ),
               const Spacer(),
-              // if (!isGuest)
-              //   CommonButton(
-              //     callback: () {
-              //       context.pop();
-              //       context.authProvider.logout(context);
-              //     },
-              //     title: 'Sign Out',
-              //   ),
+              if (!isGuest)
+                CommonButton(
+                  callback: () {
+                    context.pop();
+                    context.authProvider.logout(context);
+                  },
+                  title: 'Sign Out',
+                ),
               // if (isGuest)
               //   CommonButton(
               //     callback: () {
@@ -165,14 +191,14 @@ class WebDrawer extends StatelessWidget {
               //   ),
               // const SizedBox(height: 12),
 
-              // if (isGuest)
-              //   CommonButton(
-              //     callback: () {
-              //       context.pop();
-              //       context.authProvider.signInWithGoogle(context);
-              //     },
-              //     title: 'Sign In with Google',
-              //   ),
+              if (isGuest)
+                CommonButton(
+                  callback: () {
+                    context.pop();
+                    context.authProvider.signInWithGoogle(context);
+                  },
+                  title: 'Sign In with Google',
+                ),
               const SizedBox(height: 12),
 
               // GestureDetector(
@@ -187,24 +213,10 @@ class WebDrawer extends StatelessWidget {
               //   child: const Text("Sign In"),
               // ).addMousePointer,
             ],
-          )
-          // child: Consumer<AuthProvider>(builder: (_, provider, __) {
-          //   var isGuest = provider.isGuestUser;
-
-          //   var name = 'Username';
-          //   var user = FirebaseAuth.instance.currentUser;
-          //   if (!isGuest) {
-          //     name = user!.displayName!;
-          //   }
-          //   return
-
-          // }),
-          ),
+          );
+        }),
+      ),
     );
-  }
-  bool isChromeExtension() {
-    return js.context.hasProperty('chrome') &&
-        js.context['chrome'].hasProperty('extension');
   }
 
   Future showListDialog(BuildContext context, String currentRegion) async {
