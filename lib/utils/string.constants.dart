@@ -20,4 +20,7 @@ const String kPackageName = "com.spverse.moviezapp";
 const String kPlayStoreLink =
     'https://play.google.com/store/apps/details?id=com.spverse.moviezapp';
 
+const String kWebsiteLink = 'https://movie-app-invenics.web.app/#/';
+
+
 const String kVersionDocId = 'vwsYwXjqKPHqus7VKTgZ';

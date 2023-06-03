@@ -1,3 +1,5 @@
+import 'dart:js' as js;
+
 import 'package:flutter/material.dart';
 import 'package:moviezapp/repo/movie/region.list.dart';
 import 'package:moviezapp/utils/dialogs.dart';
@@ -72,11 +74,32 @@ class WebDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ProfileMenuCard(
+                title: 'Go to website',
+                icon: Icons.launch,
+                isImplemented: true,
+                onTap: () {
+                  launchUrl(Uri.parse(kWebsiteLink));
+                },
+              ),
+              const SizedBox(height: 12),
+              ProfileMenuCard(
                 title: 'Give Feedback',
                 icon: Icons.rate_review,
                 isImplemented: true,
                 onTap: () {
+
+                  // final platform = LocalPlatform();
+                  // final isChromeExtension = platform.;
+                  // if (window.chrome != null && context['chrome'] != null) {
+
+                  // }
+                  if (isChromeExtension()) {
+                    context.showErrorToast(
+                        'Chrome extension! Login via website to give Feedback!');
+                  } else {
                   context.showErrorToast('Login to give Feedback!');
+
+                  }
                   // if (isGuest) {
                   // } else {
                   //   context.userProvider.getRating().then((value) {
@@ -178,6 +201,10 @@ class WebDrawer extends StatelessWidget {
           // }),
           ),
     );
+  }
+  bool isChromeExtension() {
+    return js.context.hasProperty('chrome') &&
+        js.context['chrome'].hasProperty('extension');
   }
 
   Future showListDialog(BuildContext context, String currentRegion) async {
