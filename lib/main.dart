@@ -7,7 +7,7 @@ import 'package:moviezapp/app/web.app.dart';
 import 'package:moviezapp/firebase_options.dart';
 import 'package:universal_html/js.dart' as js;
 //  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
-
+//  flutter build web --web-renderer html --csp
 //  flutter build web --web-renderer html --release
 
 //  https://moviezapp-spverse.web.app/
