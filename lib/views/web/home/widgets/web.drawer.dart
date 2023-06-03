@@ -27,11 +27,11 @@ class WebDrawer extends StatelessWidget {
         child: Consumer<AuthProvider>(builder: (_, provider, __) {
           var isGuest = provider.isGuestUser;
 
-          var name = 'Username';
-          var user = FirebaseAuth.instance.currentUser;
-          if (!isGuest) {
-            name = user!.displayName!;
-          }
+          // var name = 'Username';
+          // var user = FirebaseAuth.instance.currentUser;
+          // if (!isGuest) {
+          //   name = user!.displayName!;
+          // }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,7 +53,7 @@ class WebDrawer extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              name,
+                              FirebaseAuth.instance.currentUser!.displayName!,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -61,7 +61,7 @@ class WebDrawer extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              user!.email!,
+                              FirebaseAuth.instance.currentUser!.email!,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
@@ -69,11 +69,14 @@ class WebDrawer extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (user.photoURL != null && user.photoURL!.isNotEmpty)
+                        if (FirebaseAuth.instance.currentUser!.photoURL !=
+                                null &&
+                            FirebaseAuth
+                                .instance.currentUser!.photoURL!.isNotEmpty)
                           ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: Image.network(
-                              user.photoURL!,
+                              FirebaseAuth.instance.currentUser!.photoURL!,
                               height: 45,
                               width: 45,
                               errorBuilder: (context, error, stackTrace) {
@@ -118,6 +121,15 @@ class WebDrawer extends StatelessWidget {
                 isImplemented: true,
                 onTap: () {
                   showAppLink(context);
+                },
+              ),
+              const SizedBox(height: 12),
+              ProfileMenuCard(
+                title: 'Go to website',
+                icon: Icons.launch,
+                isImplemented: true,
+                onTap: () async {
+                  await launchUrl(Uri.parse(kWebsiteLink));
                 },
               ),
               const SizedBox(height: 12),
@@ -194,8 +206,12 @@ class WebDrawer extends StatelessWidget {
               if (isGuest)
                 CommonButton(
                   callback: () {
-                    context.pop();
-                    context.authProvider.signInWithGoogle(context);
+                    if (context.isChromeApp) {
+                      context.showErrorToast('Use website / app to continue');
+                    } else {
+                      context.pop();
+                      context.authProvider.signInWithGoogle(context);
+                    }
                   },
                   title: 'Sign In with Google',
                 ),

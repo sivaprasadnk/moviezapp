@@ -3,6 +3,7 @@ import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.complete.details.model.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
+import 'package:moviezapp/views/common/bookmark.button.dart';
 import 'package:moviezapp/views/web/details/large/widgets/backdop.image.dart';
 import 'package:moviezapp/views/web/details/large/widgets/bg.gradient.dart';
 import 'package:moviezapp/views/web/details/large/widgets/poster.image.dart';
@@ -194,7 +195,11 @@ class _MovieHeaderDetailsState extends State<MovieHeaderDetails> {
             child: AnimatedOpacity(
               duration: const Duration(seconds: 1),
               opacity: _isVisible ? 1 : 0,
-                child: const SizedBox.shrink()
+              child: BookMarkButton(
+                movie: widget.movieDetails.movie,
+                width: context.width * 0.2,
+                isBookmarked: isBookmarked,
+              ),
             ),
           ),
         ),

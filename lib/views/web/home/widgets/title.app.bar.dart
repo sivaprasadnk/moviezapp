@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/provider/auth.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:moviezapp/views/web/home/widgets/app.bar.menu.dart';
+import 'package:moviezapp/views/web/home/widgets/sign.in.button.dart';
+import 'package:moviezapp/views/web/home/widgets/user.name.container.dart';
+import 'package:provider/provider.dart';
 
 class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
   const TitleAppBar({super.key});
@@ -34,17 +38,17 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
           ],
         ).addMousePointer,
       ),
-      actions: const [
-        // Consumer<AuthProvider>(builder: (_, provider, __) {
-        //   var isGuest = provider.isGuestUser;
-        //   return Center(
-        //     child:
-        //         isGuest ? const SigninButton() : const UserNameContainerWeb(),
-        //   );
-        // }),
-        SizedBox(width: 20),
-        AppbarMenu(),
-        SizedBox(width: 20),
+      actions: [
+        Consumer<AuthProvider>(builder: (_, provider, __) {
+          var isGuest = provider.isGuestUser;
+          return Center(
+            child:
+                isGuest ? const SigninButton() : const UserNameContainerWeb(),
+          );
+        }),
+        const SizedBox(width: 20),
+        const AppbarMenu(),
+        const SizedBox(width: 20),
       ],
     );
   }

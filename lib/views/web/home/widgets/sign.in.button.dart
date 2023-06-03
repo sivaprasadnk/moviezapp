@@ -16,10 +16,11 @@ class SigninButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Dialogs.showLoader(context: context);
-        // context.authProvider.signInWithGoogle(context).then((value) {
-        //   // context.pop();
-        // });
+        if (context.isChromeApp) {
+          context.showErrorToast('Use website / app to continue');
+        } else {
+          context.authProvider.signInWithGoogle(context);
+        }
       },
       child: const Text("Sign In"),
     ).addMousePointer;

@@ -45,7 +45,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
       var isChromeExtension = (js.context.hasProperty('chrome') &&
           js.context['chrome'].hasProperty('extension'));
-      context.showInfoToast(' isChromeApp :$isChromeExtension');
       context.appProvider.updateChromeApp(isChromeExtension);
       if (!isChromeExtension) {
         checkAndUpdate();

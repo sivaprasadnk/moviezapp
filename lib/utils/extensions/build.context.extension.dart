@@ -87,7 +87,7 @@ extension ContextExtensions on BuildContext {
 
   bool get isMobileApp => appProvider.isMobileApp;
 
-  bool get isGuestUser => true;
+  bool get isGuestUser => authProvider.isGuestUser;
   bool get isChromeApp => appProvider.isChromeApp;
 
 
