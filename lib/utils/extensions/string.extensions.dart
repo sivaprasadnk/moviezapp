@@ -1,6 +1,14 @@
 import 'package:moviezapp/model/routing.data.dart';
 
 extension StringExt on String {
+  DateTime get getDateTime {
+    var components = split("-").map((e) => int.parse(e)).toList();
+    var year = components.first;
+    var month = components[1];
+    var day = components.last;
+    return DateTime(year, month, day);
+  }
+
   String get formatedDateString {
     // "2023-04-07"
     var year = split('-').first;

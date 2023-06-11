@@ -10,12 +10,14 @@ import 'package:moviezapp/model/crew.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/movie.details.dart';
+import 'package:moviezapp/model/movie.watch.provider.dart';
 import 'package:moviezapp/model/related.video.model.dart';
 import 'package:moviezapp/model/social.media.model.dart';
 import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/repo/movie/api.key.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
+import 'package:moviezapp/utils/extensions/string.extensions.dart';
 
 class MovieRepo {
   ///
@@ -99,8 +101,9 @@ class MovieRepo {
   }
 
   static Future getUpcomingMoviesList(String region, int page) async {
-    return await getMovieResultsList(
-        "$kUpcomingMoviesUrl&region=$region&page=$page", MovieType.upcoming);
+    var url = '$kUpcomingMoviesUrl&region=$region&page=$page';
+    debugPrint("upcoming movies url :$url ");
+    return await getMovieResultsList(url, MovieType.upcoming);
   }
 
   static Future getNowPlayingMoviesList(String region, int page) async {
@@ -355,7 +358,10 @@ class MovieRepo {
     }
 
     for (var movie in upcomingList) {
-      finalList.add(movie);
+      var releaseDate = (movie as Movie).releaseDate.toString().getDateTime;
+      if (releaseDate.isAfter(DateTime.now())) {
+        finalList.add(movie);
+      }
     }
 
     return finalList;
@@ -457,7 +463,28 @@ class MovieRepo {
     return list.uniqueList(MovieType.filmography);
   }
 
-  // static Future getWatchProviders(int id) {
-  //   return ;
-  // }
+  static Future<MovieWatchProvider?> getWatchProviders(
+      int id, String regionCode) async {
+    var provider = MovieWatchProvider(flatRate: [], link: "");
+    var url = "${kBaseUrl}movie/$id/watch/providers?api_key=$apiKey";
+
+    final jsonResponse = await http.get(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+    );
+
+    if (jsonResponse.statusCode == 200) {
+      Map item = json.decode(jsonResponse.body);
+      if (item['results'] != null && item['results'][regionCode] != null) {
+        var response = item['results'][regionCode] as Map<String, dynamic>;
+        provider = MovieWatchProvider.fromJson(response);
+      } else {
+        return null;
+      }
+    }
+
+    return provider;
+  }
 }

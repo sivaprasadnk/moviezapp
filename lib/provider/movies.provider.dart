@@ -192,6 +192,8 @@ class MoviesProvider extends ChangeNotifier {
     var videos = await getVideoList(id, "movie");
     // getSocialMediaLinks(id, "movie");
     var similar = await getSimilarMoviesList(id);
+    var provider =
+        await MovieRepo.getWatchProviders(id, selectedRegion.regionCode);
     // var isFav = await checkIfMovieBookmarked(id);
     var isFav = false;
     return MovieCompleteDetailsModel(
@@ -202,6 +204,7 @@ class MoviesProvider extends ChangeNotifier {
       overview: _selectedMovieDetails!.overview,
       similarMoviesList: similar,
       videoList: videos,
+        provider: provider
     );
   }
 

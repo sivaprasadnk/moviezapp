@@ -4,6 +4,9 @@
     "version": "1.0.0",
     "short_name": "MoviezApp",
     "description": "Moviez listing app by Sivaprasad NK.",
+    "icons": {
+      "128": "icon128.png"
+    },
     "host_permissions": [
         "https://api.themoviedb.org/3/*",
         "https://www.youtube.com/*",
@@ -20,6 +23,6 @@
     "content_security_policy": {
         "content_security_policy": {
           "extension_pages": " object-src 'self'"
-        }
       }
+    }
 }

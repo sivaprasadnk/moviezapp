@@ -2,6 +2,7 @@ import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/model/crew.model.dart';
 import 'package:moviezapp/model/movie.dart';
 import 'package:moviezapp/model/movie.details.dart';
+import 'package:moviezapp/model/movie.watch.provider.dart';
 import 'package:moviezapp/model/related.video.model.dart';
 
 class MovieCompleteDetailsModel {
@@ -12,6 +13,7 @@ class MovieCompleteDetailsModel {
   List<RelatedVideoModel> videoList;
   List<Movie> similarMoviesList;
   bool isFavourite;
+  MovieWatchProvider? provider;
   MovieCompleteDetailsModel({
     required this.movie,
     required this.actorsList,
@@ -20,5 +22,6 @@ class MovieCompleteDetailsModel {
     required this.videoList,
     required this.similarMoviesList,
     required this.isFavourite,
+    this.provider,
   });
 }

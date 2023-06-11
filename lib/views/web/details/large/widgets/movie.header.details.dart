@@ -3,10 +3,13 @@ import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.complete.details.model.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/extensions/int.extensions.dart';
+import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/bookmark.button.dart';
+import 'package:moviezapp/views/common/custom.cache.image.dart';
 import 'package:moviezapp/views/web/details/large/widgets/backdop.image.dart';
 import 'package:moviezapp/views/web/details/large/widgets/bg.gradient.dart';
 import 'package:moviezapp/views/web/details/large/widgets/poster.image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MovieHeaderDetails extends StatefulWidget {
   const MovieHeaderDetails({
@@ -136,6 +139,7 @@ class _MovieHeaderDetailsState extends State<MovieHeaderDetails> {
             ),
           ),
         ),
+
         Positioned.fill(
           left: context.width * 0.1 + 335,
           top: 150,
@@ -177,6 +181,52 @@ class _MovieHeaderDetailsState extends State<MovieHeaderDetails> {
             ),
           ),
         ),
+        if (widget.movieDetails.provider != null)
+          Positioned.fill(
+            left: context.width * 0.1 + 335,
+            top: 200,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      launchUrl(Uri.parse(widget.movieDetails.provider!.link!));
+                    },
+                    child: Text(
+                      widget.movieDetails.provider!.link!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ).addMousePointer,
+                  ),
+                  const SizedBox(width: 8),
+                  if (widget.movieDetails.provider!.flatRate!.isNotEmpty)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children:
+                          widget.movieDetails.provider!.flatRate!.map((e) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomCacheImage(
+                            borderRadius: 5,
+                            imageUrl: e.logoPath!,
+                            cacheKey: "${e.providerId}_${e.providerName}",
+                            height: 80,
+                            width: 80,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  const SizedBox(width: 8),
+                ],
+              ),
+            ),
+          ),
         // Positioned.fill(
         //   left: context.width * 0.1 + 335,
         //   top: 200,
