@@ -18,6 +18,7 @@ import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/model/tv.shows.dart';
 import 'package:moviezapp/repo/movie/api.key.dart';
 import 'package:moviezapp/repo/movie/end.points.dart';
+import 'package:moviezapp/utils/extensions/movie.type.extension.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 
 class MovieRepo {
@@ -64,28 +65,27 @@ class MovieRepo {
     List<Movie> list = [];
     try {
       if (isWeb) {
-        final response = await http.get(
-          Uri.parse(url),
-          headers: {
-            HttpHeaders.contentTypeHeader: "application/json",
-          },
-        );
-        if (response.statusCode == 200) {
-          final item = json.decode(response.body);
-          var movieList = item['results'] as List;
-          if (movieList.isNotEmpty) {
-            for (var i in movieList) {
-              if (i['backdrop_path'] != null &&
-                  i['poster_path'] != null &&
-                  i['genre_ids'] != null) {
-                list.add(Movie.fromJson(i, type));
-              }
-            }
-          }
-        }
-      } else {
+        // final response = await http.get(
+        //   Uri.parse(url),
+        //   headers: {
+        //     HttpHeaders.contentTypeHeader: "application/json",
+        //   },
+        // );
+        // if (response.statusCode == 200) {
+        //   final item = json.decode(response.body);
+        //   var movieList = item['results'] as List;
+        //   if (movieList.isNotEmpty) {
+        //     for (var i in movieList) {
+        //       if (i['backdrop_path'] != null &&
+        //           i['poster_path'] != null &&
+        //           i['genre_ids'] != null) {
+        //         list.add(Movie.fromJson(i, type));
+        //       }
+        //     }
+        //   }
+        // }
         if (type == MovieType.trending) {
-          HttpsCallable callable = functions.httpsCallable('trendingMovies');
+          HttpsCallable callable = functions.httpsCallable(type.functionName);
           final response = await callable.call();
           if (response.data != null) {
             var movieList = response.data['results'] as List;
@@ -112,11 +112,54 @@ class MovieRepo {
             var movieList = item['results'] as List;
             if (movieList.isNotEmpty) {
               for (var i in movieList) {
+                Map<String, dynamic> data = i.cast<String, dynamic>();
+
                 debugPrint(' i type : ${i.runtimeType}');
                 if (i['backdrop_path'] != null &&
                     i['poster_path'] != null &&
                     i['genre_ids'] != null) {
-                  list.add(Movie.fromJson(i, type));
+                  list.add(Movie.fromJson(data, type));
+                }
+              }
+            }
+          }
+        }
+      } else {
+        if (type == MovieType.trending) {
+          HttpsCallable callable = functions.httpsCallable(type.functionName);
+          final response = await callable.call();
+          if (response.data != null) {
+            var movieList = response.data['results'] as List;
+            if (movieList.isNotEmpty) {
+              for (var i in movieList) {
+                Map<String, dynamic> data = i.cast<String, dynamic>();
+                if (i['backdrop_path'] != null &&
+                    i['poster_path'] != null &&
+                    i['genre_ids'] != null) {
+                  list.add(Movie.fromJson(data, type));
+                }
+              }
+            }
+          }
+        } else {
+          final response = await http.get(
+            Uri.parse(url),
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            },
+          );
+          if (response.statusCode == 200) {
+            final item = json.decode(response.body);
+            var movieList = item['results'] as List;
+            if (movieList.isNotEmpty) {
+              for (var i in movieList) {
+                Map<String, dynamic> data = i.cast<String, dynamic>();
+
+                debugPrint(' i type : ${i.runtimeType}');
+                if (i['backdrop_path'] != null &&
+                    i['poster_path'] != null &&
+                    i['genre_ids'] != null) {
+                  list.add(Movie.fromJson(data, type));
                 }
               }
             }

@@ -12,18 +12,23 @@ exports.trendingMovies = functions
       const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
       const apiResponse = await axios.get(url);
       const responseData = apiResponse.data;
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
       response.status(200).send({"data": responseData});
     });
 
 
-// exports.nowPlayingMovies = functions
-//   .runWith({
-//     maxInstances: 10,
-//   })
-//   .https.onRequest(async (request, response) => {
-
-//     const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
-//     const apiResponse = await axios.get(url);
-//     const responseData = apiResponse.data;
-//     response.send(responseData);
-//   });
+// exports.trendingMoviesForWeb = functions
+//     .runWith({
+//       maxInstances: 10,
+//     })
+//     .https.onRequest(async (request, response) => {
+//       const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
+//       const apiResponse = await axios.get(url);
+//       const responseData = apiResponse.data;
+//       response.set("Access-Control-Allow-Origin", "*");
+//       response.set("Access-Control-Allow-Methods", "GET, POST");
+//       response.set("Access-Control-Allow-Headers", "Content-Type");
+//       response.status(200).send({"data": responseData});
+//     });
