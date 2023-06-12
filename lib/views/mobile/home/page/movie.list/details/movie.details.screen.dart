@@ -59,7 +59,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       var id = ModalRoute.of(context)!.settings.arguments as int;
-      await context.moviesProvider.getCompleteMovieDetails(id).then((value) {
+      await context.moviesProvider
+          .getCompleteMovieDetails(id, !context.isMobileApp)
+          .then((value) {
         isLoading = false;
         movieDetails = value;
         movie = movieDetails!.movie;

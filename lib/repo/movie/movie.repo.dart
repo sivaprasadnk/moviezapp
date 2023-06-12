@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:moviezapp/model/actor.details.model.dart';
@@ -20,6 +21,8 @@ import 'package:moviezapp/repo/movie/end.points.dart';
 import 'package:moviezapp/utils/extensions/string.extensions.dart';
 
 class MovieRepo {
+  static FirebaseFunctions functions = FirebaseFunctions.instance;
+
   ///
   ///  get genres
   ///
@@ -56,20 +59,91 @@ class MovieRepo {
   ///  get movieResults
   ///
 
-  static Future getMovieResultsList(String url, MovieType type) async {
+  static Future getMovieResultsList(
+      String url, MovieType type, bool isWeb) async {
+    List<Movie> list = [];
+    try {
+      if (isWeb) {
+        final response = await http.get(
+          Uri.parse(url),
+          headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          },
+        );
+        if (response.statusCode == 200) {
+          final item = json.decode(response.body);
+          var movieList = item['results'] as List;
+          if (movieList.isNotEmpty) {
+            for (var i in movieList) {
+              if (i['backdrop_path'] != null &&
+                  i['poster_path'] != null &&
+                  i['genre_ids'] != null) {
+                list.add(Movie.fromJson(i, type));
+              }
+            }
+          }
+        }
+      } else {
+        if (type == MovieType.trending) {
+          HttpsCallable callable = functions.httpsCallable('trendingMovies');
+          final response = await callable.call();
+          if (response.data != null) {
+            var movieList = response.data['results'] as List;
+            if (movieList.isNotEmpty) {
+              for (var i in movieList) {
+                Map<String, dynamic> data = i.cast<String, dynamic>();
+                if (i['backdrop_path'] != null &&
+                    i['poster_path'] != null &&
+                    i['genre_ids'] != null) {
+                  list.add(Movie.fromJson(data, type));
+                }
+              }
+            }
+          }
+        } else {
+          final response = await http.get(
+            Uri.parse(url),
+            headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            },
+          );
+          if (response.statusCode == 200) {
+            final item = json.decode(response.body);
+            var movieList = item['results'] as List;
+            if (movieList.isNotEmpty) {
+              for (var i in movieList) {
+                debugPrint(' i type : ${i.runtimeType}');
+                if (i['backdrop_path'] != null &&
+                    i['poster_path'] != null &&
+                    i['genre_ids'] != null) {
+                  list.add(Movie.fromJson(i, type));
+                }
+              }
+            }
+          }
+        }
+      }
+    } catch (err) {
+      debugPrint(err.toString());
+      return <Movie>[];
+    }
+
+    return list.uniqueList(type);
+  }
+
+  static Future getTrendingMovieResultsList(String url, MovieType type) async {
     List<Movie> list = [];
     try {
       // debugPrint(url);
+      HttpsCallable callable = functions.httpsCallable('trendingMovies');
+      debugPrint("@@ calling function ");
 
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      );
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        var movieList = item['results'] as List;
+      final item = await callable.call();
+      // if (response.statusCode == 200) {
+      // final item = json.decode(response.body);
+      debugPrint("@@ response from function :$item");
+      if (item.data != null) {
+        var movieList = item.data['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
             if (i['backdrop_path'] != null &&
@@ -90,32 +164,41 @@ class MovieRepo {
 
   /// movies
 
-  static Future getTrendingMovieList(String region, int page) async {
+  static Future getTrendingMovieList(
+      String region, int page, bool isWeb) async {
     return await getMovieResultsList(
-        "$kTrendingMoviesUrl&region=$region&page=$page", MovieType.trending);
+        "$kTrendingMoviesUrl&region=$region&page=$page",
+        MovieType.trending,
+        isWeb);
   }
 
-  static Future getPopularMoviesList(String region, int page) async {
+  static Future getPopularMoviesList(
+      String region, int page, bool isWeb) async {
     return await getMovieResultsList(
-        "$kTopRatedMoviesUrl&region=$region&page=$page", MovieType.topRated);
+        "$kTopRatedMoviesUrl&region=$region&page=$page",
+        MovieType.topRated,
+        isWeb);
   }
 
-  static Future getUpcomingMoviesList(String region, int page) async {
+  static Future getUpcomingMoviesList(
+      String region, int page, bool isWeb) async {
     var url = '$kUpcomingMoviesUrl&region=$region&page=$page';
     debugPrint("upcoming movies url :$url ");
-    return await getMovieResultsList(url, MovieType.upcoming);
+    return await getMovieResultsList(url, MovieType.upcoming, isWeb);
   }
 
-  static Future getNowPlayingMoviesList(String region, int page) async {
+  static Future getNowPlayingMoviesList(
+      String region, int page, bool isWeb) async {
     return await getMovieResultsList(
         "$kNowPlayingMoviesUrl&region=$region&page=$page",
-        MovieType.nowPlaying);
+        MovieType.nowPlaying,
+        isWeb);
   }
 
-  static Future getSimilarMoviesList(int id) async {
+  static Future getSimilarMoviesList(int id, bool isWeb) async {
     var url = "${kBaseUrl}movie/$id/similar?api_key=$apiKey";
 
-    return await getMovieResultsList(url, MovieType.similar);
+    return await getMovieResultsList(url, MovieType.similar, isWeb);
   }
 
   static Future<MovieDetails?> getMovieDetails(int id) async {
@@ -338,12 +421,12 @@ class MovieRepo {
     );
   }
 
-  static Future getMoviesList(String region, int page) async {
+  static Future getMoviesList(String region, int page, bool isWeb) async {
     List<Movie> finalList = [];
-    var trendingList = await getTrendingMovieList(region, page);
-    var nowPlayingList = await getNowPlayingMoviesList(region, page);
-    var popularMoviesList = await getPopularMoviesList(region, page);
-    var upcomingList = await getUpcomingMoviesList(region, page);
+    var trendingList = await getTrendingMovieList(region, page, isWeb);
+    var nowPlayingList = await getNowPlayingMoviesList(region, page, isWeb);
+    var popularMoviesList = await getPopularMoviesList(region, page, isWeb);
+    var upcomingList = await getUpcomingMoviesList(region, page, isWeb);
 
     for (var movie in trendingList) {
       finalList.add(movie);
@@ -393,10 +476,10 @@ class MovieRepo {
     return finalList;
   }
 
-  static Future searchMovie(String query) async {
+  static Future searchMovie(String query, bool isWeb) async {
     var url = "${kBaseUrl}search/movie?api_key=$apiKey&query=$query";
 
-    return await getMovieResultsList(url, MovieType.search);
+    return await getMovieResultsList(url, MovieType.search, isWeb);
   }
 
   static Future searchTvShow(String query) async {

@@ -10,7 +10,6 @@ import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dar
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:universal_html/js.dart' as js;
 
 import '../../../provider/movies.provider.dart';
 
@@ -38,17 +37,17 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       Future.wait([
         context.moviesProvider.getMovieGenres(),
         // context.moviesProvider.getTVGenres(),
-        context.moviesProvider.getMoviesList(),
+        context.moviesProvider.getMoviesList(!context.isMobileApp),
         // context.moviesProvider.getTvShowsList(),
       ]);
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
-      var isChromeExtension = (js.context.hasProperty('chrome') &&
-          js.context['chrome'].hasProperty('extension'));
-      context.appProvider.updateChromeApp(isChromeExtension);
-      if (!isChromeExtension) {
-        checkAndUpdate();
-      }
+      // var isChromeExtension = (js.context.hasProperty('chrome') &&
+      //     js.context['chrome'].hasProperty('extension'));
+      // context.appProvider.updateChromeApp(isChromeExtension);
+      // if (!isChromeExtension) {
+      //   checkAndUpdate();
+      // }
     });
 
     super.initState();

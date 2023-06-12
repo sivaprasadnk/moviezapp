@@ -57,7 +57,7 @@ class _MovieDetailsScreenOldState extends State<MovieDetailsScreenOld> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.moviesProvider
-          .getCompleteMovieDetails(Uri.base.id)
+          .getCompleteMovieDetails(Uri.base.id, !context.isMobileApp)
           .then((value) {
         movie = value;
         isLoading = false;

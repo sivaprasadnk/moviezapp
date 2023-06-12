@@ -42,7 +42,7 @@ class RegionText extends StatelessWidget {
               showListDialog(context, selected).then((value) {
                 if (provider.updateData) {
                   Future.wait([
-                    provider.getMoviesList(),
+                    provider.getMoviesList(!context.isMobileApp),
                     provider.getTvShowsList(),
                   ]);
                   provider.updateDataStatus(false);

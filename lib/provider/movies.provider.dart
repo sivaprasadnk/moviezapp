@@ -105,12 +105,12 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _moviesList = [];
   List<Movie> get moviesList => _moviesList;
 
-  Future getMoviesList() async {
+  Future getMoviesList(bool isWeb) async {
     if (updateData) {
       _moviesListLoading = true;
       _moviesList = [];
       _moviesList = await MovieRepo.getMoviesList(
-          selectedRegion.regionCode, selectedPage);
+          selectedRegion.regionCode, selectedPage, isWeb);
       _moviesListLoading = false;
     }
     notifyListeners();
@@ -138,8 +138,8 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future searchMovie(String query) async {
-    _searchMoviesList = await MovieRepo.searchMovie(query);
+  Future searchMovie(String query, bool isWeb) async {
+    _searchMoviesList = await MovieRepo.searchMovie(query, isWeb);
     _filteredSearchMoviesList = _searchMoviesList;
     notifyListeners();
   }
@@ -171,27 +171,28 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _similarMovieList = [];
   List<Movie> get similarMovieList => _similarMovieList;
 
-  Future<List<Movie>> getSimilarMoviesList(int id) async {
-    _similarMovieList = await MovieRepo.getSimilarMoviesList(id);
+  Future<List<Movie>> getSimilarMoviesList(int id, bool isWeb) async {
+    _similarMovieList = await MovieRepo.getSimilarMoviesList(id, isWeb);
     return _similarMovieList;
   }
 
-  Future getMovieDetails(int id) async {
-    _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
-    getActorsList(id, 'movie');
-    await getVideoList(id, "movie");
-    // getSocialMediaLinks(id, "movie");
-    await getSimilarMoviesList(id);
-    // var isFav = await checkIfMovieBookmarked(id);
-    notifyListeners();
-  }
+  // Future getMovieDetails(int id) async {
+  //   _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
+  //   getActorsList(id, 'movie');
+  //   await getVideoList(id, "movie");
+  //   // getSocialMediaLinks(id, "movie");
+  //   await getSimilarMoviesList(id);
+  //   // var isFav = await checkIfMovieBookmarked(id);
+  //   notifyListeners();
+  // }
 
-  Future<MovieCompleteDetailsModel> getCompleteMovieDetails(int id) async {
+  Future<MovieCompleteDetailsModel> getCompleteMovieDetails(
+      int id, bool isWeb) async {
     _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
     var credits = await getActorsList(id, 'movie');
     var videos = await getVideoList(id, "movie");
     // getSocialMediaLinks(id, "movie");
-    var similar = await getSimilarMoviesList(id);
+    var similar = await getSimilarMoviesList(id, isWeb);
     var provider =
         await MovieRepo.getWatchProviders(id, selectedRegion.regionCode);
     // var isFav = await checkIfMovieBookmarked(id);

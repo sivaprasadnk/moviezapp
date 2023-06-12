@@ -55,7 +55,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
         Future.wait([
           context.moviesProvider.getMovieGenres(),
           // context.moviesProvider.getTVGenres(),
-          context.moviesProvider.getMoviesList(),
+          context.moviesProvider.getMoviesList(!context.isMobileApp),
           // context.moviesProvider.getTvShowsList()
         ]);
       }

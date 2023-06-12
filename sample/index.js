@@ -1,25 +1,29 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
 const functions = require("firebase-functions");
-const logger = require("firebase-functions/logger");
+const axios = require("axios");
+// const cors = require("cors");
+const apiKey = "8d5a3dfeea83619117402fc317d79d25";
+const baseUrl = "https://api.themoviedb.org/3";
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-const fun1 = functions
+exports.trendingMovies = functions
     .runWith({
-      timeoutSeconds: 30,
       maxInstances: 10,
     })
-    .https.onRequest((request, response) => {
-      logger.info("Hello logs!", {structuredData: true});
-      response.send("Hello from Firebase!");
+    .https.onRequest(async (request, response) => {
+      const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
+      const apiResponse = await axios.get(url);
+      const responseData = apiResponse.data;
+      response.status(200).send({"data": responseData});
     });
-exports.hello = fun1;
+
+
+// exports.nowPlayingMovies = functions
+//   .runWith({
+//     maxInstances: 10,
+//   })
+//   .https.onRequest(async (request, response) => {
+
+//     const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
+//     const apiResponse = await axios.get(url);
+//     const responseData = apiResponse.data;
+//     response.send(responseData);
+//   });
