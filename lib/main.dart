@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:moviezapp/app/chrome.app.dart';
 import 'package:moviezapp/app/mobile.app.dart';
 import 'package:moviezapp/app/web.app.dart';
 import 'package:moviezapp/firebase_options.dart';
+import 'package:universal_html/js.dart' as js;
 //  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
 //  flutter build web --web-renderer html --csp
 //  flutter build web --web-renderer html --release
@@ -38,16 +40,16 @@ void main() async {
       runApp(const MobileApp());
     }
   } else {
-    // var isChromeExtension = (js.context.hasProperty('chrome') &&
-    //     js.context['chrome'].hasProperty('extension'));
-    // if (isChromeExtension) {
-    //   debugPrint('@@1');
+    var isChromeExtension = (js.context.hasProperty('chrome') &&
+        js.context['chrome'].hasProperty('extension'));
+    if (isChromeExtension) {
+      debugPrint('@@1');
 
-    //   runApp(const ChromeApp());
+      runApp(const ChromeApp());
 
-    //   debugPrint('@@123456');
-    // } else {
-    //   runApp(const WebApp());
-    // }
+      debugPrint('@@123456');
+    } else {
+      runApp(const WebApp());
+    }
   }
 }
