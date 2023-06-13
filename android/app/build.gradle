@@ -60,6 +60,26 @@ android {
         multiDexEnabled true
     }
 
+    flavorDimensions "app"
+
+    productFlavors {
+ 
+        prod {
+            dimension "app"
+            resValue "string", "app_name", "MoviezApp"           
+            // applicationId "com.spverse.moviezapp"
+            versionNameSuffix "-prod"
+
+        }
+ 
+        dev {
+            dimension "app"
+            resValue "string", "app_name", "MoviezApp Test"
+            applicationId "com.spverse.moviezapp.test"
+
+        }
+    }
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']

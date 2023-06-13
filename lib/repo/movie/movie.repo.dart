@@ -114,7 +114,6 @@ class MovieRepo {
               for (var i in movieList) {
                 Map<String, dynamic> data = i.cast<String, dynamic>();
 
-                debugPrint(' i type : ${i.runtimeType}');
                 if (i['backdrop_path'] != null &&
                     i['poster_path'] != null &&
                     i['genre_ids'] != null) {
@@ -155,7 +154,6 @@ class MovieRepo {
               for (var i in movieList) {
                 Map<String, dynamic> data = i.cast<String, dynamic>();
 
-                debugPrint(' i type : ${i.runtimeType}');
                 if (i['backdrop_path'] != null &&
                     i['poster_path'] != null &&
                     i['genre_ids'] != null) {

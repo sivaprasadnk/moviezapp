@@ -175,9 +175,9 @@ class Dialogs {
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
-                    Dialogs.showLoader(context: context);
+                    // Dialogs.showLoader(context: context);
                     context.appProvider.updatedSelectedIndex(0);
-                    // context.authProvider.signInWithGoogle(context);
+                    context.authProvider.signInWithGoogle(context);
                   },
                   child: Container(
                     height: 75,

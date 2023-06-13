@@ -18,36 +18,22 @@ https://api.themoviedb.org/3/person/22226/movie_credits?api_key=8d5a3dfeea836191
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  debugPrint('@@12');
-
-  await Firebase.initializeApp(
-    name: 'moviezapp',
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  if (defaultTargetPlatform == TargetPlatform.android ||
-      defaultTargetPlatform == TargetPlatform.iOS) {
-    debugPrint('@@123');
-
-    if (kIsWeb) {
-      debugPrint('@@1234');
-
-      runApp(const WebApp(isMobileWeb: true));
-    } else {
-      debugPrint('@@12345');
-
-      debugPrint('@@');
-      runApp(const MobileApp());
-    }
+  var isChromeExtension = (js.context.hasProperty('chrome') &&
+      js.context['chrome'].hasProperty('extension'));
+  if (isChromeExtension) {
+    runApp(const ChromeApp());
   } else {
-    var isChromeExtension = (js.context.hasProperty('chrome') &&
-        js.context['chrome'].hasProperty('extension'));
-    if (isChromeExtension) {
-      debugPrint('@@1');
-
-      runApp(const ChromeApp());
-
-      debugPrint('@@123456');
+    await Firebase.initializeApp(
+      name: 'moviezapp',
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    if (defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS) {
+      if (kIsWeb) {
+        runApp(const WebApp(isMobileWeb: true));
+      } else {
+        runApp(const MobileApp());
+      }
     } else {
       runApp(const WebApp());
     }

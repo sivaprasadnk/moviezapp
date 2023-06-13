@@ -251,8 +251,13 @@ class AuthProvider extends ChangeNotifier {
 
   Future signInWithGoogle(BuildContext context) async {
     try {
+      debugPrint('@@@@@@@0');
       User? user = await AuthRepo.signInWithGoogle(context: context);
+      debugPrint('@@@@@@@01');
+
       if (user != null) {
+        debugPrint('@@@@@@@0123d2');
+
         updateGuestUser(false);
         if (context.mounted) {
           context.authProvider.updateGuestUser(false);
@@ -275,6 +280,8 @@ class AuthProvider extends ChangeNotifier {
           }
         }
       } else {
+        debugPrint('@@@@@@@0123d2deer');
+
         if (context.mounted) {
           // context.pop();
         }

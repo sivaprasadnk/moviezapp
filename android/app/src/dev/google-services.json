@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1042736811024",
+    "project_id": "moviezapp-test",
+    "storage_bucket": "moviezapp-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042736811024:android:3ca614faa9ab64ec9a0e95",
+        "android_client_info": {
+          "package_name": "com.spverse.moviezapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042736811024-7c0hli226ji8g447rsbi3gf2mdnq7qfq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN9GOy1JjeEKhRMkCWXyzrrI-6gQ2g_qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042736811024-7c0hli226ji8g447rsbi3gf2mdnq7qfq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

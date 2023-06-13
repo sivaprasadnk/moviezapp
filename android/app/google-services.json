@@ -1,61 +1,73 @@
 {
   "project_info": {
-    "project_number": "625310114702",
-    "project_id": "moviezapp-spverse",
-    "storage_bucket": "moviezapp-spverse.appspot.com"
+    "project_number": "1042736811024",
+    "project_id": "moviezapp-test",
+    "storage_bucket": "moviezapp-test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:625310114702:android:d107d337563acc9751badf",
+        "mobilesdk_app_id": "1:1042736811024:android:2bd098c9dc7125f89a0e95",
         "android_client_info": {
           "package_name": "com.spverse.moviezapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "625310114702-adjdnhqdstmlvav7djrcajib74n8t170.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.spverse.moviezapp",
-            "certificate_hash": "463f5c6cc71b3c1b604e20cc21864653f2672e5e"
-          }
-        },
-        {
-          "client_id": "625310114702-empnravcfa77ick2gf7121ccrdaj4cc7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.spverse.moviezapp",
-            "certificate_hash": "68e5263feee3cb37efc23fe0957d6474fab7f6b7"
-          }
-        },
-        {
-          "client_id": "625310114702-esvm6sn83ar2996k2g33hev7msghv1mo.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.spverse.moviezapp",
-            "certificate_hash": "061cc7feccb49f334dad70dde1c9d27911a7fabc"
-          }
-        },
-        {
-          "client_id": "625310114702-hv82dr880cnr9tr4cv7qcejsb9356pub.apps.googleusercontent.com",
+          "client_id": "1042736811024-7c0hli226ji8g447rsbi3gf2mdnq7qfq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD8LAw4QNnT-lvF2GKMO-grpDsKXc7cj_E"
+          "current_key": "AIzaSyAN9GOy1JjeEKhRMkCWXyzrrI-6gQ2g_qo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "625310114702-f4mjl8la3nrkjuau2kn4unfglunairc8.apps.googleusercontent.com",
+              "client_id": "1042736811024-7c0hli226ji8g447rsbi3gf2mdnq7qfq.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "625310114702-9o6utaofs03l2pgmsvbjd6977316t8p4.apps.googleusercontent.com",
+              "client_id": "1042736811024-metmqd45s8shdsb11mtp7outp5pjecbp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spverse.moviezapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042736811024:android:3ca614faa9ab64ec9a0e95",
+        "android_client_info": {
+          "package_name": "com.spverse.moviezapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042736811024-7c0hli226ji8g447rsbi3gf2mdnq7qfq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN9GOy1JjeEKhRMkCWXyzrrI-6gQ2g_qo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042736811024-7c0hli226ji8g447rsbi3gf2mdnq7qfq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1042736811024-metmqd45s8shdsb11mtp7outp5pjecbp.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.spverse.moviezapp"

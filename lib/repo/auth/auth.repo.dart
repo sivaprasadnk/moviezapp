@@ -113,24 +113,32 @@ class AuthRepo {
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
+debugPrint('@@@@@@@2@@1');
     {
       if (context.isMobileApp) {
+debugPrint('@@@@@@@2@@12');
+
         try {
           final GoogleSignIn googleSignIn = GoogleSignIn.standard(
             scopes: [
               'email',
             ],
           );
-
+debugPrint('@@1');
           final GoogleSignInAccount? googleSignInAccount =
               await googleSignIn.signIn();
           if (googleSignInAccount != null) {
+debugPrint('@@12');
+
             final GoogleSignInAuthentication googleSignInAuthentication =
                 await googleSignInAccount.authentication;
+debugPrint('@@123');
+
             final AuthCredential credential = GoogleAuthProvider.credential(
               accessToken: googleSignInAuthentication.accessToken,
               idToken: googleSignInAuthentication.idToken,
             );
+debugPrint('@@1234');
 
             final UserCredential userCredential =
                 await auth.signInWithCredential(credential);
@@ -157,6 +165,8 @@ class AuthRepo {
           }
         }
       } else {
+debugPrint('@@@@@@@2@@13e232');
+
         GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
         googleProvider
@@ -214,6 +224,8 @@ class AuthRepo {
     var user = userCredential.user!;
     if (userCredential.additionalUserInfo != null &&
         userCredential.additionalUserInfo!.isNewUser) {
+debugPrint('@@123456 is newuser');
+
       await user.updateDisplayName(user.displayName);
 
       await sendWelcomeEmail(user.displayName!);
