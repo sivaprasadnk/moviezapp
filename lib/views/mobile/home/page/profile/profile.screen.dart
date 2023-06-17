@@ -163,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             !isGuest
                 ? CommonButton(
                     callback: () {
-                      // context.authProvider.logout(context);
+                      context.authProvider.logout(context);
                     },
                     title: 'Sign Out',
                   )
@@ -171,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     callback: () {
                       Dialogs.showLoader(context: context);
 
-                      // context.authProvider.signInWithGoogle(context);
+                      context.authProvider.signInWithGoogle(context);
                     },
                     title: 'Sign In',
                   ),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:moviezapp/repo/auth/auth.repo.dart';
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/custom.exception.dart';
@@ -280,7 +281,9 @@ class AuthProvider extends ChangeNotifier {
           }
         }
       } else {
-        debugPrint('@@@@@@@0123d2deer');
+        var uid = FirebaseAuth.instance.currentUser!.uid;
+        Logger().d('@@@@@@@user $uid  signInWithGoog;e returned null');
+        await FirebaseAuth.instance.currentUser!.delete();
 
         if (context.mounted) {
           // context.pop();

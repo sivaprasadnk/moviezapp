@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:emailjs/emailjs.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logger/logger.dart';
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 
 class AuthRepo {
   static final auth = FirebaseAuth.instance;
+  static FirebaseFunctions functions = FirebaseFunctions.instance;
+  static final logger = Logger();
 
   /// register
   static Future<void> register(
@@ -113,122 +116,110 @@ class AuthRepo {
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
-debugPrint('@@@@@@@2@@1');
-    {
-      if (context.isMobileApp) {
-debugPrint('@@@@@@@2@@12');
+    debugPrint('@@@@@@@2@@1');
 
-        try {
-          final GoogleSignIn googleSignIn = GoogleSignIn.standard(
-            scopes: [
-              'email',
-            ],
-          );
-debugPrint('@@1');
-          final GoogleSignInAccount? googleSignInAccount =
-              await googleSignIn.signIn();
-          if (googleSignInAccount != null) {
-debugPrint('@@12');
+    if (context.isMobileApp) {
+      logger.d('is mobile app');
 
-            final GoogleSignInAuthentication googleSignInAuthentication =
-                await googleSignInAccount.authentication;
-debugPrint('@@123');
+      // try {
+      final GoogleSignIn googleSignIn = GoogleSignIn.standard(
+        scopes: [
+          'email',
+        ],
+      );
+      logger.d('@@1');
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        logger.d('@@12');
 
-            final AuthCredential credential = GoogleAuthProvider.credential(
-              accessToken: googleSignInAuthentication.accessToken,
-              idToken: googleSignInAuthentication.idToken,
-            );
-debugPrint('@@1234');
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        logger.d('@@123');
 
-            final UserCredential userCredential =
-                await auth.signInWithCredential(credential);
-            return await signInAndUpdateData(userCredential);
-          } else {
-            return null;
-          }
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'account-exists-with-different-credential') {
-            if (context.mounted) {
-              context.showSnackbar(
-                  'The account already exists with a different credential');
-            }
-          } else if (e.code == 'invalid-credential') {
-            if (context.mounted) {
-              context.showSnackbar(
-                  'Error occurred while accessing credentials. Try again.');
-            }
-          }
-        } catch (err) {
-          if (context.mounted) {
-            context.showSnackbar(
-                'Error occurred using Google Sign In. Try again.');
-          }
-        }
-      } else {
-debugPrint('@@@@@@@2@@13e232');
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+        logger.d('@@1234');
 
-        GoogleAuthProvider googleProvider = GoogleAuthProvider();
-
-        googleProvider
-            .addScope('https://www.googleapis.com/auth/userinfo.profile');
-        // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
         final UserCredential userCredential =
-            await auth.signInWithPopup(googleProvider);
-
+            await auth.signInWithCredential(credential);
         return await signInAndUpdateData(userCredential);
+      } else {
+        logger.d('br return null @1');
+
+        return null;
       }
+      // } catch (err) {
+      //   logger.d('error : $err');
+      //   if (context.mounted) {
+      //     context
+      //         .showSnackbar('Error occurred using Google Sign In. Try again.');
+      //   }
+      // }
+    } else {
+      debugPrint('@@@@@@@2@@13e232');
+
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/userinfo.profile');
+      // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+      final UserCredential userCredential =
+          await auth.signInWithPopup(googleProvider);
+
+      return await signInAndUpdateData(userCredential);
     }
-    return null;
+    // return null;
   }
 
   static Future<User?> signInWithFacebook({
     required BuildContext context,
   }) async {
-    try {
-      FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+    // try {
+    FacebookAuthProvider facebookProvider = FacebookAuthProvider();
 
-      facebookProvider.addScope('email');
-      facebookProvider.setCustomParameters({
-        'display': 'popup',
-        "consent": "select_account",
-      });
+    facebookProvider.addScope('email');
+    facebookProvider.setCustomParameters({
+      'display': 'popup',
+      "consent": "select_account",
+    });
 
-      // Once signed in, return the UserCredential
-      final UserCredential userCredential =
-          await auth.signInWithPopup(facebookProvider);
-      // final LoginResult result = await FacebookAuth.instance.login();
-      // if (result.status == LoginStatus.success) {
-      //   final AccessToken accessToken = result.accessToken!;
-      //   final AuthCredential credential =
-      //       FacebookAuthProvider.credential(accessToken.token);
-      //   final UserCredential userCredential =
-      //       await FirebaseAuth.instance.signInWithCredential(credential);
-      return await signInAndUpdateData(userCredential);
-      // } else {}
-    } on FirebaseAuthException catch (e) {
-      debugPrint('FirebaseAuthException :');
-      debugPrint(e.message);
-      return null;
-    } catch (e) {
-      if (context.mounted) {
-        context.showSnackbar('Error occurred using Fb Sign In. Try again.');
-      }
-      debugPrint('error :');
-      debugPrint(e.toString());
-      return null;
-    }
+    // Once signed in, return the UserCredential
+    final UserCredential userCredential =
+        await auth.signInWithPopup(facebookProvider);
+    // final LoginResult result = await FacebookAuth.instance.login();
+    // if (result.status == LoginStatus.success) {
+    //   final AccessToken accessToken = result.accessToken!;
+    //   final AuthCredential credential =
+    //       FacebookAuthProvider.credential(accessToken.token);
+    //   final UserCredential userCredential =
+    //       await FirebaseAuth.instance.signInWithCredential(credential);
+    return await signInAndUpdateData(userCredential);
+    // } else {}
+    // } on FirebaseAuthException catch (e) {
+    //   debugPrint('FirebaseAuthException :');
+    //   debugPrint(e.message);
+    //   return null;
+    // } catch (e) {
+    //   if (context.mounted) {
+    //     context.showSnackbar('Error occurred using Fb Sign In. Try again.');
+    //   }
+    // debugPrint('error :');
+    // debugPrint(e.toString());
+    // return null;
   }
 
-  static Future<User?> signInAndUpdateData(
-      UserCredential userCredential) async {
+  static Future<User> signInAndUpdateData(UserCredential userCredential) async {
     var user = userCredential.user!;
     if (userCredential.additionalUserInfo != null &&
         userCredential.additionalUserInfo!.isNewUser) {
-debugPrint('@@123456 is newuser');
+      debugPrint('@@user $user.uid is newuser');
 
       await user.updateDisplayName(user.displayName);
 
-      await sendWelcomeEmail(user.displayName!);
+      await sendWelcomeEmail(user.email!);
 
       await userColllection.doc(user.uid).set({
         kEmail: user.email,
@@ -239,27 +230,38 @@ debugPrint('@@123456 is newuser');
         kBookMarkedShowIdList: [],
         kCreatedDateTime: DateTime.now(),
       });
+    } else {
+      debugPrint('@@ $user.uid is existing user');
     }
     return user;
   }
 
-  static Future sendWelcomeEmail(String displayName) async {
-    Map<String, dynamic> templateParams = {
-      'to_name': displayName,
-    };
+  static Future sendWelcomeEmail(String email) async {
     try {
-      await EmailJS.send(
-        'service_mi2e9pc',
-        'template_g91uu7v',
-        templateParams,
-        const Options(
-          publicKey: '1XO7RDB4dwuTLa5gM',
-          privateKey: 'LPGmoWPc-8-U51a0PK-V1',
-        ),
-      );
-      debugPrint('SUCCESS!');
-    } catch (error) {
-      debugPrint("error :$error");
+      logger.d("sending mail");
+      HttpsCallable callable = functions.httpsCallable("sendWelcomeEmail");
+      await callable.call();
+      logger.d("after sending mail");
+    } catch (err) {
+      logger.e(err);
     }
+
+    // Map<String, dynamic> templateParams = {
+    //   'to_name': displayName,
+    // };
+    // try {
+    //   await EmailJS.send(
+    //     'service_mi2e9pc',
+    //     'template_g91uu7v',
+    //     templateParams,
+    //     const Options(
+    //       publicKey: '1XO7RDB4dwuTLa5gM',
+    //       privateKey: 'LPGmoWPc-8-U51a0PK-V1',
+    //     ),
+    //   );
+    //   debugPrint('SUCCESS!');
+    // } catch (error) {
+    //   debugPrint("error :$error");
+    // }
   }
 }

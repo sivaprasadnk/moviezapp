@@ -60,20 +60,20 @@ android {
         multiDexEnabled true
     }
 
-    flavorDimensions "app"
+    flavorDimensions "default"
 
     productFlavors {
  
         prod {
-            dimension "app"
+            dimension "default"
             resValue "string", "app_name", "MoviezApp"           
-            // applicationId "com.spverse.moviezapp"
-            versionNameSuffix "-prod"
+            applicationId "com.spverse.moviezapp"
+            // versionNameSuffix "-prod"
 
         }
  
         dev {
-            dimension "app"
+            dimension "default"
             resValue "string", "app_name", "MoviezApp Test"
             applicationId "com.spverse.moviezapp.test"
 

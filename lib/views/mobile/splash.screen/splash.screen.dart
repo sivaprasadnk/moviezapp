@@ -18,6 +18,7 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      debugPrint('@@@@ hereeeeeeeeeeeeeeeeeee');
       context.appProvider.updateMobileApp(true);
       context.appProvider.updateMobileWeb(false);
       context.moviesProvider.updateDataStatus(true);

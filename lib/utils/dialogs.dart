@@ -1,3 +1,4 @@
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -43,6 +44,8 @@ class Dialogs {
   }
 
   static Future showGetStartedDialog(BuildContext context) async {
+    debugPrint('@@@@ hereeeeeeeeeeeeeeeeeee @1');
+
     await showModalBottomSheet(
       context: context,
       enableDrag: false,
@@ -99,6 +102,8 @@ class Dialogs {
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
+                    debugPrint('@@@@ hereeeeeeeeeeeeeeeeeee @12');
+
                     showSelectionDialog(context);
                   },
                   child: Container(
@@ -129,6 +134,8 @@ class Dialogs {
   }
 
   static showSelectionDialog(BuildContext context) async {
+    debugPrint('@@@@ hereeeeeeeeeeeeeeeeeee @123');
+
     await showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -175,7 +182,7 @@ class Dialogs {
                 const SizedBox(height: 15),
                 GestureDetector(
                   onTap: () {
-                    // Dialogs.showLoader(context: context);
+                    // Logger().d('b4 signin dialog');
                     context.appProvider.updatedSelectedIndex(0);
                     context.authProvider.signInWithGoogle(context);
                   },
