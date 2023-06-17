@@ -19,9 +19,15 @@ module.exports = {
         "ignoreUrls": true,
       },
     ],
+    "linebreak-style": "off",
+    "no-unused-vars": "off",
+    "quotes": "off",
+    "object-curly-spacing": "off",
+    "indent": "off",
+    "padded-blocks": "off",
     "no-restricted-globals": ["error", "name", "length"],
     "prefer-arrow-callback": "error",
-    "quotes": ["error", "double", {"allowTemplateLiterals": true}],
+    // "quotes": ["error", "double", {"allowTemplateLiterals": true}],
   },
   overrides: [
     {
