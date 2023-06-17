@@ -195,8 +195,8 @@ class MoviesProvider extends ChangeNotifier {
     var similar = await getSimilarMoviesList(id, isWeb);
     var provider =
         await MovieRepo.getWatchProviders(id, selectedRegion.regionCode);
-    // var isFav = await checkIfMovieBookmarked(id);
-    var isFav = false;
+    var isFav = await checkIfMovieBookmarked(id);
+    // var isFav = false;
     return MovieCompleteDetailsModel(
       movie: _selectedMovieDetails!,
       actorsList: credits.actors,
@@ -205,7 +205,7 @@ class MoviesProvider extends ChangeNotifier {
       overview: _selectedMovieDetails!.overview,
       similarMoviesList: similar,
       videoList: videos,
-        provider: provider
+      provider: provider,
     );
   }
 
@@ -533,10 +533,7 @@ class MoviesProvider extends ChangeNotifier {
 
   Future<bool> checkIfMovieBookmarked(int id) async {
     var savedIds = await UserRepo.getBookmarkMovieIds();
-    if (savedIds.contains(id)) {
-      return true;
-    }
-    return false;
+    return savedIds.contains(id);
   }
 
   Future<bool> checkIfTvShowBookmarked(int id) async {

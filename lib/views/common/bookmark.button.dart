@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/model/movie.complete.details.model.dart';
 import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/model/tv.show.details.dart';
 import 'package:moviezapp/provider/auth.provider.dart';
@@ -15,14 +16,14 @@ import 'package:url_launcher/url_launcher.dart';
 class BookMarkButton extends StatelessWidget {
   const BookMarkButton({
     super.key,
-    this.movie,
+    this.completeDetails,
     required this.width,
     required this.isBookmarked,
     this.isMovie = true,
     this.tvShow,
   });
 
-  final MovieDetails? movie;
+  final MovieCompleteDetailsModel? completeDetails;
   final TvShowDetails? tvShow;
   final double width;
   final bool isBookmarked;
@@ -31,7 +32,7 @@ class BookMarkButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double topPadding = context.isMobileApp ? 20 : 150;
-
+    // var movie = completeDetails!.movie;
     return Consumer<AuthProvider>(
       builder: (_, authProvider, __) {
         return Padding(
@@ -53,7 +54,8 @@ class BookMarkButton extends StatelessWidget {
                                 callback: () {
                                   if (isMovie) {
                                     context.userProvider
-                                        .addMovieToBookmarks(movie!, context)
+                                        .addMovieToBookmarks(
+                                            completeDetails!.movie, context)
                                         .then((value) async {
                                       context.userProvider
                                           .getBookmarkedMovies(context);
@@ -73,7 +75,7 @@ class BookMarkButton extends StatelessWidget {
                                   if (isMovie) {
                                     context.userProvider
                                         .removeMovieFromBookmarks(
-                                            movie!, context)
+                                            completeDetails!.movie, context)
                                         .then((value) async {
                                       context.userProvider
                                           .getBookmarkedMovies(context);
@@ -95,7 +97,7 @@ class BookMarkButton extends StatelessWidget {
                   if (!context.isMobileApp && isMovie)
                     GestureDetector(
                       onTap: () {
-                        showDetailsDialog(movie!, context);
+                        showDetailsDialog(completeDetails!.movie, context);
                       },
                       child: const Icon(
                         Icons.info,

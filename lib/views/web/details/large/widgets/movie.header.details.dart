@@ -246,7 +246,7 @@ class _MovieHeaderDetailsState extends State<MovieHeaderDetails> {
               duration: const Duration(seconds: 1),
               opacity: _isVisible ? 1 : 0,
               child: BookMarkButton(
-                movie: widget.movieDetails.movie,
+                completeDetails: widget.movieDetails,
                 width: context.width * 0.2,
                 isBookmarked: isBookmarked,
               ),

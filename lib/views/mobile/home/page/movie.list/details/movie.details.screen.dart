@@ -32,7 +32,6 @@ class MovieDetailsScreen extends StatefulWidget {
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   bool _isVisible = false;
-  bool isBookmarked = false;
   bool isLoading = true;
   // @override
   // void initState() {
@@ -63,8 +62,10 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           .getCompleteMovieDetails(id, !context.isMobileApp)
           .then((value) {
         isLoading = false;
+        _isVisible = true;
         movieDetails = value;
         movie = movieDetails!.movie;
+        debugPrint('value :${movieDetails!.movie.id}');
         setState(() {});
       });
     });
@@ -73,6 +74,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('isVisible : $_isVisible');
     return WillPopScope(
       onWillPop: () async {
         context.moviesProvider.updateCarousalIndex(0);
@@ -87,17 +89,15 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           bottomNavigationBar: AnimatedSlide(
             duration: const Duration(milliseconds: 500),
             offset: _isVisible ? Offset.zero : const Offset(0, 2),
-            child: AnimatedOpacity(
-              duration: const Duration(seconds: 1),
-              opacity: _isVisible ? 1 : 0,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 40, bottom: 10),
-                child: BookMarkButton(
-                  width: context.width * 0.8,
-                  isBookmarked: isBookmarked,
-                  movie: context.moviesProvider.selectedMovieDetails,
-                ),
-              ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 40, bottom: 10),
+              child: movieDetails != null
+                  ? BookMarkButton(
+                      width: context.width * 0.8,
+                      isBookmarked: movieDetails!.isFavourite,
+                      completeDetails: movieDetails,
+                    )
+                  : const SizedBox.shrink(),
             ),
           ),
           body: NotificationListener<UserScrollNotification>(

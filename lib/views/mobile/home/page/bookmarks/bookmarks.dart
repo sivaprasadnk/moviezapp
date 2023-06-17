@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviezapp/model/movie.details.dart';
 import 'package:moviezapp/provider/user.provider.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
 import 'package:moviezapp/views/common/movie.card.dart';
@@ -18,6 +19,7 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (_, provider, __) {
       var moviesList = provider.bookMarkMoviesList;
+      debugPrint('moviesList length :${moviesList.length}');
       // var shows = provider.bookMarkShowsList;
       var moviesCount = moviesList.length;
       // var showsCount = shows.length > 2 ? 2 : shows.length;
@@ -63,14 +65,14 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
                             shrinkWrap: true,
                             itemCount: moviesCount,
                             itemBuilder: (context, index) {
-                              var movie = moviesList[index];
+                              var movie = moviesList[index].convertedDetails;
                               return Padding(
                                 padding: const EdgeInsets.only(
                                   right: 10,
                                 ),
                                 child: MovieCard(
                                   isMovie: true,
-                                  // movie: movie,
+                                  movie: movie,
                                   name: movie.title,
                                   poster: movie.posterPath,
                                   vote: movie.voteAverage,

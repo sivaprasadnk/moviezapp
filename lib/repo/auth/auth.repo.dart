@@ -239,8 +239,12 @@ class AuthRepo {
   static Future sendWelcomeEmail(String email) async {
     try {
       logger.d("sending mail");
-      HttpsCallable callable = functions.httpsCallable("sendWelcomeEmail",
-          options: HttpsCallableOptions(timeout: const Duration(seconds: 2)));
+      HttpsCallable callable = functions.httpsCallable(
+        "sendWelcomeEmail",
+        options: HttpsCallableOptions(
+          timeout: const Duration(seconds: 120),
+        ),
+      );
       await callable.call(
         {
           'email': email,

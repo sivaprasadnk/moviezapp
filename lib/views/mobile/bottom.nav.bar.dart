@@ -65,6 +65,7 @@ class BottomNavBar extends StatelessWidget {
   getBookmarks(BuildContext context) async {
     Dialogs.showLoader(context: context);
     await context.userProvider.getBookmarkedMovies(context).then((value) async {
+      debugPrint("bookmarked data fetched");
       await context.userProvider.getBookmarkedShows(context).then((value) {
         context.pop();
       });

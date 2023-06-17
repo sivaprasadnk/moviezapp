@@ -416,6 +416,7 @@ class MovieRepo {
     List<RelatedVideoModel> videoList = [];
     var url = "$kBaseUrl$show/$movieId/videos?api_key=$apiKey";
     // debugPrint(url);
+    try {
     final response = await http.get(
       Uri.parse(url),
       headers: {
@@ -431,6 +432,9 @@ class MovieRepo {
           videoList.add(RelatedVideoModel.fromJson(i));
         }
       }
+    }
+    } on Exception {
+      return videoList;
     }
 
     return videoList;

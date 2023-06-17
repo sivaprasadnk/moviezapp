@@ -141,7 +141,7 @@ class UserRepo {
         (await userColllection.doc(userId).collection(kMoviesCollection).get())
             .docs;
     for (var i in list1) {
-      // list.add(MovieDetails.fromDoc(i));
+      list.add(MovieDetails.fromBookmarkDoc(i));
     }
     // list.sort(((a, b) =>a. ));
     return list;

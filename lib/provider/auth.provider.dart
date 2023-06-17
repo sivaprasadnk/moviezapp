@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:moviezapp/repo/auth/auth.repo.dart';
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/custom.exception.dart';
@@ -252,12 +251,9 @@ class AuthProvider extends ChangeNotifier {
 
   Future signInWithGoogle(BuildContext context) async {
     try {
-      debugPrint('@@@@@@@0');
       User? user = await AuthRepo.signInWithGoogle(context: context);
-      debugPrint('@@@@@@@01');
 
       if (user != null) {
-        debugPrint('@@@@@@@0123d2');
 
         updateGuestUser(false);
         if (context.mounted) {
@@ -281,12 +277,12 @@ class AuthProvider extends ChangeNotifier {
           }
         }
       } else {
-        var uid = FirebaseAuth.instance.currentUser!.uid;
-        Logger().d('@@@@@@@user $uid  signInWithGoog;e returned null');
-        await FirebaseAuth.instance.currentUser!.delete();
+        // var uid = FirebaseAuth.instance.currentUser!.uid;
+        // Logger().d('@@@@@@@user $uid  signInWithGoog;e returned null');
+        // await FirebaseAuth.instance.currentUser!.delete();
 
         if (context.mounted) {
-          // context.pop();
+          context.pop();
         }
       }
     } catch (err) {

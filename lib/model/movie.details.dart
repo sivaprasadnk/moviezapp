@@ -1,4 +1,5 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moviezapp/model/actors.model.dart';
 import 'package:moviezapp/model/genre.model.dart';
 import 'package:moviezapp/model/movie.dart';
@@ -70,61 +71,61 @@ class MovieDetails {
     );
   }
 
-  // factory MovieDetails.fromDoc(
-  //     QueryDocumentSnapshot<Map<String, dynamic>> json) {
-  //   var language = "";
-  //   if (json.data().containsKey('spoken_languages')) {
-  //     List languageList = json['spoken_languages'] ?? [];
-  //     if (languageList.isNotEmpty) {
-  //       language = languageList[0]['english_name'] ?? "";
-  //     }
-  //   } else {
-  //     language = json['spoken_language'] ?? "";
-  //   }
+  factory MovieDetails.fromDoc(
+      QueryDocumentSnapshot<Map<String, dynamic>> json) {
+    var language = "";
+    if (json.data().containsKey('spoken_languages')) {
+      List languageList = json['spoken_languages'] ?? [];
+      if (languageList.isNotEmpty) {
+        language = languageList[0]['english_name'] ?? "";
+      }
+    } else {
+      language = json['spoken_language'] ?? "";
+    }
 
-  //   var vote = json['vote_average'];
-  //   if (vote.runtimeType == int) {
-  //     vote = (vote as int).toDouble();
-  //   }
-  //   return MovieDetails(
-  //     id: json['id'],
-  //     backdropPath: kImageBaseUrl + json['backdrop_path'],
-  //     posterPath: kImageBaseUrl + json['poster_path'],
-  //     genreList:
-  //         (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
-  //     title: json['title'] ?? "",
-  //     voteAverage: vote,
-  //     voteCount: json['vote_count'],
-  //     runtime: json['runtime'],
-  //     releaseDate: json['release_date'],
-  //     overview: json['overview'],
-  //     language: language,
-  //     homepage: json['homepage'],
-  //   );
-  // }
+    var vote = json['vote_average'];
+    if (vote.runtimeType == int) {
+      vote = (vote as int).toDouble();
+    }
+    return MovieDetails(
+      id: json['id'],
+      backdropPath: kImageBaseUrl + json['backdrop_path'],
+      posterPath: kImageBaseUrl + json['poster_path'],
+      genreList:
+          (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
+      title: json['title'] ?? "",
+      voteAverage: vote,
+      voteCount: json['vote_count'],
+      runtime: json['runtime'],
+      releaseDate: json['release_date'],
+      overview: json['overview'],
+      language: language,
+      homepage: json['homepage'],
+    );
+  }
 
-  // factory MovieDetails.fromBookmarkDoc(
-  //     QueryDocumentSnapshot<Map<String, dynamic>> json) {
-  //   var language = "";
+  factory MovieDetails.fromBookmarkDoc(
+      QueryDocumentSnapshot<Map<String, dynamic>> json) {
+    var language = "";
 
-  //   language = json['spoken_language'];
+    language = json['spoken_language'];
 
-  //   return MovieDetails(
-  //     id: json['id'],
-  //     backdropPath: kImageBaseUrl + json['backdrop_path'],
-  //     posterPath: kImageBaseUrl + json['poster_path'],
-  //     genreList:
-  //         (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
-  //     title: json['title'] ?? "",
-  //     voteAverage: json['vote_average'],
-  //     voteCount: json['vote_count'],
-  //     runtime: json['runtime'],
-  //     releaseDate: json['release_date'],
-  //     overview: json['overview'],
-  //     language: language,
-  //     homepage: json['homepage'],
-  //   );
-  // }
+    return MovieDetails(
+      id: json['id'],
+      backdropPath: kImageBaseUrl + json['backdrop_path'],
+      posterPath: kImageBaseUrl + json['poster_path'],
+      genreList:
+          (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
+      title: json['title'] ?? "",
+      voteAverage: json['vote_average'],
+      voteCount: json['vote_count'],
+      runtime: json['runtime'],
+      releaseDate: json['release_date'],
+      overview: json['overview'],
+      language: language,
+      homepage: json['homepage'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
