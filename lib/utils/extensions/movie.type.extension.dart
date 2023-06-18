@@ -26,6 +26,32 @@ extension MovieTyeExt on MovieType {
       case MovieType.filmography:
         return 'trendingMovies';
     }
-    return "";
+  }
+
+  String get typeValue {
+    switch (this) {
+      case MovieType.trending:
+        return 'trending';
+      case MovieType.nowPlaying:
+        return 'now_playing';
+
+      case MovieType.topRated:
+        return 'top_rated';
+
+      case MovieType.upcoming:
+        return 'upcoming';
+
+      case MovieType.similar:
+        return 'similar';
+
+      case MovieType.search:
+        return 'search';
+
+      case MovieType.bookmarks:
+        return 'bookmarks';
+
+      case MovieType.filmography:
+        return 'filmography';
+    }
   }
 }

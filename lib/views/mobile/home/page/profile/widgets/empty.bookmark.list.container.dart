@@ -28,7 +28,7 @@ class EmptyBookmarkListContainer extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           const Text(
-            'After favouriting movies and series, they are displayed here',
+            'After favouriting movies, they are displayed here',
             style: TextStyle(
               fontWeight: FontWeight.w300,
               fontSize: 14,

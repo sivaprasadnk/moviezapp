@@ -139,7 +139,12 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future searchMovie(String query, bool isWeb) async {
-    _searchMoviesList = await MovieRepo.searchMovie(query, isWeb);
+    _searchMoviesList = await MovieRepo.getMovieResultsList(
+      MovieType.search,
+      isWeb,
+      query: query,
+    );
+    debugPrint('searchMovies length: ${_searchMoviesList.length}');
     _filteredSearchMoviesList = _searchMoviesList;
     notifyListeners();
   }
@@ -172,22 +177,15 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> get similarMovieList => _similarMovieList;
 
   Future<List<Movie>> getSimilarMoviesList(int id, bool isWeb) async {
-    _similarMovieList = await MovieRepo.getSimilarMoviesList(id, isWeb);
+    _similarMovieList = await MovieRepo.getMovieResultsList(
+        MovieType.similar, isWeb,
+        id: id.toString());
     return _similarMovieList;
   }
 
-  // Future getMovieDetails(int id) async {
-  //   _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
-  //   getActorsList(id, 'movie');
-  //   await getVideoList(id, "movie");
-  //   // getSocialMediaLinks(id, "movie");
-  //   await getSimilarMoviesList(id);
-  //   // var isFav = await checkIfMovieBookmarked(id);
-  //   notifyListeners();
-  // }
-
   Future<MovieCompleteDetailsModel> getCompleteMovieDetails(
-      int id, bool isWeb) async {
+      int id, bool isWeb,
+      {bool isGuest = false}) async {
     _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
     var credits = await getActorsList(id, 'movie');
     var videos = await getVideoList(id, "movie");
@@ -195,8 +193,7 @@ class MoviesProvider extends ChangeNotifier {
     var similar = await getSimilarMoviesList(id, isWeb);
     var provider =
         await MovieRepo.getWatchProviders(id, selectedRegion.regionCode);
-    var isFav = await checkIfMovieBookmarked(id);
-    // var isFav = false;
+    var isFav = isGuest ? false : await checkIfMovieBookmarked(id);
     return MovieCompleteDetailsModel(
       movie: _selectedMovieDetails!,
       actorsList: credits.actors,

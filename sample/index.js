@@ -31,6 +31,21 @@ const recipients = [
 
 const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
 
+exports.getGenreList = functions
+  .runWith({
+    maxInstances: 10,
+  })
+  .https.onRequest(async (request, response) => {
+    // const url = "${kBaseUrl}genre/$show/list?api_key=$apiKey";
+    const url = baseUrl + "/genre/movie/list?api_key=" + apiKey;
+    // const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
+    const apiResponse = await axios.get(url);
+    const responseData = apiResponse.data;
+    response.set("Access-Control-Allow-Origin", "*");
+    response.set("Access-Control-Allow-Methods", "GET, POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.status(200).send({ "data": responseData });
+  });
 
 exports.trendingMovies = functions
   .runWith({
@@ -40,6 +55,56 @@ exports.trendingMovies = functions
     const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
     const apiResponse = await axios.get(url);
     const responseData = apiResponse.data;
+    response.set("Access-Control-Allow-Origin", "*");
+    response.set("Access-Control-Allow-Methods", "GET, POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.status(200).send({ "data": responseData });
+  });
+
+exports.movieResults = functions
+  .runWith({
+    maxInstances: 10,
+  })
+  .https.onRequest(async (request, response) => {
+    const type = request.body.type;
+    const id = request.body.id;
+    const region = request.body.region;
+    const query = request.body.query;
+    let url = "";
+
+    if (type == "trending") {
+
+      url = baseUrl + "/trending/movie/day";
+
+    } else if (type == "similar") {
+
+      url = baseUrl + "/movie/" + id + "/similar";
+
+    } else if (type == "search") {
+
+      url = baseUrl + "/search/movie";
+
+    } else {
+
+      url = baseUrl + "/movie/" + type;
+
+    }
+    url = url + "?api_key=" + apiKey;
+
+    if (type == 'search') {
+
+      url = url + "&query=" + query;
+    } else {
+
+      if (region.length != 0) {
+
+        url = url + "&region=" + region + "&page=1";
+      }
+    }
+
+    const apiResponse = await axios.get(url);
+    const responseData = apiResponse.data;
+
     response.set("Access-Control-Allow-Origin", "*");
     response.set("Access-Control-Allow-Methods", "GET, POST");
     response.set("Access-Control-Allow-Headers", "Content-Type");

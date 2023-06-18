@@ -37,6 +37,9 @@ class _SearchTextFieldState extends State<SearchTextField> {
               setState(() {});
             },
             autofocus: true,
+            onFieldSubmitted: (value) {
+              sendQuery();
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               suffixIcon: GestureDetector(
@@ -60,7 +63,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
     if (query.isNotEmpty) {
       context.moviesProvider.updateQuery(query);
       context.moviesProvider.searchMovie(query, !context.isMobileApp);
-      context.moviesProvider.searchTvShow(query);
+      // context.moviesProvider.searchTvShow(query);
     }
   }
 }

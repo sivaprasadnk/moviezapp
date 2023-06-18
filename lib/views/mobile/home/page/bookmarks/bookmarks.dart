@@ -19,7 +19,6 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (_, provider, __) {
       var moviesList = provider.bookMarkMoviesList;
-      debugPrint('moviesList length :${moviesList.length}');
       // var shows = provider.bookMarkShowsList;
       var moviesCount = moviesList.length;
       // var showsCount = shows.length > 2 ? 2 : shows.length;
