@@ -6,7 +6,7 @@ import 'package:moviezapp/firebase_options_test.dart';
 //  flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000
 //  flutter build web --web-renderer html --csp
 //  flutter build web --web-renderer html --release
-
+//  flutter build web --web-renderer html --release --target=lib/app/web.main.dart
 //  https://moviezapp-spverse.web.app/
 
 /*

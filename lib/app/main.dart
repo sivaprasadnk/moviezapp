@@ -10,7 +10,7 @@ import 'package:moviezapp/firebase_options_test.dart';
 //  flutter build web --web-renderer html --release
 
 //  https://moviezapp-spverse.web.app/
-
+// flutter build appbundle --target=lib/app/main.dart --flavor prod
 /*
 https://api.themoviedb.org/3/person/22226/movie_credits?api_key=8d5a3dfeea83619117402fc317d79d25
 */
