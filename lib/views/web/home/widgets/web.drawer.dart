@@ -166,9 +166,7 @@ class WebDrawer extends StatelessWidget {
                   showListDialog(context, provider.selectedRegion)
                       .then((value) {
                     if (provider.updateData) {
-                      Future.wait([
-                        provider.getMoviesList(!context.isMobileApp),
-                      ]);
+                      Future.wait([provider.getMoviesList()]);
                       provider.updateDataStatus(false);
                     }
                   });

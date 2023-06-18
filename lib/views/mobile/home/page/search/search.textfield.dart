@@ -62,7 +62,7 @@ class _SearchTextFieldState extends State<SearchTextField> {
     context.unfocus();
     if (query.isNotEmpty) {
       context.moviesProvider.updateQuery(query);
-      context.moviesProvider.searchMovie(query, !context.isMobileApp);
+      context.moviesProvider.searchMovie(query);
       // context.moviesProvider.searchTvShow(query);
     }
   }

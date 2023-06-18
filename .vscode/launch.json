@@ -28,5 +28,15 @@
                 "lib/app/main.dart"
             ]
         },
+        {
+            "name": "moviezapp web",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/app/web.main.dart",
+            "args": [
+                "--flavor",
+                "prod",
+            ]
+        },
     ]
 }

@@ -105,12 +105,12 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _moviesList = [];
   List<Movie> get moviesList => _moviesList;
 
-  Future getMoviesList(bool isWeb) async {
+  Future getMoviesList() async {
     if (updateData) {
       _moviesListLoading = true;
       _moviesList = [];
       _moviesList = await MovieRepo.getMoviesList(
-          selectedRegion.regionCode, selectedPage, isWeb);
+          selectedRegion.regionCode, selectedPage);
       _moviesListLoading = false;
     }
     notifyListeners();
@@ -138,10 +138,9 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future searchMovie(String query, bool isWeb) async {
+  Future searchMovie(String query) async {
     _searchMoviesList = await MovieRepo.getMovieResultsList(
       MovieType.search,
-      isWeb,
       query: query,
     );
     debugPrint('searchMovies length: ${_searchMoviesList.length}');
@@ -178,13 +177,13 @@ class MoviesProvider extends ChangeNotifier {
 
   Future<List<Movie>> getSimilarMoviesList(int id, bool isWeb) async {
     _similarMovieList = await MovieRepo.getMovieResultsList(
-        MovieType.similar, isWeb,
-        id: id.toString());
+      MovieType.similar,
+      id: id.toString(),
+    );
     return _similarMovieList;
   }
 
-  Future<MovieCompleteDetailsModel> getCompleteMovieDetails(
-      int id, bool isWeb,
+  Future<MovieCompleteDetailsModel> getCompleteMovieDetails(int id, bool isWeb,
       {bool isGuest = false}) async {
     _selectedMovieDetails = await MovieRepo.getMovieDetails(id);
     var credits = await getActorsList(id, 'movie');

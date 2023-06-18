@@ -54,101 +54,37 @@ class MovieRepo {
   ///
 
   static Future getMovieResultsList(
-    MovieType type,
-    bool isWeb, {
+    MovieType type, {
     String? id,
     String? region,
     String? query,
   }) async {
     List<Movie> list = [];
     try {
-      if (isWeb) {
-        // final response = await http.get(
-        //   Uri.parse(url),
-        //   headers: {
-        //     HttpHeaders.contentTypeHeader: "application/json",
-        //   },
-        // );
-        // if (response.statusCode == 200) {
-        //   final item = json.decode(response.body);
-        //   var movieList = item['results'] as List;
-        //   if (movieList.isNotEmpty) {
-        //     for (var i in movieList) {
-        //       if (i['backdrop_path'] != null &&
-        //           i['poster_path'] != null &&
-        //           i['genre_ids'] != null) {
-        //         list.add(Movie.fromJson(i, type));
-        //       }
-        //     }
-        //   }
-        // }
-        if (type == MovieType.trending) {
-          HttpsCallable callable = functions.httpsCallable(type.functionName);
-          final response = await callable.call();
-          if (response.data != null) {
-            var movieList = response.data['results'] as List;
-            if (movieList.isNotEmpty) {
-              for (var i in movieList) {
-                Map<String, dynamic> data = i.cast<String, dynamic>();
-                if (i['backdrop_path'] != null &&
-                    i['poster_path'] != null &&
-                    i['genre_ids'] != null) {
-                  list.add(Movie.fromJson(data, type));
-                }
-              }
-            }
-          }
-        } else {
-          final response = await http.get(
-            Uri.parse(url),
-            headers: {
-              HttpHeaders.contentTypeHeader: "application/json",
-            },
-          );
-          if (response.statusCode == 200) {
-            final item = json.decode(response.body);
-            var movieList = item['results'] as List;
-            if (movieList.isNotEmpty) {
-              for (var i in movieList) {
-                Map<String, dynamic> data = i.cast<String, dynamic>();
+      var url =
+          "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResults";
+      Map<String, dynamic> params1 = {"type": type.typeValue};
 
-                if (i['backdrop_path'] != null &&
-                    i['poster_path'] != null &&
-                    i['genre_ids'] != null) {
-                  list.add(Movie.fromJson(data, type));
-                }
-              }
-            }
-          }
-        }
-      } else {
-        /// for mobile
+      params1['id'] = id ?? "";
+      params1['region'] = region ?? "";
+      params1['query'] = query ?? "";
 
-        var url =
-            "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResults";
-        Map<String, dynamic> params1 = {"type": type.typeValue};
+      final response1 = await http.post(
+        Uri.parse(url),
+        body: params1,
+      );
 
-        params1['id'] = id ?? "";
-        params1['region'] = region ?? "";
-        params1['query'] = query ?? "";
+      if (response1.statusCode == 200) {
+        final item = json.decode(response1.body);
+        var movieList = item['data']['results'] as List;
+        if (movieList.isNotEmpty) {
+          for (var i in movieList) {
+            Map<String, dynamic> data = i.cast<String, dynamic>();
 
-        final response1 = await http.post(
-          Uri.parse(url),
-          body: params1,
-        );
-
-        if (response1.statusCode == 200) {
-          final item = json.decode(response1.body);
-          var movieList = item['data']['results'] as List;
-          if (movieList.isNotEmpty) {
-            for (var i in movieList) {
-              Map<String, dynamic> data = i.cast<String, dynamic>();
-
-              if (i['backdrop_path'] != null &&
-                  i['poster_path'] != null &&
-                  i['genre_ids'] != null) {
-                list.add(Movie.fromJson(data, type));
-              }
+            if (i['backdrop_path'] != null &&
+                i['poster_path'] != null &&
+                i['genre_ids'] != null) {
+              list.add(Movie.fromJson(data, type));
             }
           }
         }
@@ -418,12 +354,16 @@ class MovieRepo {
     );
   }
 
-  static Future getMoviesList(String region, int page, bool isWeb) async {
+  static Future getMoviesList(String region, int page) async {
     List<Movie> finalList = [];
-    var trendingList = await getMovieResultsList(MovieType.trending, isWeb);
-    var nowPlayingList = await getMovieResultsList(MovieType.nowPlaying, isWeb);
-    var popularList = await getMovieResultsList(MovieType.topRated, isWeb);
-    var upcomingList = await getMovieResultsList(MovieType.upcoming, isWeb);
+    var trendingList =
+        await getMovieResultsList(MovieType.trending, region: region);
+    var nowPlayingList =
+        await getMovieResultsList(MovieType.nowPlaying, region: region);
+    var popularList =
+        await getMovieResultsList(MovieType.topRated, region: region);
+    var upcomingList =
+        await getMovieResultsList(MovieType.upcoming, region: region);
 
     debugPrint('upcomingList length :${upcomingList.length}');
 

@@ -81,7 +81,7 @@ class _SearchScreenWebState extends State<SearchScreenWeb> {
                                         .moviesProvider.selectedContentType ==
                                     Content.movie) {
                                   context.moviesProvider
-                                      .searchMovie(query, !context.isMobileApp);
+                                      .searchMovie(query);
                                 } else {
                                   context.moviesProvider.searchTvShow(query);
                                 }

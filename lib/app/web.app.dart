@@ -27,7 +27,6 @@ class WebApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   title: 'MoviezApp',
                   routes: routes,
-                  // routes: ,
                   onGenerateTitle: (context) {
                     return "MoviezApp";
                   },
@@ -38,8 +37,6 @@ class WebApp extends StatelessWidget {
                       return const HomeScreenWeb();
                     });
                   },
-                  // key: locator<NavigationService>().navigatorKey,
-
                   theme: ThemeData(
                     primaryColor: Colors.red,
                     brightness: provider.selectedBrightness,

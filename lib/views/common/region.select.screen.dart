@@ -58,7 +58,7 @@ class RegionSelectScreenMobile extends StatelessWidget {
           child: CommonButton(
             callback: () {
               context.moviesProvider.updateDataStatus(true);
-              context.moviesProvider.getMoviesList(!context.isMobileApp);
+              context.moviesProvider.getMoviesList();
               context.moviesProvider.getTvShowsList();
               context.moviesProvider.updateDataStatus(false);
 

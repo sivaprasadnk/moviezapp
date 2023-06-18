@@ -1,4 +1,5 @@
 const regionList = [
+  // "All",
   "Australia",
   "France",
   "India",
@@ -23,6 +24,6 @@ extension RegionExt on String {
       case "United States of America":
         return "US";
     }
-    return "IN";
+    return "";
   }
 }

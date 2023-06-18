@@ -10,7 +10,7 @@ class MovieDetailsScreenWeb extends StatefulWidget {
   static const routeName = "/movie/";
 
   const MovieDetailsScreenWeb({Key? key}) : super(key: key);
-  
+
   @override
   State<MovieDetailsScreenWeb> createState() => _MovieDetailsScreenWebState();
 }
@@ -22,7 +22,11 @@ class _MovieDetailsScreenWebState extends State<MovieDetailsScreenWeb> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.moviesProvider
-          .getCompleteMovieDetails(Uri.base.id, !context.isMobileApp)
+          .getCompleteMovieDetails(
+        Uri.base.id,
+        !context.isMobileApp,
+        isGuest: context.isGuestUser,
+      )
           .then((value) {
         movie = value;
         isLoading = false;

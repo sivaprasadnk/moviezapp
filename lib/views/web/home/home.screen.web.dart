@@ -37,7 +37,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
       Future.wait([
         context.moviesProvider.getMovieGenres(),
         // context.moviesProvider.getTVGenres(),
-        context.moviesProvider.getMoviesList(!context.isMobileApp),
+        context.moviesProvider.getMoviesList(),
         // context.moviesProvider.getTvShowsList(),
       ]);
       context.appProvider.updatedSelectedIndex(0);
