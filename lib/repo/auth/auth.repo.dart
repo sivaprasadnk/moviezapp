@@ -116,10 +116,10 @@ class AuthRepo {
   }
 
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
-    debugPrint('@@@@@@@2@@1');
+    // debugPrint('@@@@@@@2@@1');
 
     if (context.isMobileApp) {
-      logger.d('is mobile app');
+      // logger.d('is mobile app');
 
       // try {
       final GoogleSignIn googleSignIn = GoogleSignIn.standard(
@@ -127,27 +127,27 @@ class AuthRepo {
           'email',
         ],
       );
-      logger.d('@@1');
+      // logger.d('@@1');
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
       if (googleSignInAccount != null) {
-        logger.d('@@12');
+        // logger.d('@@12');
 
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
-        logger.d('@@123');
+        // logger.d('@@123');
 
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
-        logger.d('@@1234');
+        // logger.d('@@1234');
 
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
         return await signInAndUpdateData(userCredential);
       } else {
-        logger.d('br return null @1');
+        // logger.d('br return null @1');
 
         return null;
       }
@@ -159,7 +159,7 @@ class AuthRepo {
       //   }
       // }
     } else {
-      debugPrint('@@@@@@@2@@13e232');
+      // debugPrint('@@@@@@@2@@13e232');
 
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
@@ -238,7 +238,7 @@ class AuthRepo {
 
   static Future sendWelcomeEmail(String email) async {
     try {
-      logger.d("sending mail");
+      // logger.d("sending mail");
       HttpsCallable callable = functions.httpsCallable(
         "sendWelcomeEmail",
         options: HttpsCallableOptions(
@@ -250,7 +250,7 @@ class AuthRepo {
           'email': email,
         },
       );
-      logger.d("after sending mail");
+      // logger.d("after sending mail");
     } catch (err) {
       logger.e(err);
     }

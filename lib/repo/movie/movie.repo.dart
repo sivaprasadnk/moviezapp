@@ -42,7 +42,7 @@ class MovieRepo {
           list.add(Genre.fromJson(data));
         }
       }
-      logger.i('after calling @1');
+      // logger.i('after calling @1');
     } catch (err) {
       debugPrint(err.toString());
     }
@@ -58,16 +58,18 @@ class MovieRepo {
     String? id,
     String? region,
     String? query,
+    String? sortBy,
   }) async {
     List<Movie> list = [];
     try {
       var url =
-          "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResults";
+          "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResultsWithSort";
       Map<String, dynamic> params1 = {"type": type.typeValue};
 
       params1['id'] = id ?? "";
       params1['region'] = region ?? "";
       params1['query'] = query ?? "";
+      params1['sortBy'] = sortBy ?? "";
 
       final response1 = await http.post(
         Uri.parse(url),
@@ -76,7 +78,7 @@ class MovieRepo {
 
       if (response1.statusCode == 200) {
         final item = json.decode(response1.body);
-        var movieList = item['data']['results'] as List;
+        var movieList = item['data'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
             Map<String, dynamic> data = i.cast<String, dynamic>();
@@ -356,31 +358,29 @@ class MovieRepo {
 
   static Future getMoviesList(String region, int page) async {
     List<Movie> finalList = [];
-    var trendingList =
+    List<Movie> trendingList =
         await getMovieResultsList(MovieType.trending, region: region);
-    var nowPlayingList =
-        await getMovieResultsList(MovieType.nowPlaying, region: region);
-    var popularList =
-        await getMovieResultsList(MovieType.topRated, region: region);
-    var upcomingList =
-        await getMovieResultsList(MovieType.upcoming, region: region);
+    List<Movie> nowPlayingList = await getMovieResultsList(MovieType.nowPlaying,
+        region: region, sortBy: 'title');
+    List<Movie> popularList = await getMovieResultsList(MovieType.topRated,
+        region: region, sortBy: 'vote');
+    List<Movie> upcomingList = await getMovieResultsList(MovieType.upcoming,
+        region: region, sortBy: 'release_date');
 
-    debugPrint('upcomingList length :${upcomingList.length}');
-
-    for (var movie in trendingList) {
+    for (Movie movie in trendingList) {
       finalList.add(movie);
     }
 
-    for (var movie in nowPlayingList) {
+    for (Movie movie in nowPlayingList) {
       finalList.add(movie);
     }
 
-    for (var movie in popularList) {
+    for (Movie movie in popularList) {
       finalList.add(movie);
     }
 
-    for (var movie in upcomingList) {
-      var releaseDate = (movie as Movie).releaseDate.toString().getDateTime;
+    for (Movie movie in upcomingList) {
+      var releaseDate = movie.releaseDate.toString().getDateTime;
       if (releaseDate.isAfter(DateTime.now())) {
         finalList.add(movie);
       }

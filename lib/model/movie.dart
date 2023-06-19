@@ -225,7 +225,7 @@ extension MovieExtension on List<Movie> {
         }
       }
     }
-    uniqueList.sort(((a, b) => a.id.compareTo(b.id)));
+    // uniqueList.sort(((a, b) => a.id.compareTo(b.id)));
 
     return uniqueList;
   }

@@ -47,19 +47,19 @@ exports.getGenreList = functions
     response.status(200).send({ "data": responseData });
   });
 
-exports.trendingMovies = functions
-  .runWith({
-    maxInstances: 10,
-  })
-  .https.onRequest(async (request, response) => {
-    const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
-    const apiResponse = await axios.get(url);
-    const responseData = apiResponse.data;
-    response.set("Access-Control-Allow-Origin", "*");
-    response.set("Access-Control-Allow-Methods", "GET, POST");
-    response.set("Access-Control-Allow-Headers", "Content-Type");
-    response.status(200).send({ "data": responseData });
-  });
+// exports.trendingMovies = functions
+//   .runWith({
+//     maxInstances: 10,
+//   })
+//   .https.onRequest(async (request, response) => {
+//     const url = baseUrl + "/trending/movie/day?api_key=" + apiKey + "&region=IN&page=1";
+//     const apiResponse = await axios.get(url);
+//     const responseData = apiResponse.data;
+//     response.set("Access-Control-Allow-Origin", "*");
+//     response.set("Access-Control-Allow-Methods", "GET, POST");
+//     response.set("Access-Control-Allow-Headers", "Content-Type");
+//     response.status(200).send({ "data": responseData });
+//   });
 
 exports.movieResults = functions
   .runWith({
@@ -103,12 +103,93 @@ exports.movieResults = functions
     }
 
     const apiResponse = await axios.get(url);
-    const responseData = apiResponse.data;
+    // const responseData = apiResponse.data.results.sort((a, b)=>{
+    //   return a.original_title - b.original_title;
+    // });
 
     response.set("Access-Control-Allow-Origin", "*");
     response.set("Access-Control-Allow-Methods", "GET, POST");
     response.set("Access-Control-Allow-Headers", "Content-Type");
-    response.status(200).send({ "data": responseData });
+    response.status(200).send({ "data": apiResponse.data });
+  });
+
+exports.movieResultsWithSort = functions
+  .runWith({
+    maxInstances: 10,
+  })
+  .https.onRequest(async (request, response) => {
+    try {
+      const type = request.body.type;
+      const id = request.body.id;
+      const region = request.body.region;
+      const query = request.body.query;
+      const sortBy = request.body.sortBy;
+      let url = "";
+
+      if (type == "trending") {
+
+        url = baseUrl + "/trending/movie/day";
+
+      } else if (type == "similar") {
+
+        url = baseUrl + "/movie/" + id + "/similar";
+
+      } else if (type == "search") {
+
+        url = baseUrl + "/search/movie";
+
+      } else {
+
+        url = baseUrl + "/movie/" + type;
+
+      }
+      url = url + "?api_key=" + apiKey;
+
+      if (type == 'search') {
+
+        url = url + "&query=" + query;
+      } else {
+
+        if (region.length != 0) {
+
+          url = url + "&region=" + region + "&page=1";
+        }
+      }
+
+      const apiResponse = await axios.get(url);
+      const data = apiResponse.data.results;
+      if (sortBy.length != 0) {
+
+        if (sortBy == "title") {
+
+          data.sort((a, b) => {
+            return a.original_title.localeCompare(b.original_title);
+          });
+        } else if (sortBy == "id") {
+          data.sort((a, b) => {
+            return a.id - b.id;
+          });
+        } else if (sortBy == "release_date") {
+          data.sort((a, b) => {
+            return a.release_date.localeCompare(b.release_date);
+          });
+        } else if (sortBy == "vote") {
+          data.sort((a, b) => {
+            return a.vote_average - b.vote_average;
+          });
+        }
+      }
+
+
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
+      response.status(200).send({ "data": data });
+
+    } catch (err) {
+      response.status(500).send({ "data": [], "error": err });
+
+    }
   });
 
 exports.sendWelcomeEmail = functions
