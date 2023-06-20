@@ -47,6 +47,13 @@ extension SortExt on SortBy {
 }
 
 class MoviesProvider extends ChangeNotifier {
+  String _moviesUrl = "";
+  String get moviesUrl => _moviesUrl;
+  Future<void> updateMoviesUrl() async {
+    _moviesUrl = await MovieRepo.getMoviesUrl();
+    notifyListeners();
+  }
+
   MovieCompleteDetailsModel? _movieCompleteDetails;
   MovieCompleteDetailsModel get movieCompleteDetails => _movieCompleteDetails!;
 
@@ -109,8 +116,11 @@ class MoviesProvider extends ChangeNotifier {
     if (updateData) {
       _moviesListLoading = true;
       _moviesList = [];
+      if (moviesUrl.isEmpty) {
+        await updateMoviesUrl();
+      }
       _moviesList = await MovieRepo.getMoviesList(
-          selectedRegion.regionCode, selectedPage);
+          selectedRegion.regionCode, selectedPage, moviesUrl);
       _moviesListLoading = false;
     }
     notifyListeners();
@@ -140,6 +150,7 @@ class MoviesProvider extends ChangeNotifier {
 
   Future searchMovie(String query) async {
     _searchMoviesList = await MovieRepo.getMovieResultsList(
+      moviesUrl,
       MovieType.search,
       query: query,
     );
@@ -177,6 +188,7 @@ class MoviesProvider extends ChangeNotifier {
 
   Future<List<Movie>> getSimilarMoviesList(int id, bool isWeb) async {
     _similarMovieList = await MovieRepo.getMovieResultsList(
+      moviesUrl,
       MovieType.similar,
       id: id.toString(),
     );

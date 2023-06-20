@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -54,6 +55,7 @@ class MovieRepo {
   ///
 
   static Future getMovieResultsList(
+    String url,
     MovieType type, {
     String? id,
     String? region,
@@ -62,8 +64,8 @@ class MovieRepo {
   }) async {
     List<Movie> list = [];
     try {
-      var url =
-          "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResultsWithSort";
+      // var url =
+      //     "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResultsWithSort";
       Map<String, dynamic> params1 = {"type": type.typeValue};
 
       params1['id'] = id ?? "";
@@ -356,15 +358,17 @@ class MovieRepo {
     );
   }
 
-  static Future getMoviesList(String region, int page) async {
+  static Future getMoviesList(String region, int page, String url) async {
     List<Movie> finalList = [];
     List<Movie> trendingList =
-        await getMovieResultsList(MovieType.trending, region: region);
-    List<Movie> nowPlayingList = await getMovieResultsList(MovieType.nowPlaying,
+        await getMovieResultsList(url, MovieType.trending, region: region);
+    List<Movie> nowPlayingList = await getMovieResultsList(
+        url, MovieType.nowPlaying,
         region: region, sortBy: 'title');
-    List<Movie> popularList = await getMovieResultsList(MovieType.topRated,
+    List<Movie> popularList = await getMovieResultsList(url, MovieType.topRated,
         region: region, sortBy: 'vote');
-    List<Movie> upcomingList = await getMovieResultsList(MovieType.upcoming,
+    List<Movie> upcomingList = await getMovieResultsList(
+        url, MovieType.upcoming,
         region: region, sortBy: 'release_date');
 
     for (Movie movie in trendingList) {
@@ -502,5 +506,13 @@ class MovieRepo {
     }
 
     return provider;
+  }
+
+  static Future<String> getMoviesUrl() async {
+    var docSnapshot = await FirebaseFirestore.instance
+        .collection('config')
+        .doc('7RMyLoxMx70bFi0SoBqo')
+        .get();
+    return docSnapshot.data()!['moviesUrl'];
   }
 }
