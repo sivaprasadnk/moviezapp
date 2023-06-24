@@ -1,4 +1,7 @@
 const functions = require("firebase-functions");
+const admin = require('firebase-admin');
+admin.initializeApp();
+
 const {
   log,
   info,
@@ -218,6 +221,115 @@ exports.sendWelcomeEmail = functions
           subject: "Hello from Mailtrap !!",
           text: "Welcome to Mailtrap Sending!",
         });
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
+      response.status(200).send({ "data": "success" });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });
+
+exports.sendWelcomeNotification = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    log("token :" + request.body.token);
+    try {
+      const message = {
+        token: request.body.token,
+        notification: {
+          title: 'Welcome to MoviezApp',
+          body: 'Find movie details here',
+        },
+      };
+      admin.messaging().send(message);
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
+      response.status(200).send({ "data": "success" });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });
+
+exports.sendSignInNotification = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    log("token :" + request.body.token);
+    try {
+      const message = {
+        token: request.body.token,
+        notification: {
+          title: 'Welcome Back to MoviezApp',
+          body: 'Please visit us often',
+        },
+      };
+      admin.messaging().send(message);
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
+      response.status(200).send({ "data": "success" });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });
+
+exports.sendSignOutNotification = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    log("token :" + request.body.token);
+    try {
+      const message = {
+        token: request.body.token,
+        notification: {
+          title: 'Thanks for using MoviezApp',
+          body: 'Please visit us often',
+        },
+      };
+      admin.messaging().send(message);
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
+      response.status(200).send({ "data": "success" });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });
+
+
+exports.sendNotification = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    log("token :" + request.body.token);
+    try {
+      const message = {
+        token: request.body.token,
+        notification: {
+          title: request.body.title,
+          body: request.body.details,
+        },
+      };
+      admin.messaging().send(message);
       response.set("Access-Control-Allow-Origin", "*");
       response.set("Access-Control-Allow-Methods", "GET, POST");
       response.set("Access-Control-Allow-Headers", "Content-Type");

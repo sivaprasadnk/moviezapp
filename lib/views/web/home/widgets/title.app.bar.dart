@@ -8,7 +8,7 @@ import 'package:moviezapp/views/web/home/widgets/sign.in.button.dart';
 import 'package:moviezapp/views/web/home/widgets/user.name.container.dart';
 import 'package:provider/provider.dart';
 
-class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
+class TitleAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TitleAppBar({super.key});
 
   @override
@@ -24,9 +24,9 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
           Navigator.pushNamedAndRemoveUntil(
               context, HomeScreenWeb.routeName, (route) => false);
         },
-        child: Row(
+        child: const Row(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Text(
               "MoviezApp",
               style: TextStyle(

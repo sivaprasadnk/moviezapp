@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:moviezapp/repo/user/user.repo.dart';
 import 'package:moviezapp/utils/extensions/build.context.extension.dart';
+import 'package:moviezapp/utils/notification.service.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 
 class AuthRepo {
@@ -27,7 +30,9 @@ class AuthRepo {
 
   static Future logout() async {
     try {
+      // await sendSignOutNotification();
       await auth.signOut();
+
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
       if (await googleSignIn.isSignedIn()) {
@@ -213,44 +218,55 @@ class AuthRepo {
 
   static Future<User> signInAndUpdateData(UserCredential userCredential) async {
     var user = userCredential.user!;
+    var token = "";
+    if (kIsWeb) {
+      token = (await NotificationService.messaging.getToken(
+        vapidKey:
+            'BDnvMdJROjgfgvj5HrOVLJ20191IbhNFQ9M1SGvsG-1u5XlYGf8t5lRdf9p2GniONDbQ6hdf7MqGAkxEILJio_Y',
+      ))!;
+    } else {
+      token = (await NotificationService.messaging.getToken())!;
+    }
     if (userCredential.additionalUserInfo != null &&
         userCredential.additionalUserInfo!.isNewUser) {
-      debugPrint('@@user $user.uid is newuser');
-
       await user.updateDisplayName(user.displayName);
 
       await sendWelcomeEmail(user.email!);
+      await sendWelcomeNotification(token);
 
       await userColllection.doc(user.uid).set({
         kEmail: user.email,
         kRating: 0,
         kDisplayName: user.displayName,
+        kFcmToken: token,
         kBookMarkedMovieIdList: [],
         kAccountType: AccountType.googleSignIn.value,
         kBookMarkedShowIdList: [],
         kCreatedDateTime: DateTime.now(),
       });
     } else {
+      debugPrint('@@ b4 sending signin notif user $token');
+
+      await sendSignInNotification(token);
+
       debugPrint('@@ $user.uid is existing user');
     }
+    logger.d('b4 updating token :$token');
+    await userColllection.doc(user.uid).update({
+      kFcmToken: token,
+    });
+    logger.d('after updating token :$token');
+
     return user;
   }
 
   static Future sendWelcomeEmail(String email) async {
     try {
-      // logger.d("sending mail");
-      HttpsCallable callable = functions.httpsCallable(
-        "sendWelcomeEmail",
-        options: HttpsCallableOptions(
-          timeout: const Duration(seconds: 120),
-        ),
-      );
-      await callable.call(
-        {
-          'email': email,
-        },
-      );
-      // logger.d("after sending mail");
+      var configCollection =
+          await FirebaseFirestore.instance.collection('config').get();
+      var url = configCollection.docs[0].data()['welcomeMailUrl'];
+
+      await http.post(Uri.parse(url), body: {"email": email});
     } catch (err) {
       logger.e(err);
     }
@@ -272,5 +288,44 @@ class AuthRepo {
     // } catch (error) {
     //   debugPrint("error :$error");
     // }
+  }
+
+  static Future sendWelcomeNotification(String token) async {
+    try {
+      var configCollection =
+          await FirebaseFirestore.instance.collection('config').get();
+      var url = configCollection.docs[0].data()['signUpNotificationUrl'];
+
+      await http.post(Uri.parse(url), body: {"token": token});
+    } catch (err) {
+      logger.e(err);
+    }
+  }
+
+  static Future sendSignInNotification(String token) async {
+    try {
+      var configCollection =
+          await FirebaseFirestore.instance.collection('config').get();
+      var url = configCollection.docs[0].data()['signInNotificationUrl'];
+
+      await http.post(Uri.parse(url), body: {"token": token});
+
+      logger.d('@@ @1 b4 sending signin notif user $token');
+    } catch (err) {
+      logger.e(err);
+    }
+  }
+
+  static Future sendSignOutNotification() async {
+    var token = await NotificationService.messaging.getToken();
+    try {
+      var configCollection =
+          await FirebaseFirestore.instance.collection('config').get();
+      var url = configCollection.docs[0].data()['signOutNotificationUrl'];
+
+      await http.post(Uri.parse(url), body: {"token": token});
+    } catch (err) {
+      logger.e(err);
+    }
   }
 }

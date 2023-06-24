@@ -286,7 +286,7 @@ class AuthProvider extends ChangeNotifier {
         }
       }
     } catch (err) {
-      debugPrint('errorrrrrrrr');
+      debugPrint('errorrrrrrrr $err');
     }
   }
 

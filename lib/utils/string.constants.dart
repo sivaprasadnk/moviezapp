@@ -1,5 +1,6 @@
 const String kEmail = 'email';
 const String kDisplayName = 'displayName';
+const String kFcmToken = 'fcmToken';
 const String kRating = 'rating';
 // const String kTotalBooksMarkCount = 'totalBookMarksCount';
 const String kBookMarkedMovieIdList = 'bookMarkedMovieIdList';

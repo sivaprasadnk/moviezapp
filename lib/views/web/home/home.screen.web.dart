@@ -32,6 +32,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      
       context.appProvider.updateMobileApp(false);
 
       Future.wait([
@@ -80,8 +81,8 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
               width: double.infinity,
               height: 50,
               color: context.primaryColor,
-              child: Row(
-                children: const [
+              child: const Row(
+                children: [
                   SizedBox(width: 10),
                   SizedBox(width: 10),
                   SearchContainer(),
