@@ -25,7 +25,7 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
       if (FirebaseAuth.instance.currentUser == null) {
         await Dialogs.showGetStartedDialog(context);
       } else {
-        // context.authProvider.updateGuestUser(false);
+        context.authProvider.updateGuestUser(false);
         context.moviesProvider.updateDataStatus(true);
         context.appProvider.updatedSelectedIndex(0);
         Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);

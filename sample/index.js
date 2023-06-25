@@ -1,6 +1,15 @@
 const functions = require("firebase-functions");
 const admin = require('firebase-admin');
-admin.initializeApp();
+let serviceAccount = require("./serviceAccountKey.json");
+let token = "";
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+// const express = require("express");
+// const {Firestore} = require('@google-cloud/firestore');
+// const firestore = new Firestore();
+// const app = express();
+const db = admin.firestore();
 
 const {
   log,
@@ -33,6 +42,10 @@ const recipients = [
 ];
 
 const client = new MailtrapClient({ endpoint: ENDPOINT, token: TOKEN });
+
+// app.get("/", (req, res) => {
+//   return res.status(200).send("Hai there");
+// });
 
 exports.getGenreList = functions
   .runWith({
@@ -238,10 +251,16 @@ exports.sendWelcomeNotification = functions
 
   })
   .https.onRequest(async (request, response) => {
-    log("token :" + request.body.token);
+    let userToken = "";
+    if (request == undefined || request.body == undefined) {
+      userToken = token;
+    } else {
+      userToken = request.body.token;
+    }
+    log("token :" + userToken);
     try {
       const message = {
-        token: request.body.token,
+        token: userToken,
         notification: {
           title: 'Welcome to MoviezApp',
           body: 'Find movie details here',
@@ -265,24 +284,49 @@ exports.sendSignInNotification = functions
 
   })
   .https.onRequest(async (request, response) => {
-    log("token :" + request.body.token);
-    try {
-      const message = {
-        token: request.body.token,
-        notification: {
-          title: 'Welcome Back to MoviezApp',
-          body: 'Please visit us often',
-        },
-      };
-      admin.messaging().send(message);
-      response.set("Access-Control-Allow-Origin", "*");
-      response.set("Access-Control-Allow-Methods", "GET, POST");
-      response.set("Access-Control-Allow-Headers", "Content-Type");
-      response.status(200).send({ "data": "success" });
-    } catch (err) {
-      error(err);
-      response.status(200).send({ "data": "failed" });
+    if (request.body == undefined) {
+      log("no token ");
+      log("token :" + token);
+      try {
+        const message = {
+          token: token,
+          notification: {
+            title: 'Welcome Back to MoviezApp',
+            body: 'Please visit us often',
+          },
+        };
+        admin.messaging().send(message);
+        response.set("Access-Control-Allow-Origin", "*");
+        response.set("Access-Control-Allow-Methods", "GET, POST");
+        response.set("Access-Control-Allow-Headers", "Content-Type");
+        response.status(200).send({ "data": "success" });
+      } catch (err) {
+        error(err);
+        response.status(200).send({ "data": "failed" });
 
+      }
+
+    } else {
+
+      log("token :" + request.body.token);
+      try {
+        const message = {
+          token: request.body.token,
+          notification: {
+            title: 'Welcome Back to MoviezApp',
+            body: 'Please visit us often',
+          },
+        };
+        admin.messaging().send(message);
+        response.set("Access-Control-Allow-Origin", "*");
+        response.set("Access-Control-Allow-Methods", "GET, POST");
+        response.set("Access-Control-Allow-Headers", "Content-Type");
+        response.status(200).send({ "data": "success" });
+      } catch (err) {
+        error(err);
+        response.status(200).send({ "data": "failed" });
+
+      }
     }
   });
 
@@ -340,3 +384,102 @@ exports.sendNotification = functions
 
     }
   });
+
+exports.scheduleNotification = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    log("token :" + request.body.token);
+    try {
+      let query = db.collection("users");
+      let tokens = [];
+
+      await query.get().then((data) => {
+        let docs = data.docs; // query results
+        docs.map((doc) => {
+          if (doc.data().fcmToken != null) {
+
+            tokens.push(doc.data().fcmToken);
+          }
+        });
+      });
+      response.set("Access-Control-Allow-Origin", "*");
+      response.set("Access-Control-Allow-Methods", "GET, POST");
+      response.set("Access-Control-Allow-Headers", "Content-Type");
+      response.status(200).send({ "data": "success", "tokens": tokens });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });
+
+exports.updateUser = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    try {
+      let userId = request.body.userId;
+      token = request.body.fcmToken;
+      const isWeb = request.body.isWeb;
+
+      let email = request.body.email;
+      let rating = request.body.rating;
+      let displayName = request.body.displayName;
+      // let bookMarkedMovieIdList = request.body.bookMarkedMovieIdList;
+      let accountType = request.body.accountType;
+      let createdDateTimeString = request.body.createdDateTimeString;
+      let createdDateTime = request.body.createdDateTime;
+      let isNewUser = request.body.isNewUser;
+      let query = db.collection("users");
+      // let tokens = [];
+
+
+      if (isNewUser === "1") {
+        await query.doc(userId).set({
+          'email': email,
+          'userId': userId,
+          'rating': 0,
+          'displayName': displayName,
+          'fcmToken': token,
+          'bookMarkedMovieIdList': [],
+          'bookMarkedShowIdList': [],
+          'accountType': accountType,
+          'createdDateTime': createdDateTime,
+          'createdDateTimeString': createdDateTimeString,
+        });
+        if (isWeb == "0") {
+          this.sendWelcomeNotification(token, response);
+        }
+      } else {
+        await query.doc(userId).update({
+          'fcmToken': request.body.fcmToken,
+        });
+        if (isWeb == "0") {
+          this.sendSignInNotification(token, response);
+        }
+      }
+
+      // await query.get().then((data) => {
+      //   let docs = data.docs; // query results
+      //   docs.map((doc) => {
+      //     if (doc.data().fcmToken != null) {
+
+      //       tokens.push(doc.data().fcmToken);
+      //     }
+      //   });
+      // });
+      // response.set("Access-Control-Allow-Origin", "*");
+      // response.set("Access-Control-Allow-Methods", "GET, POST");
+      // response.set("Access-Control-Allow-Headers", "Content-Type");
+      // response.status(200).send({ "data": "success" });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });  

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -486,6 +487,7 @@ class MovieRepo {
       int id, String regionCode) async {
     var provider = MovieWatchProvider(flatRate: [], link: "");
     var url = "${kBaseUrl}movie/$id/watch/providers?api_key=$apiKey";
+    try {
 
     final jsonResponse = await http.get(
       Uri.parse(url),
@@ -503,16 +505,18 @@ class MovieRepo {
         return null;
       }
     }
+    } catch (err) {
+      logger.e(err);
+    }
 
     return provider;
   }
 
   static Future<String> getMoviesUrl() async {
-    // var docSnapshot = await FirebaseFirestore.instance
-    //     .collection('config')
-    //     .doc('7RMyLoxMx70bFi0SoBqo')
-    //     .get();
-    // return docSnapshot.data()!['moviesUrl'];
-    return "https://us-central1-moviezapp-spverse.cloudfunctions.net/movieResultsWithSort";
+    var docSnapshot = await FirebaseFirestore.instance
+        .collection('config')
+        .doc('7RMyLoxMx70bFi0SoBqo')
+        .get();
+    return docSnapshot.data()!['moviesUrl'];
   }
 }

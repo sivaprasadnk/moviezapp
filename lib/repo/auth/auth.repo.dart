@@ -96,7 +96,7 @@ class AuthRepo {
 
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
-        return await signInAndUpdateData(userCredential);
+        return await updateUserData(userCredential);
       } else {
         return null;
       }
@@ -150,7 +150,7 @@ class AuthRepo {
 
         final UserCredential userCredential =
             await auth.signInWithCredential(credential);
-        return await signInAndUpdateData(userCredential);
+        return await updateUserData(userCredential);
       } else {
         // logger.d('br return null @1');
 
@@ -164,19 +164,15 @@ class AuthRepo {
       //   }
       // }
     } else {
-      // debugPrint('@@@@@@@2@@13e232');
-
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
       googleProvider
           .addScope('https://www.googleapis.com/auth/userinfo.profile');
-      // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
       final UserCredential userCredential =
           await auth.signInWithPopup(googleProvider);
 
-      return await signInAndUpdateData(userCredential);
+      return await updateUserData(userCredential);
     }
-    // return null;
   }
 
   static Future<User?> signInWithFacebook({
@@ -201,7 +197,7 @@ class AuthRepo {
     //       FacebookAuthProvider.credential(accessToken.token);
     //   final UserCredential userCredential =
     //       await FirebaseAuth.instance.signInWithCredential(credential);
-    return await signInAndUpdateData(userCredential);
+    return await updateUserData(userCredential);
     // } else {}
     // } on FirebaseAuthException catch (e) {
     //   debugPrint('FirebaseAuthException :');
@@ -227,6 +223,7 @@ class AuthRepo {
     } else {
       token = (await NotificationService.messaging.getToken())!;
     }
+
     if (userCredential.additionalUserInfo != null &&
         userCredential.additionalUserInfo!.isNewUser) {
       await user.updateDisplayName(user.displayName);
@@ -255,6 +252,57 @@ class AuthRepo {
     await userColllection.doc(user.uid).update({
       kFcmToken: token,
     });
+    logger.d('after updating token :$token');
+
+    return user;
+  }
+
+  static Future<User> updateUserData(UserCredential userCredential) async {
+    var user = userCredential.user!;
+    var token = (await NotificationService.messaging.getToken(
+      vapidKey:
+          'BDnvMdJROjgfgvj5HrOVLJ20191IbhNFQ9M1SGvsG-1u5XlYGf8t5lRdf9p2GniONDbQ6hdf7MqGAkxEILJio_Y',
+    ))!;
+
+    logger.d('b4 updating userdata');
+
+    ///
+    ///
+    ///
+    ///
+    ///
+
+    var configCollection =
+        await FirebaseFirestore.instance.collection('config').get();
+    var url = configCollection.docs[0].data()['updateUserDataUrl'];
+    var bodyParams = {};
+
+    if (userCredential.additionalUserInfo != null &&
+        userCredential.additionalUserInfo!.isNewUser) {
+      await user.updateDisplayName(user.displayName);
+    }
+    bodyParams = {
+      kEmail: user.email,
+      // kRating: "0",
+      kUserId: user.uid,
+      kDisplayName: user.displayName,
+      kFcmToken: token,
+      // kBookMarkedMovieIdList: [],
+      kAccountType: AccountType.googleSignIn.value,
+      // kBookMarkedShowIdList: <String>[],
+      kCreatedDateTimeString: DateTime.now().toString(),
+      kCreatedDateTime: DateTime.now().millisecondsSinceEpoch.toString(),
+      kIsNewUser: userCredential.additionalUserInfo != null &&
+              userCredential.additionalUserInfo!.isNewUser
+          ? "1"
+          : "0",
+      'isWeb': kIsWeb ? "1" : "0",
+    };
+
+    debugPrint("url : $url");
+    debugPrint("bodyParams : $bodyParams");
+
+    await http.post(Uri.parse(url), body: bodyParams);
     logger.d('after updating token :$token');
 
     return user;
