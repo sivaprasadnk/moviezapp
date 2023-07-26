@@ -6,6 +6,7 @@ import 'package:moviezapp/views/web/details/movie.details.screen.web.dart';
 import 'package:moviezapp/views/web/details/tvshow.details.screen.web.dart';
 import 'package:moviezapp/views/web/home/home.screen.web.dart';
 import 'package:moviezapp/views/web/search/search.screen.web.dart';
+import 'package:moviezapp/views/web/ssmple.screen.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   var routingData = settings.name!.getRoutingData;
@@ -23,6 +24,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return _getPageRoute(const SearchScreenWeb(), settings);
     case BookmarkScreenWeb.routeName:
       return _getPageRoute(const BookmarkScreenWeb(), settings);
+    case SampleScreen.routeName:
+      return _getPageRoute(const SampleScreen(), settings);
     default:
       return _getPageRoute(const HomeScreenWeb(), settings);
   }

@@ -1,5 +1,9 @@
 const functions = require("firebase-functions");
 const admin = require('firebase-admin');
+const cron = require('node-cron');
+const nodemailer = require("nodemailer");
+
+
 let serviceAccount = require("./serviceAccountKey.json");
 let token = "";
 admin.initializeApp({
@@ -25,8 +29,8 @@ const { MailtrapClient } = require("mailtrap");
 
 // const TOKEN = "e0242be27d3b367c9a254c6682840718";
 const TOKEN = "e0242be27d3b367c9a254c6682840718";
-// const SENDER_EMAIL = "sivaprasadnk123@gmail.com";
 const ENDPOINT = "https://send.api.mailtrap.io/";
+// const SENDER_EMAIL = "sivaprasadnk123@gmail.com";
 // const RECIPIENT_EMAIL = "recipient@email.com";
 // const cors = require("cors");
 const apiKey = "8d5a3dfeea83619117402fc317d79d25";
@@ -207,6 +211,16 @@ exports.movieResultsWithSort = functions
 
     }
   });
+//
+//  {
+//  "email": "sivaprasadnk123@gmail.com",
+//  "port": 587,
+//  "username": "admin@sivaprasadnk.dev",
+//  "password": "55829705b0303809b73a33c1",
+//  "from": "sivaprasadnk.dev@gmail.com",
+//  "to": "sivaprasadnk123@gmail.com"
+//  }
+//
 
 exports.sendWelcomeEmail = functions
   .runWith({
@@ -227,13 +241,105 @@ exports.sendWelcomeEmail = functions
     //     })
     //     .then(console.log, console.error);
     try {
-      client
-        .send({
-          from: sender,
-          to: recipients,
-          subject: "Hello from Mailtrap !!",
-          text: "Welcome to Mailtrap Sending!",
-        });
+      const transporter = nodemailer.createTransport({
+        host: "smtp.forwardemail.net",
+        port: request.body.port,
+        secure: true,
+        auth: {
+          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+          // user: 'admin@sivaprasadnk.dev',
+          user: request.body.username,
+          // pass: '55829705b0303809b73a33c1'
+          pass: request.body.password,
+        },
+      });
+      const info = await transporter.sendMail({
+        from: request.body.from, // sender address
+        to: request.body.to, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>", // html body
+      });
+
+      log("Message sent: %s", info.messageId);
+      // client
+      //   .send({
+      //     from: sender,
+      //     to: recipients,
+      //     template_uuid: "18fa6404-4ef8-4fdb-9223-b99a50a654e8",
+      //     template_variables: {
+      //       "user_name": "Test_User_name",
+      //       "next_step_link": "Test_Next_step_link",
+      //       "get_started_link": "Test_Get_started_link",
+      //       "onboarding_video_link": "Test_Onboarding_video_link"
+      //     }
+      //     // subject: "Hello from Mailtrap !!",
+      //     // text: "Welcome to Mailtrap Sending!",
+      //   });
+      // response.set("Access-Control-Allow-Origin", "*");
+      // response.set("Access-Control-Allow-Methods", "GET, POST");
+      // response.set("Access-Control-Allow-Headers", "Content-Type");
+      // response.status(200).send({ "data": "success" });
+    } catch (err) {
+      error(err);
+      response.status(200).send({ "data": "failed" });
+
+    }
+  });
+
+exports.sendWelcomeEmail = functions
+  .runWith({
+    maxInstances: 10,
+
+  })
+  .https.onRequest(async (request, response) => {
+    // request.body.data
+    // const client = new MailtrapClient({token: TOKEN});
+    log("email :" + request.body.email);
+    // const sender = {name: "MoviezApp", email: SENDER_EMAIL};
+    // client
+    //     .send({
+    //       from: sender,
+    //       to: [{email: request.email}],
+    //       subject: "Welcome to MoviezApp!",
+    //       text: "Thank you for sign-up!",
+    //     })
+    //     .then(console.log, console.error);
+    try {
+      const transporter = nodemailer.createTransport({
+        host: request.body.host,
+        port: request.body.port,
+        auth: {
+          // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+          // user: 'admin@sivaprasadnk.dev',
+          user: request.body.username,
+          // pass: '55829705b0303809b73a33c1'
+          pass: request.body.password,
+        },
+      });
+      const info = await transporter.sendMail({
+        from: request.body.from, // sender address
+        to: request.body.to, // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>", // html body
+      });
+
+      log("Message sent: %s", info.messageId);
+      // client
+      //   .send({
+      //     from: sender,
+      //     to: recipients,
+      //     template_uuid: "18fa6404-4ef8-4fdb-9223-b99a50a654e8",
+      //     template_variables: {
+      //       "user_name": "Test_User_name",
+      //       "next_step_link": "Test_Next_step_link",
+      //       "get_started_link": "Test_Get_started_link",
+      //       "onboarding_video_link": "Test_Onboarding_video_link"
+      //     }
+      //     // subject: "Hello from Mailtrap !!",
+      //     // text: "Welcome to Mailtrap Sending!",
+      //   });
       response.set("Access-Control-Allow-Origin", "*");
       response.set("Access-Control-Allow-Methods", "GET, POST");
       response.set("Access-Control-Allow-Headers", "Content-Type");
@@ -386,12 +492,7 @@ exports.sendNotification = functions
   });
 
 exports.scheduleNotification = functions
-  .runWith({
-    maxInstances: 10,
-
-  })
   .https.onRequest(async (request, response) => {
-    log("token :" + request.body.token);
     try {
       let query = db.collection("users");
       let tokens = [];
@@ -401,17 +502,12 @@ exports.scheduleNotification = functions
         docs.map((doc) => {
           if (doc.data().fcmToken != null) {
 
-            tokens.push(doc.data().fcmToken);
+            sendPushNotification(doc.data().fcmToken, doc.data().displayName, "");
           }
         });
       });
-      response.set("Access-Control-Allow-Origin", "*");
-      response.set("Access-Control-Allow-Methods", "GET, POST");
-      response.set("Access-Control-Allow-Headers", "Content-Type");
-      response.status(200).send({ "data": "success", "tokens": tokens });
     } catch (err) {
       error(err);
-      response.status(200).send({ "data": "failed" });
 
     }
   });
@@ -482,4 +578,23 @@ exports.updateUser = functions
       response.status(200).send({ "data": "failed" });
 
     }
-  });  
+  });
+
+const sendPushNotification = async (registrationTokens, notificationTitle, notificationBody) => {
+  try {
+    const message = {
+      tokens: [registrationTokens],
+      notification: {
+        title: " Hi, " + notificationTitle + " !",
+        body: 'Have a great time!',
+      },
+    };
+
+    const response = await admin.messaging().sendEachForMulticast(message);
+  } catch (error) {
+    log(error);
+  }
+};
+
+cron.schedule('0 6 * * *', this.scheduleNotification);
+

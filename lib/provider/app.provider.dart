@@ -58,4 +58,13 @@ class AppProvider extends ChangeNotifier {
   Future<String> getVersionFromDb() async {
     return await AppRepo.getVersionFromDb();
   }
+
+  
+  bool _isReloaded = false;
+  bool get isReloaded => _isReloaded;
+
+  void updateIsreloaded(bool value) {
+    _isReloaded = value;
+    notifyListeners();
+  }
 }

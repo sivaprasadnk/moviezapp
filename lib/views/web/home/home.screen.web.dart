@@ -10,6 +10,8 @@ import 'package:moviezapp/views/web/home/widgets/section/tv.show.section.web.dar
 import 'package:moviezapp/views/web/home/widgets/web.scaffold.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+// import 'package:flutterwebapp_reload_detector/flutterwebapp_reload_detector.dart';
+import 'package:universal_html/html.dart' as html;
 
 import '../../../provider/movies.provider.dart';
 
@@ -29,10 +31,18 @@ class HomeScreenWeb extends StatefulWidget {
 }
 
 class _HomeScreenWebState extends State<HomeScreenWeb> {
+  bool reloaded = false;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      
+      debugPrint('@@@@@@@@@');
+      html.window.onBeforeUnload.listen((event) {
+        setState(() {
+          reloaded = true;
+        });
+        // change something in db
+      });
       context.appProvider.updateMobileApp(false);
 
       Future.wait([
@@ -70,47 +80,53 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
-    return WebScaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: context.width * 0.1),
-              width: double.infinity,
-              height: 50,
-              color: context.primaryColor,
-              child: const Row(
-                children: [
-                  SizedBox(width: 10),
-                  SizedBox(width: 10),
-                  SearchContainer(),
-                  Spacer(),
-                  // SizedBox(width: 10),
-                  // RegionText(),
-                  // SizedBox(height: 20),
-                ],
+    return WillPopScope(
+      onWillPop: () async {
+        debugPrint(' reloaded : $reloaded');
+        return true;
+      },
+      child: WebScaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: context.width * 0.1),
+                width: double.infinity,
+                height: 50,
+                color: context.primaryColor,
+                child: const Row(
+                  children: [
+                    SizedBox(width: 10),
+                    SizedBox(width: 10),
+                    SearchContainer(),
+                    Spacer(),
+                    // SizedBox(width: 10),
+                    // RegionText(),
+                    // SizedBox(height: 20),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            const CarousalWeb(),
-            const SizedBox(height: 20),
-            Consumer<MoviesProvider>(
-              builder: (_, provider, __) {
-                return AnimatedSwitcher(
-                  duration: const Duration(seconds: 1),
-                  child: provider.selectedContentType == Content.movie
-                      ? MovieSectionWeb(isMobileWeb: widget.isMobileWeb)
-                      : TvShowSectionWeb(isMobileWeb: widget.isMobileWeb),
-                );
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
-              child: const CopyrightText(),
-            ),
-          ],
+              const SizedBox(height: 20),
+              const CarousalWeb(),
+              const SizedBox(height: 20),
+              Consumer<MoviesProvider>(
+                builder: (_, provider, __) {
+                  return AnimatedSwitcher(
+                    duration: const Duration(seconds: 1),
+                    child: provider.selectedContentType == Content.movie
+                        ? MovieSectionWeb(isMobileWeb: widget.isMobileWeb)
+                        : TvShowSectionWeb(isMobileWeb: widget.isMobileWeb),
+                  );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
+                child: const CopyrightText(),
+              ),
+            ],
+          ),
         ),
       ),
     );

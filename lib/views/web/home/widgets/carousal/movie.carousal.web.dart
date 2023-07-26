@@ -8,9 +8,9 @@ import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/views/common/carousal.indicator.dart';
 import 'package:moviezapp/views/common/loading.shimmer.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
-import 'package:moviezapp/views/web/details/movie.details.screen.web.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/left.arrow.container.dart';
 import 'package:moviezapp/views/web/home/widgets/carousal/right.arrow.container.dart';
+import 'package:moviezapp/views/web/ssmple.screen.dart';
 import 'package:provider/provider.dart';
 
 class MovieCarousalWeb extends StatefulWidget {
@@ -47,11 +47,15 @@ class _MovieCarousalWebState extends State<MovieCarousalWeb> {
                           provider.moviesList.trendingMovies(10).map((movie) {
                         return GestureDetector(
                           onTap: () {
+                            // Navigator.push(context,
+                            //     MaterialPageRoute(builder: (_) {
+                            //   return const SampleScreen();
+                            // }));
                             provider.clearDetails();
                             provider.updateMovie(movie);
                             Navigator.pushNamed(
                               context,
-                              MovieDetailsScreenWeb.routeName
+                              SampleScreen.routeName
                                   .getRouteWithId(movie.id),
                             );
                           },
