@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:moviezapp/provider/app.provider.dart';
 import 'package:moviezapp/utils/dialogs.dart';
@@ -69,20 +68,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 25),
             const ProfileSectionTitle(title: 'Others'),
             const SizedBox(height: 15),
+            // ProfileMenuCard(
+            //   title: 'Get emailId',
+            //   icon: Icons.email,
+            //   isImplemented: true,
+            //   onTap: () async {
+            //     const platform = MethodChannel('get_email_address');
+            //     try {
+            //       final emailId = await platform.invokeMethod('getEmailId');
+            //       debugPrint('email adress : $emailId');
+            //       // return emailId;
+            //     } on PlatformException catch (e) {
+            //       debugPrint('Failed to get email ID: ${e.message}');
+            //       // return null;
+            //     }
+            //   },
+            // ),
             ProfileMenuCard(
-              title: 'Get emailId',
-              icon: Icons.email,
+              title: 'View on Playstore',
+              icon: Icons.android,
               isImplemented: true,
-              onTap: () async {
-                const platform = MethodChannel('get_email_address');
-                try {
-                  final emailId = await platform.invokeMethod('getEmailId');
-                  debugPrint('email adress : $emailId');
-                  // return emailId;
-                } on PlatformException catch (e) {
-                  debugPrint('Failed to get email ID: ${e.message}');
-                  // return null;
-                }
+              onTap: () {
+                Dialogs.showAppLink(context);
               },
             ),
             const SizedBox(height: 15),

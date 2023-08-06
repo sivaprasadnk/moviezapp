@@ -120,7 +120,7 @@ class WebDrawer extends StatelessWidget {
                 icon: Icons.android,
                 isImplemented: true,
                 onTap: () {
-                  showAppLink(context);
+                  Dialogs.showAppLink(context);
                 },
               ),
               const SizedBox(height: 12),

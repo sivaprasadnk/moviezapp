@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -12,6 +13,7 @@ import 'package:moviezapp/utils/extensions/string.extensions.dart';
 import 'package:moviezapp/utils/extensions/widget.extensions.dart';
 import 'package:moviezapp/utils/string.constants.dart';
 import 'package:moviezapp/views/common/custom.cache.image.dart';
+import 'package:moviezapp/views/common/google.playstore.button.dart';
 import 'package:moviezapp/views/common/section.title.dart';
 import 'package:moviezapp/views/mobile/home/home.screen.dart';
 import 'package:moviezapp/views/mobile/home/page/movie.list/all.movies/all.movies.screen.dart';
@@ -188,19 +190,19 @@ class Dialogs {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.all(10),
-                    child: Row(
+                    child: const Row(
                       children: [
-                        const SizedBox(width: 10),
-                        const Icon(
+                        SizedBox(width: 10),
+                        Icon(
                           Icons.person,
                           color: Colors.white,
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               ' Member',
                               style: TextStyle(
@@ -217,8 +219,8 @@ class Dialogs {
                             ),
                           ],
                         ),
-                        const Spacer(),
-                        const Icon(
+                        Spacer(),
+                        Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
                         )
@@ -245,17 +247,17 @@ class Dialogs {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.all(10),
-                    child: Row(
+                    child: const Row(
                       children: [
-                        const SizedBox(width: 10),
-                        const Icon(
+                        SizedBox(width: 10),
+                        Icon(
                           Icons.person,
                         ),
-                        const SizedBox(width: 10),
+                        SizedBox(width: 10),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               'Guest',
                               style: TextStyle(
@@ -272,8 +274,8 @@ class Dialogs {
                             ),
                           ],
                         ),
-                        const Spacer(),
-                        const Icon(
+                        Spacer(),
+                        Icon(
                           Icons.arrow_forward_ios,
                         )
                       ],
@@ -455,8 +457,8 @@ class Dialogs {
         return AlertDialog(
           insetPadding: EdgeInsets.zero,
           backgroundColor: context.bgColor,
-          title: Column(
-            children: const [
+          title: const Column(
+            children: [
               SectionTitle(
                 title: 'Credits',
               ),
@@ -518,8 +520,8 @@ class Dialogs {
         return AlertDialog(
           insetPadding: EdgeInsets.zero,
           backgroundColor: context.bgColor,
-          title: Column(
-            children: const [
+          title: const Column(
+            children: [
               SectionTitle(
                 title: 'Version',
               ),
@@ -1168,8 +1170,8 @@ class Dialogs {
         return AlertDialog(
           insetPadding: EdgeInsets.zero,
           backgroundColor: context.bgColor,
-          title: Column(
-            children: const [
+          title: const Column(
+            children: [
               SectionTitle(
                 title: 'Alert !',
               ),
@@ -1183,10 +1185,10 @@ class Dialogs {
           content: Container(
             width: context.width * 0.2,
             color: context.bgColor,
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: const [
+              children: [
                 SizedBox(height: 20),
                 Text('New update available !'),
               ],
@@ -1209,6 +1211,88 @@ class Dialogs {
                 ),
               ).addMousePointer,
             )
+          ],
+        );
+      },
+    );
+  }
+
+  static Future showAppLink(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const SectionTitle(
+            title: 'Get App',
+          ),
+          content: SizedBox(
+            width: context.width * 0.19,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 12),
+                const Text('Scan'),
+                const SizedBox(height: 12),
+                Image.asset(
+                  'assets/qrcode.png',
+                  height: 160,
+                  width: 160,
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 1,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text('OR'),
+                    const SizedBox(width: 10),
+                    Container(
+                      height: 1,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                GooglePlaystoreButton(
+                  onTap: () {
+                    if (kIsWeb) {
+                      launchUrl(Uri.parse(kPlayStoreLink));
+                    } else {
+                      launchUrl(Uri.parse(kPlayStoreLink),
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                ).addMousePointer
+              ],
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: const Text(
+                  'Close',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ).addMousePointer,
+            ),
+            const SizedBox(width: 10),
           ],
         );
       },
