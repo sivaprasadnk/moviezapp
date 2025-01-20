@@ -1,4 +1,8 @@
-https://moviezapp-spverse.web.app/ ( ** Please use VPNs to access content in India as api is down / unavailable fr India ** )
+https://moviezapp-spverse.web.app/
+
+https://play.google.com/store/apps/details?id=com.spverse.moviezapp
+
+( ** Please use VPNs to access content in India as api is down / unavailable fr India ** )
 
 Mobile
 
